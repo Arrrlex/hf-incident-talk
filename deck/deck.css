@@ -35,3 +35,22 @@
   padding-left: 0.8em; font-style: normal; width: 90%;
 }
 .reveal .source { position: absolute; bottom: 40px; left: 0; right: 0; font-size: 18px; color: #4a4a52; text-align: center; }
+
+/* --- Deck build additions -------------------------------------------- */
+/* Section title slides: small grey label above a large thin heading. */
+.reveal .label { font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4em; }
+.reveal .small { font-size: 22px; line-height: 1.6; }
+.reveal .title h1 { font-size: 2.6em; margin-bottom: 0.3em; }
+.reveal .title .quiet { max-width: 1400px; margin-left: auto; margin-right: auto; }
+.reveal h2 { font-size: 1.6em; line-height: 1.25; }
+.reveal .centered h2 { max-width: 1600px; margin-left: auto; margin-right: auto; }
+
+/* Quotes: mono, left rule, room to breathe. Long verbatim passages shrink a step. */
+.reveal blockquote { font-size: 1.15em; line-height: 1.45; margin: 0 auto; padding: 0.2em 0 0.2em 0.9em; }
+.reveal blockquote.long { font-size: 0.95em; }
+/* Board posts are one unbroken token (directory names): let them wrap anywhere. */
+.reveal blockquote.post { font-size: 0.85em; overflow-wrap: anywhere; word-break: break-all; }
+.reveal section:has(blockquote) { padding-bottom: 90px; }
+
+/* Placeholder ask slide: visibly unfinished so it does not slip through. */
+.reveal .ask .quiet { border: 1px dashed #4a4a52; padding: 0.5em 1em; display: inline-block; font-size: 0.7em; }

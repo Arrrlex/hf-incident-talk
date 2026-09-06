@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · timeline test</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+<style>
+  /* The timeline band over an otherwise empty stage, for review. */
+  #timeline { position: absolute; left: 0; right: 0; top: 0; }
+  .help { position: absolute; left: 0; bottom: 0; font-size: 13px; color: var(--text-dim); line-height: 1.7; opacity: .6; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="safe">
+    <div id="timeline"></div>
+    <div class="help">Space / → next · ← prev · R reset · F fullscreen · H HUD</div>
+  </div>
+</div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script src="shared/timeline.js"></script>
+<script>
+(function () {
+  'use strict';
+  document.body.classList.add('show-cursor');
+  Scene.fitStage(document.getElementById('stage'));
+
+  var tl = Timeline.create(document.getElementById('timeline'), { data: Timeline.DEFAULT_DATA });
+
+  // One beat per timeline step; beat 0 is the unlit skeleton.
+  var scene = Scene.create({
+    name: 'timeline-test',
+    beats: tl.steps,
+    goTo: function (index, o) { tl.setStep(index, { animate: o.animate }); }
+  });
+
+  window.tl = tl; window.scene = scene;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

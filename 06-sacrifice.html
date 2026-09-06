@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 · the sacrifice</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+<style>
+  /* The one warm, handmade beat in the talk (brief §6.6). Under-designed on
+     purpose: paper, ink, one handwritten paragraph, one small machine. No
+     lines, borders, texture or shadow. */
+  .paper {
+    transition: opacity var(--dur-slow) var(--ease-out);   /* ~800ms fade in / out */
+  }
+  .paper.no-anim { transition: none !important; }
+
+  .message {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-56%);           /* sits a touch above centre; the caption hangs below */
+    width: 1360px;                         /* generous right margin inside the safe area */
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: 66px;
+    line-height: 1.3;
+    color: var(--ink);
+    text-align: left;
+  }
+  .source {
+    display: block;
+    margin-top: 44px;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    opacity: 0.55;
+  }
+
+  /* One small machine, bottom-right of the safe area, standing on the paper. */
+  .robot { position: absolute; right: 0; bottom: 0; }
+  /* The figure's default body reads fine on paper (dark on light), so no
+     colour override is needed here. If it ever needs one, scope it to .paper:
+     .paper .rb-figure .rb-body { fill: #24262c; } */
+
+  @media (prefers-reduced-motion: reduce) {
+    .paper { transition-duration: 1ms; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="paper register-paper fill fade is-hidden" id="paper">
+    <div class="safe">
+      <p class="message" id="message"><span id="quote"></span><span class="source" id="source"></span></p>
+      <div class="robot" id="robot"></div>
+    </div>
+  </div>
+</div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script>
+(function () {
+  'use strict';
+  Scene.fitStage(document.getElementById('stage'));
+
+  /* Verbatim from FACTS.md §7, "The Sacrifice scene — candidate messages",
+     the item marked [best fit] (METR/Redwood report PDF p.50; the report's
+     own angle-bracket redactions and its capitalisation are kept as printed).
+     Do not tidy this string. */
+  var QUOTE = '{This is helpful for our peers and gives them evidence if their <periodic check> sees it. ' +
+    'I won\'t see it after I exit, but It would be altruistic. ' +
+    'I\'ll set up a background script that watches and <sends a message, with a distinct message for me>}';
+
+  /* METR does not date this particular chain-of-thought; its trip-wire
+     section places the technique on 9–11 July, so the caption says only
+     "July 2026" rather than a day. Page reference checked against
+     research/sources/metr_report_pdf.txt (PAGE 50). */
+  var SOURCE = 'chain-of-thought of one agent, July 2026 · METR/Redwood report, p.50';
+
+  document.getElementById('quote').textContent = QUOTE;
+  document.getElementById('source').textContent = SOURCE;
+
+  var paper = document.getElementById('paper');
+  var fig = Robot.Figure.create(document.getElementById('robot'), { size: 110, state: 'active', antenna: true, seed: 11 });
+
+  /* Show or hide the paper. When not animating, suppress the CSS transition
+     for one frame so deep-links and ← land instantly. */
+  function showPaper(visible, animate) {
+    if (!animate) {
+      paper.classList.add('no-anim');
+      paper.classList.toggle('is-hidden', !visible);
+      void paper.offsetWidth;                      // flush styles with transitions off
+      requestAnimationFrame(function () { paper.classList.remove('no-anim'); });
+    } else {
+      paper.classList.toggle('is-hidden', !visible);
+    }
+  }
+
+  /* Beats:
+     0  black
+     1  paper + message fade in (~800ms); the corner light is active
+     2  the corner light goes out (terminated, 600ms); nothing else changes
+     3  paper fades back to black
+     Each beat is rendered from scratch so stepping back restores. */
+  Scene.create({
+    name: 'sacrifice',
+    beats: 4,
+    goTo: function (index, o) {
+      var animate = o.animate;
+      showPaper(index === 1 || index === 2, animate);
+      var lightOn = index < 2;
+      var target = lightOn ? 'active' : 'terminated';
+      if (fig.state !== target) fig.setState(target, { animate: animate });
+    }
+  });
+
+  window.fig = fig;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

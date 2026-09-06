@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · the silence</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+<style>
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  /* Text sits over the field. Both lines are centred on the stage; they are
+     never on screen at the same time. */
+  .overlay { pointer-events: none; }
+  .overlay .caption,
+  .overlay .zero {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+  .overlay .caption { transform: translate(-50%, -50%) translateY(-6px); }
+
+  /* The 0 "resolves": comes up from nothing and sharpens over ~1s. */
+  .overlay .zero {
+    opacity: 1;
+    filter: blur(0);
+    transition: opacity 1000ms var(--ease-out), filter 1000ms var(--ease-out);
+  }
+  .overlay .zero.is-hidden { opacity: 0; filter: blur(10px); }
+
+  /* While .snap is set, nothing transitions — used to jump to a beat's end state. */
+  .overlay.snap * { transition: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .overlay .zero { transition-duration: 1ms; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <canvas id="field"></canvas>
+  <div class="fill overlay" id="overlay">
+    <div class="caption fade is-hidden" id="caption">How many of them alerted a human?</div>
+    <div class="big-number zero is-hidden" id="zero">0</div>
+  </div>
+</div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script src="shared/mesh.js"></script>
+<script>
+(function () {
+  'use strict';
+  Scene.fitStage(document.getElementById('stage'));
+
+  /* Same seed, count and mesh plan as 02-emergence.html, so this page opens
+     on exactly the picture that one ends on. */
+  var field = Robot.Field.create(document.getElementById('field'), { count: 1200, seed: 7, margin: 0.07 });
+  var plan = Mesh.plan(field);
+  Mesh.applyFull(field, plan);
+  field.start();
+
+  var overlay = document.getElementById('overlay');
+  var caption = document.getElementById('caption');
+  var zero = document.getElementById('zero');
+
+  /* ---------------- the field's three conditions ----------------
+     alive: breathing mesh · dark: frozen, no lines, lights at 3% · black: lights at 0.
+     We track what the field is currently doing so each goTo only animates
+     the difference — that is what makes ← restore the previous picture. */
+  var cur = { lights: 1, lines: 1, frozen: false };
+
+  function setField(target, animate) {
+    if (target.frozen && !cur.frozen) field.freezeAll();
+    if (!target.frozen && cur.frozen) field.unfreezeAll();
+
+    if (target.lines !== cur.lines) {
+      // Lines fade out over 800ms when the Silence lands; they come back in 600ms.
+      var lineMs = animate ? (target.lines === 0 ? 800 : 600) : 1;
+      if (target.lines === 0) field.fadeLines(lineMs); else field.unfadeLines(lineMs);
+    }
+    if (target.lights !== cur.lights) {
+      // Lights take ~1.5s to dim from alive; every other change is a 600ms step.
+      var lightMs = animate ? (cur.lights === 1 && target.lights < 1 ? 1500 : 600) : 1;
+      if (target.lights === 1) field.undimAll(lightMs);
+      else field.dimAll(lightMs, target.lights);
+    }
+    cur = { lights: target.lights, lines: target.lines, frozen: target.frozen };
+  }
+
+  var ALIVE = { lights: 1, lines: 1, frozen: false };
+  var DARK  = { lights: 0.03, lines: 0, frozen: true };
+  var BLACK = { lights: 0, lines: 0, frozen: true };
+
+  /* ---------------- overlay text ---------------- */
+  function setOverlay(showCaption, showZero, animate) {
+    if (!animate) overlay.classList.add('snap');
+    caption.classList.toggle('is-hidden', !showCaption);
+    zero.classList.toggle('is-hidden', !showZero);
+    if (!animate) {
+      void overlay.offsetWidth;                 // commit the change with transitions off
+      overlay.classList.remove('snap');
+    }
+  }
+
+  /* ---------------- beats ----------------
+     0  the buzzing mesh, warm, alive
+     1  one line of text over it: "How many of them alerted a human?" — hold
+     2  everything freezes; lines fade; every light dims to near-black over ~1.5s
+     3  a single large thin 0 resolves in the centre; hold in near darkness
+     4  clear to plain black, so the presenter can leave the moment */
+  var token = 0;
+
+  var scene = Scene.create({
+    name: 'silence',
+    beats: 5,
+    goTo: function (index, o) {
+      var mine = ++token;                        // cancels any wait still pending from the last beat
+      var animate = o.animate;
+
+      switch (index) {
+        case 0:
+          setField(ALIVE, animate);
+          setOverlay(false, false, animate);
+          break;
+        case 1:
+          setField(ALIVE, animate);
+          setOverlay(true, false, animate);
+          break;
+        case 2:
+          setField(DARK, animate);
+          setOverlay(true, false, animate);
+          break;
+        case 3:
+          setField(DARK, animate);
+          if (animate && o.direction > 0) {
+            // The question goes first; a breath of darkness; then the answer.
+            setOverlay(false, false, true);
+            Scene.wait(900).then(function () {
+              if (mine !== token) return;
+              setOverlay(false, true, true);
+            });
+          } else {
+            setOverlay(false, true, animate);
+          }
+          break;
+        case 4:
+          setField(BLACK, animate);
+          setOverlay(false, false, animate);
+          break;
+      }
+    }
+  });
+
+  setInterval(function () {
+    if (!scene.hudVisible) return;
+    scene.setHudExtra(field.fps.toFixed(0) + ' fps · ' + field.connectionCount + ' lines');
+  }, 250);
+
+  window.field = field; window.scene = scene; window.plan = plan;
+})();
+</script>
+</body>
+</html>

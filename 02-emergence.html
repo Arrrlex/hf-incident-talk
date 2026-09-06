@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · emergence</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+<style>
+  /* Nothing on screen but the field. Atmospheric register (brief §2). */
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <canvas id="field"></canvas>
+</div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script src="shared/mesh.js"></script>
+<script>
+(function () {
+  'use strict';
+  Scene.fitStage(document.getElementById('stage'));
+
+  /* The same seed and count as 03-silence.html: the two pages must show the
+     same 1,200 points in the same places so the hand-off is seamless. */
+  var field = Robot.Field.create(document.getElementById('field'), { count: 1200, seed: 7, margin: 0.07 });
+  field.start();
+
+  var plan = Mesh.plan(field);
+
+  /* ---------------- the cascade (beat 2) ----------------
+     Runs inside one beat: a chain of Scene.wait calls, each releasing the next
+     wave of lights and lines. Waves grow geometrically and the gaps between
+     them shrink, so it starts as a handful of links and then takes off.
+     `token` lets goTo() abandon a cascade that is still running. */
+  var token = 0;
+  var cascadeRunning = false;
+
+  function playWave(wave, pulseMs) {
+    var i;
+    for (i = 0; i < wave.nodes.length; i++) {
+      var id = wave.nodes[i];
+      if (plan.lit[id]) field.setState(id, 'active');
+    }
+    for (i = 0; i < wave.links.length; i++) {
+      var l = wave.links[i];
+      field.connect(l[0], l[1], { pulse: true, duration: pulseMs });
+    }
+  }
+
+  function runCascade() {
+    var mine = ++token;
+    cascadeRunning = true;
+    var w = 0;
+    function next() {
+      if (mine !== token) { return; }            // abandoned by a later goTo()
+      if (w >= plan.waves.length) {
+        cascadeRunning = false;
+        Mesh.applyFull(field, plan);             // belt and braces: exact end state
+        return;
+      }
+      var gap = plan.delays[w];
+      // Pulses arrive about when the next wave lights up, so they get quicker too.
+      playWave(plan.waves[w], Math.max(220, Math.min(650, Math.round(gap * 1.1))));
+      w++;
+      Scene.wait(gap).then(next);
+    }
+    next();
+  }
+
+  /* ---------------- beats ----------------
+     0  rest: 1,200 isolated lights, breathing out of sync
+     1  first contact: two neighbours, one thin cyan line, one pulse
+     2  the cascade: links propagate outward, accelerating, most lights go active
+     3  hold on the full buzzing mesh */
+  var scene = Scene.create({
+    name: 'emergence',
+    beats: 4,
+    goTo: function (index, o) {
+      // Space pressed mid-cascade: its end state *is* beat 3, so let it finish.
+      if (index === 3 && cascadeRunning) return;
+
+      token++;                                   // cancel any running cascade
+      cascadeRunning = false;
+      field.wipe();                              // rebuild from scratch so goTo is idempotent
+
+      if (index >= 1) Mesh.applyPair(field, plan, index === 1 && o.animate);
+      if (index === 2) {
+        // Animate only when arriving forwards; stepping back lands on the end state quietly.
+        if (o.animate && o.direction >= 0) runCascade();
+        else Mesh.applyFull(field, plan);
+      }
+      if (index === 3) Mesh.applyFull(field, plan);
+    }
+  });
+
+  /* fps and mesh size in the HUD (H). Only updates text; never advances a beat. */
+  setInterval(function () {
+    if (!scene.hudVisible) return;
+    scene.setHudExtra(field.fps.toFixed(0) + ' fps · ' + field.connectionCount + ' lines · ' + field.pulseCount + ' pulses');
+  }, 250);
+
+  window.field = field; window.scene = scene; window.plan = plan;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

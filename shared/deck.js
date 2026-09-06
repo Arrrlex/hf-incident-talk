@@ -77,9 +77,16 @@
     // data-start="last" on the iframe shows the scene fully played on arrival
     // (used for recap slides); the next keypress then leaves the slide.
     const startLast = goingBack || frame.dataset.start === 'last';
-    const send = () => post(frame, startLast ? { type: 'scene:goTo', index: 'last' } : { type: 'scene:reset' });
-    if (frame.dataset.ready === '1') send();
-    else frame.addEventListener('load', () => { frame.dataset.ready = '1'; send(); }, { once: true });
+    // Remember what this frame should show; sendStart() is also re-run when the
+    // scene announces itself, because reveal unloads iframes that drift beyond
+    // viewDistance and reloads them on return, and the reloaded scene would
+    // otherwise miss a message sent before its script was listening.
+    frame.dataset.want = startLast ? 'last' : 'first';
+    sendStart(frame);
+  }
+
+  function sendStart(frame) {
+    post(frame, frame.dataset.want === 'last' ? { type: 'scene:goTo', index: 'last' } : { type: 'scene:reset' });
   }
 
   function init() {
@@ -87,7 +94,9 @@
     window.addEventListener('message', (e) => {
       if (e.data && e.data.type === 'scene:ready') {
         document.querySelectorAll('iframe[data-scene]').forEach((f) => {
-          if (f.contentWindow === e.source) f.dataset.ready = '1';
+          if (f.contentWindow !== e.source) return;
+          f.dataset.ready = '1';
+          if (f === currentSceneFrame() && f.dataset.want) sendStart(f);
         });
       }
     });

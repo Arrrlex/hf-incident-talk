@@ -1,0 +1,37 @@
+/* Deck-level styling on top of reveal's black theme. Scenes bring their own look. */
+@import url("../shared/fonts.css");
+
+:root {
+  --r-background-color: #0a0a0f;
+  --r-main-font: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --r-heading-font: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --r-main-color: #e8e8ea;
+  --r-heading-color: #e8e8ea;
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: 300;
+  --r-link-color: #4fd6e0;
+  --r-main-font-size: 44px;
+}
+
+.reveal { font-weight: 300; }
+.reveal h1, .reveal h2, .reveal h3 { letter-spacing: -0.01em; }
+.reveal .slides section { text-align: left; }
+.reveal .slides section.centered { text-align: center; }
+.reveal .slides section.scene { height: 1080px; padding: 0; top: 0 !important; }
+.reveal .slides section.scene iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; background: #0a0a0f;
+}
+.reveal .progress { display: none; }
+.reveal .controls { display: none; }
+.reveal .slide-number { color: #4a4a52; font-size: 18px; background: transparent; }
+.quiet { color: #8a8a92; }
+.crimson { color: #e0483f; }
+.cyan { color: #4fd6e0; }
+.amber { color: #f0b849; }
+.big { font-size: 2.2em; font-weight: 300; }
+.reveal blockquote {
+  background: transparent; box-shadow: none; border-left: 2px solid #4fd6e0;
+  padding-left: 0.8em; font-style: normal; width: 90%;
+}
+.reveal .source { position: absolute; bottom: 40px; left: 0; right: 0; font-size: 18px; color: #4a4a52; text-align: center; }

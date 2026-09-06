@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Hugging Face Incident</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="vendor/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="vendor/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal.js/dist/theme/black.css">
+  <link rel="stylesheet" href="deck/deck.css">
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- SKELETON. Slide content is written in the deck build step; see README. -->
+    <section class="centered">
+      <h1>The Hugging Face Incident</h1>
+      <p class="quiet">skeleton deck — slides to follow</p>
+      <aside class="notes">Speaker notes go here. Press S for the speaker view.</aside>
+    </section>
+
+    <section class="scene" data-preload>
+      <iframe data-scene data-src="00-robot-test.html?embed=1" allow="fullscreen"></iframe>
+      <aside class="notes">Scene slide: keys are forwarded to the scene until it runs out of beats.</aside>
+    </section>
+
+    <section class="centered">
+      <h2>End of skeleton</h2>
+    </section>
+
+  </div>
+</div>
+<script src="vendor/reveal.js/dist/reveal.js"></script>
+<script src="vendor/reveal.js/plugin/notes/notes.js"></script>
+<script src="shared/deck.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1920, height: 1080, margin: 0,
+    hash: true, history: false,
+    controls: false, progress: false, slideNumber: 'c/t',
+    transition: 'fade', transitionSpeed: 'fast', backgroundTransition: 'none',
+    autoPlayMedia: false, autoSlide: 0,
+    preloadIframes: true, viewDistance: 2,
+    keyboardCondition: Deck.keyboardCondition,
+    plugins: [ RevealNotes ],
+  }).then(Deck.init);
+</script>
+</body>
+</html>

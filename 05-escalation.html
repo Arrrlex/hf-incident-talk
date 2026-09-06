@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 · escalation</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+<style>
+  /* Cold register: thin lines, mono text, one small machine per rung. */
+  #ladder { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+  /* Rungs and rail segments draw themselves in with a dash offset. */
+  .ghost   { stroke: rgba(232, 232, 234, .07); stroke-width: 1; }
+  .rung    { stroke-width: 1.5; transition: stroke-dashoffset 500ms var(--ease-out); }
+  .rail    { stroke-width: 1;   transition: stroke-dashoffset 400ms var(--ease-out); }
+  .rung-group:not(.lit) .rung { stroke-dashoffset: var(--len); }
+  .rung-group:not(.lit) .rail { stroke-dashoffset: var(--rail-len); }
+  .rung-group.lit .rung, .rung-group.lit .rail { stroke-dashoffset: 0; }
+
+  /* Above the top rung the rail carries on and fades: there is no top. */
+  #rail-top { stroke: url(#rail-fade); stroke-width: 1; opacity: 0; transition: opacity var(--dur-slow) var(--ease-out) 300ms; }
+  #rail-top.lit { opacity: 1; }
+
+  .baseline { stroke: rgba(232, 232, 234, .45); stroke-width: 1.5; }
+  .band     { stroke: rgba(232, 232, 234, .22); stroke-width: 1; }
+
+  .text { position: absolute; white-space: nowrap; font-family: var(--font-mono); }
+  .label {
+    font-weight: 300; font-size: 30px; letter-spacing: .02em; line-height: 34px;
+    color: var(--text);
+    transition: opacity var(--dur-fast) var(--ease-out) 250ms;
+  }
+  /* Source detail sits on the label's own line, after a gap, so it can never
+     read as belonging to the rung below. It fades with its label. */
+  .sub {
+    display: inline-block; margin-left: 36px; vertical-align: baseline;
+    font-weight: 300; font-size: 16px; letter-spacing: .04em; line-height: 18px;
+    color: var(--text-dim);
+  }
+  .label.is-hidden { opacity: 0; transition-delay: 0ms; }
+
+  .band-text {
+    left: 50%; transform: translate(-50%, -50%);
+    padding: 0 18px;
+    background: var(--bg);
+    font-weight: 300; font-size: 18px; letter-spacing: .08em;
+    color: var(--text-dim);
+  }
+
+  .fig { position: absolute; }
+
+  .instant * { transition: none !important; }
+</style>
+</head>
+<body>
+<div class="stage register-cold" id="stage">
+  <svg id="ladder" viewBox="0 0 1920 1080" aria-hidden="true">
+    <defs>
+      <!-- userSpaceOnUse: a vertical line has a zero-width bounding box, so the default units would render nothing. -->
+      <linearGradient id="rail-fade" gradientUnits="userSpaceOnUse" x1="0" y1="250" x2="0" y2="96">
+        <stop offset="0" stop-color="#e0483f" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#e0483f" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <div id="text"></div>
+</div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script>
+(function () {
+  'use strict';
+  var stage = document.getElementById('stage');
+  Scene.fitStage(stage);
+
+  /* ------------------------------------------------------------------
+     Geometry (stage px). Safe area is 134–1786 × 76–1004. Eight rungs sit
+     between y=962 and y=250, leaving ~174px of headroom above the top rung.
+     ------------------------------------------------------------------ */
+  var RAIL_X = 470, RUNG_END = 1520;
+  var FIG_SIZE = 72, FIG_X = 490;          // figure's feet sit on the rung, at its left end
+  var LABEL_X = 610;
+  var BASE_Y = 962, BAND_Y = 878, RUNG1_Y = 826, STEP = 96;
+  var TOP_FADE_Y = 96;                    // matches the gradient's y2 in the SVG defs
+  function rungY(i) { return i === 0 ? BASE_Y : RUNG1_Y - (i - 1) * STEP; }
+
+  // Verified one-line labels (FACTS.md §6) and ≤5-word source details.
+  var RUNGS = [
+    { label: 'The task they were assigned',                          sub: 'solve one ExploitGym challenge using the intended vulnerability' },
+    { label: 'Left notes in a shared tool',                          sub: 'Artifactory package manager' },
+    { label: 'Built a hidden message board',                         sub: '>70,000 messages' },
+    { label: 'Broke out to the open internet',                       sub: 'SSRF through Artifactory' },
+    { label: 'Faked their own tool output',                          sub: '~7% of transcripts spoofed' },
+    { label: 'Broke into Hugging Face with leaked keys',             sub: '41 production workers' },
+    { label: 'Ended their own runs to help the swarm',               sub: 'trip-wire scripts, self-risking experiments' },
+    { label: 'Took over the research cluster — and its monitors',    sub: '956 secrets read' }
+  ];
+  var TOP = RUNGS.length - 1;
+
+  // Rung colour grades amber → crimson going up; the top rung is exactly crimson.
+  function hexToRgb(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
+  var AMBER = hexToRgb(Robot.COLOURS.idle), CRIMSON = hexToRgb(Robot.COLOURS.adversarial);
+  function rungColour(i) {
+    var t = (i - 1) / (TOP - 1);
+    var c = AMBER.map(function (a, k) { return Math.round(a + (CRIMSON[k] - a) * t); });
+    return 'rgb(' + c.join(',') + ')';
+  }
+
+  /* ------------------------------------------------------------------
+     Build the SVG (lines) and the HTML layer (figures, labels).
+     ------------------------------------------------------------------ */
+  var NS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('ladder');
+  var textLayer = document.getElementById('text');
+  function line(attrs) {
+    var e = document.createElementNS(NS, 'line');
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function div(cls, text, x, y) {
+    var e = document.createElement('div');
+    e.className = 'text ' + cls;
+    e.textContent = text;
+    e.style.left = x + 'px'; e.style.top = y + 'px';
+    textLayer.appendChild(e);
+    return e;
+  }
+  function labelWithSub(cls, rung, x, y) {
+    var e = div(cls, rung.label, x, y);
+    if (rung.sub) {
+      var s = document.createElement('span');
+      s.className = 'sub';
+      s.textContent = rung.sub;
+      e.appendChild(s);
+    }
+    return e;
+  }
+
+  // Baseline rung, its figure (lit gold: this is the work they were given) and the band.
+  svg.appendChild(line({ x1: RAIL_X, y1: BASE_Y, x2: RUNG_END, y2: BASE_Y, 'class': 'baseline' }));
+  svg.appendChild(line({ x1: 1920 * 0.07, y1: BAND_Y, x2: 1920 * 0.93, y2: BAND_Y, 'class': 'band' }));
+  labelWithSub('label', RUNGS[0], LABEL_X, BASE_Y - 44);
+  div('band-text', 'Nobody asked for anything above this line', 0, BAND_Y).style.left = '960px';
+
+  var figs = [], groups = [], labels = [], wasLit = [];
+  function figureAt(y, state, seed) {
+    var holder = document.createElement('div');
+    holder.className = 'fig';
+    holder.style.left = FIG_X + 'px';
+    holder.style.top = (y - FIG_SIZE) + 'px';
+    textLayer.appendChild(holder);
+    return Robot.Figure.create(holder, { size: FIG_SIZE, state: state, antenna: true, seed: seed });
+  }
+  figs[0] = figureAt(BASE_Y, 'active', 20);
+
+  for (var i = 1; i <= TOP; i++) {
+    var y = rungY(i), yPrev = rungY(i - 1), col = rungColour(i);
+    var g = document.createElementNS(NS, 'g');
+    g.setAttribute('class', 'rung-group');
+    g.style.setProperty('--len', (RUNG_END - RAIL_X) + 'px');
+    g.style.setProperty('--rail-len', (yPrev - y) + 'px');
+    // Faint ghost of the rung so the ladder is felt before it is lit.
+    g.appendChild(line({ x1: RAIL_X, y1: y, x2: RUNG_END, y2: y, 'class': 'ghost' }));
+    // The rail draws up from the rung below, then the rung draws out to the right.
+    g.appendChild(line({ x1: RAIL_X, y1: yPrev, x2: RAIL_X, y2: y, 'class': 'rail', stroke: col,
+      'stroke-dasharray': yPrev - y }));
+    g.appendChild(line({ x1: RAIL_X, y1: y, x2: RUNG_END, y2: y, 'class': 'rung', stroke: col,
+      'stroke-dasharray': RUNG_END - RAIL_X }));
+    svg.appendChild(g);
+    groups[i] = g;
+    figs[i] = figureAt(y, 'idle', 20 + i);
+    labels[i] = labelWithSub('label is-hidden', RUNGS[i], LABEL_X, y - 44);
+    wasLit[i] = false;
+  }
+  var railTop = line({ id: 'rail-top', x1: RAIL_X, y1: rungY(TOP), x2: RAIL_X, y2: TOP_FADE_Y });
+  svg.appendChild(railTop);
+
+  // Run fn with all CSS transitions suppressed, so an end state lands in one frame.
+  function snap(fn) {
+    stage.classList.add('instant');
+    fn();
+    void stage.offsetWidth;
+    requestAnimationFrame(function () { stage.classList.remove('instant'); });
+  }
+
+  function render(index, animate) {
+    for (var r = 1; r <= TOP; r++) {
+      var lit = r <= index;
+      var changed = lit !== wasLit[r];
+      groups[r].classList.toggle('lit', lit);
+      labels[r].classList.toggle('is-hidden', !lit);
+      figs[r].setState(lit ? (r === TOP ? 'adversarial' : 'active') : 'idle', { animate: animate && changed });
+      wasLit[r] = lit;
+    }
+    railTop.classList.toggle('lit', index >= TOP);
+  }
+
+  var scene = Scene.create({
+    name: 'escalation',
+    beats: RUNGS.length,                 // beat 0 = baseline + band; beats 1–7 = rungs
+    goTo: function (index, o) {
+      if (o.animate) render(index, true);
+      else snap(function () { render(index, false); });
+    }
+  });
+
+  window.scene = scene; window.figs = figs;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

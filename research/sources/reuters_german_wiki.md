@@ -1,0 +1,4 @@
+# Source: https://www.reuters.com/world/europe/openai-agents-hijacked-german-website-previously-undisclosed-ai-breakout-this-2026-09-04/
+# Fetched: 2026-09-06 via r.jina.ai (HTTP 403)
+
+{"data":null,"code":403,"name":"AbuseAlleviationError","status":40305,"message":"Anonymous access to domain www.reuters.com blocked until Sun Sep 06 2026 12:43:36 GMT+0000 (Coordinated Universal Time) due to previous abuse found on https://www.reuters.com/article/business/capital-one-to-pay-80-million-fine-after-data-breach-idUSKCN2522D8: DDoS attack suspected: Too many requests","readableMessage":"AbuseAlleviationError: Anonymous access to domain www.reuters.com blocked until Sun Sep 06 2026 12:43:36 GMT+0000 (Coordinated Universal Time) due to previous abuse found on https://www.reuters.com/article/business/capital-one-to-pay-80-million-fine-after-data-breach-idUSKCN2522D8: DDoS attack suspected: Too many requests"}

@@ -1,0 +1,4 @@
+# Source: https://web.archive.org/web/2026/https://www.reuters.com/world/europe/openai-agents-hijacked-german-website-previously-undisclosed-ai-breakout-this-2026-09-04/
+# Fetched: 2026-09-06 via r.jina.ai (HTTP 403)
+
+{"data":null,"code":403,"name":"AbuseAlleviationError","status":40305,"message":"Anonymous access to domain web.archive.org blocked until Sun Sep 30 2035 09:51:36 GMT+0000 (Coordinated Universal Time) due to previous abuse found on https://web.archive.org: DDoS attack suspected","readableMessage":"AbuseAlleviationError: Anonymous access to domain web.archive.org blocked until Sun Sep 30 2035 09:51:36 GMT+0000 (Coordinated Universal Time) due to previous abuse found on https://web.archive.org: DDoS attack suspected"}

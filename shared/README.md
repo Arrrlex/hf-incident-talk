@@ -282,7 +282,7 @@ tl.destroy();
 
 The band is 76px tall and positioned entirely in % of its container's width,
 so it needs no measuring and survives `.stage` scaling and resizes. Drive it
-from the scene's `goTo` — either one beat per step (see `07-timeline-test.html`)
+from the scene's `goTo` — either one beat per step (see `07-timeline.html`)
 or by calling `tl.setStep(n)` at whichever beats the scene wants to move it.
 
 ### Data

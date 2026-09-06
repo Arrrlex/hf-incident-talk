@@ -74,7 +74,10 @@
     if (!frame) return;
     const prevIndex = event.previousSlide ? Reveal.getIndices(event.previousSlide).h : -1;
     const goingBack = prevIndex > event.indexh;
-    const send = () => post(frame, goingBack ? { type: 'scene:goTo', index: 'last' } : { type: 'scene:reset' });
+    // data-start="last" on the iframe shows the scene fully played on arrival
+    // (used for recap slides); the next keypress then leaves the slide.
+    const startLast = goingBack || frame.dataset.start === 'last';
+    const send = () => post(frame, startLast ? { type: 'scene:goTo', index: 'last' } : { type: 'scene:reset' });
     if (frame.dataset.ready === '1') send();
     else frame.addEventListener('load', () => { frame.dataset.ready = '1'; send(); }, { once: true });
   }

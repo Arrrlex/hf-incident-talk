@@ -4,12 +4,14 @@
 <meta charset="utf-8">
   <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>07 · timeline test</title>
+<title>07 · timeline</title>
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/fonts.css">
 <style>
-  /* The timeline band over an otherwise empty stage, for review. */
-  #timeline { position: absolute; left: 0; right: 0; top: 0; }
+  /* The recurrence at a glance: the band alone, set at the vertical centre
+     because nothing else shares this slide. Sits at the top when dropped into
+     another scene (see shared/README.md). */
+  #timeline { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); }
   .help { position: absolute; left: 0; bottom: 0; font-size: 13px; color: var(--text-dim); line-height: 1.7; opacity: .6; }
 </style>
 </head>
@@ -17,7 +19,7 @@
 <div class="stage" id="stage">
   <div class="safe">
     <div id="timeline"></div>
-    <div class="help">Space / → next · ← prev · R reset · F fullscreen · H HUD</div>
+    <div class="help" id="help">Space / → next · ← prev · R reset · F fullscreen · H HUD</div>
   </div>
 </div>
 
@@ -27,14 +29,15 @@
 <script>
 (function () {
   'use strict';
-  document.body.classList.add('show-cursor');
+  if (Scene.embedded) document.getElementById('help').hidden = true;
+  else document.body.classList.add('show-cursor');
   Scene.fitStage(document.getElementById('stage'));
 
   var tl = Timeline.create(document.getElementById('timeline'), { data: Timeline.DEFAULT_DATA });
 
   // One beat per timeline step; beat 0 is the unlit skeleton.
   var scene = Scene.create({
-    name: 'timeline-test',
+    name: 'timeline',
     beats: tl.steps,
     goTo: function (index, o) { tl.setStep(index, { animate: o.animate }); }
   });

@@ -16,7 +16,7 @@ Then go to <http://localhost:8765/index.html>. You can also open `index.html` di
 
 - **S** opens the speaker view in a second window: current slide, next slide, notes, and a timer.
 - **F** goes fullscreen.
-- The scenes are also standalone pages you can open on their own, for rehearsal or as a fallback: `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `05-escalation.html`, `06-sacrifice.html`. (`00-robot-test.html` is a test page for the robot component, not part of the talk.)
+- The scenes are also standalone pages you can open on their own, for rehearsal or as a fallback: `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `05-escalation.html`, `06-sacrifice.html`, `07-timeline.html`. (`00-robot-test.html` is a test page for the robot component, not part of the talk.)
 
 ## Controls
 
@@ -82,6 +82,7 @@ To swap a recording in for a scene on the night, replace that scene's `<section>
 - `index.html` — the deck (reveal.js). Slides plus speaker notes.
 - `deck/deck.css` — deck styling on top of reveal's black theme.
 - `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `05-escalation.html`, `06-sacrifice.html` — the standalone scenes the deck embeds.
+- `07-timeline.html` — the timeline recap scene (the band is `shared/timeline.js`).
 - `00-robot-test.html` — test page for the robot/light component.
 - `shared/` — design system shared by deck and scenes: `tokens.css` (palette, type, motion), `fonts.css`, `robot.js` (the agent light, as a canvas field or an SVG figure), `scene.js` (beat controller, keys, deck bridge), `deck.js` (forwards keys from the deck to the current scene). `shared/README.md` documents the API and the postMessage protocol.
 - `vendor/` — reveal.js 5.2.1 and the two fonts, copied in so nothing loads from the network.

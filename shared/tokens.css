@@ -1,0 +1,155 @@
+/* ==========================================================================
+   tokens.css — shared design tokens for the talk visuals (brief §4)
+   Load this first in every scene. fonts.css is optional (vendored fonts).
+   ========================================================================== */
+
+:root {
+  /* Palette */
+  --bg: #0a0a0f;                 /* near-black, faint cool cast */
+  --light-idle: #c8933a;         /* dim amber (drawn at low opacity) */
+  --light-active: #f0b849;       /* warm gold */
+  --line: #4fd6e0;               /* clinical cyan, drawn at low alpha */
+  --text: #e8e8ea;
+  --text-dim: #8a8b92;
+  --adversarial: #e0483f;        /* crimson — act three only */
+  --false-hue: #5fd8c8;          /* the "deceive" flicker colour */
+  --paper: #f4efe6;              /* Sacrifice register background */
+  --ink: #2b2b2b;                /* Sacrifice register text */
+  --robot-body: #2a2c33;
+  --robot-panel: #353841;
+  --robot-shadow: #1c1d22;
+
+  /* Type */
+  --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+
+  /* Motion (brief §4): beat transitions 400–800ms ease-out, nothing bouncy */
+  --dur-fast: 400ms;
+  --dur-mid: 600ms;
+  --dur-slow: 800ms;
+  --dur-terminate: 600ms;
+  --breathe-min: 2.5s;
+  --breathe-max: 4s;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);      /* ≈ ease-out cubic */
+  --ease-inout: cubic-bezier(0.45, 0, 0.55, 1);      /* ≈ ease-in-out sine */
+
+  /* Layout */
+  --stage-w: 1920px;
+  --stage-h: 1080px;
+  --stage-scale: 1;              /* set by Scene.fitStage() */
+  --safe: 7%;                    /* projector overscan margin */
+}
+
+/* --------------------------------------------------------------------------
+   Base reset
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;              /* no scrollbars, ever */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  cursor: none;                  /* presenter mode; override with .show-cursor */
+  user-select: none;
+}
+body.show-cursor { cursor: auto; }
+
+canvas { display: block; }
+
+/* --------------------------------------------------------------------------
+   Stage: a 16:9 1920×1080 design surface, scaled to fit the viewport and
+   letterboxed on the body background. Scene.fitStage(el) keeps --stage-scale
+   current on resize.
+   -------------------------------------------------------------------------- */
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform: translate(-50%, -50%) scale(var(--stage-scale));
+  transform-origin: center center;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* Safe margin: content inside ~7% of each edge (projector overscan). */
+.safe {
+  position: absolute;
+  inset: var(--safe);
+}
+.safe-pad { padding: var(--safe); }
+
+/* Fill helper for canvases and overlays. */
+.fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Registers (brief §2). Never blur the two; the paper register is only for
+   the Sacrifice beat.
+   -------------------------------------------------------------------------- */
+.register-cold {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.register-paper {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-hand);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   Type helpers
+   -------------------------------------------------------------------------- */
+.mono { font-family: var(--font-mono); }
+.hand { font-family: var(--font-hand); }
+.thin { font-weight: 300; }
+.dim  { color: var(--text-dim); }
+
+/* The big number moment (the `0`): same mono, very large, thin weight. */
+.big-number {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: 520px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* Single centred line of mono text (e.g. "How many of them alerted a human?") */
+.caption {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: 44px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-align: center;
+}
+
+/* Generic fade helper for beat transitions: toggle .is-hidden. */
+.fade {
+  transition: opacity var(--dur-mid) var(--ease-out);
+  opacity: 1;
+}
+.fade.is-hidden { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade { transition-duration: 1ms; }
+}

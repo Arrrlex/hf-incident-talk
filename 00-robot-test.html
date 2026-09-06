@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>00 · robot test</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+<style>
+  /* Left: the pulled-back field. Right: six up-close figures. */
+  .stage { display: flex; }
+  .left  { position: relative; width: 960px; height: 1080px; border-right: 1px solid #16171d; }
+  .left canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .right { position: relative; width: 960px; height: 1080px; padding: 76px 80px; }
+
+  .right h1 { font-weight: 300; font-size: 22px; letter-spacing: .06em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 40px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 24px; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .cell .label { font-size: 18px; color: var(--text); letter-spacing: .04em; }
+  .cell .note  { font-size: 13px; color: var(--text-dim); text-align: center; max-width: 220px; line-height: 1.5; }
+
+  .beat-list { margin-top: 56px; font-size: 14px; line-height: 1.9; color: var(--text-dim); }
+  .beat-list li { list-style: none; }
+  .beat-list li.now { color: var(--text); }
+  .beat-list li span { display: inline-block; width: 28px; color: var(--line); }
+  .help { position: absolute; left: 80px; bottom: 60px; font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="left"><canvas id="field"></canvas></div>
+  <div class="right">
+    <h1>Figure · the same light, up close</h1>
+    <div class="grid" id="figures"></div>
+    <ol class="beat-list" id="beats">
+      <li data-i="0"><span>0</span>rest — 1,200 isolated lights, breathing</li>
+      <li data-i="1"><span>1</span>first contact — two neighbours, one line, one pulse</li>
+      <li data-i="2"><span>2</span>local cluster — a region wakes and links up</li>
+      <li data-i="3"><span>3</span>full mesh — everything connects (perf check)</li>
+      <li data-i="4"><span>4</span>one node deceives (subtle false-hue flicker)</li>
+      <li data-i="5"><span>5</span>a few runs terminated</li>
+      <li data-i="6"><span>6</span>a cluster turns adversarial, lines tint crimson</li>
+      <li data-i="7"><span>7</span>the Silence — freeze, lines fade, lights dim</li>
+      <li data-i="8"><span>8</span>wipe</li>
+    </ol>
+    <div class="help">Space / → next · ← prev · R reset · F fullscreen · H HUD + fps · T replay figure transitions</div>
+  </div>
+</div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script>
+(function () {
+  'use strict';
+  document.body.classList.add('show-cursor');
+  Scene.fitStage(document.getElementById('stage'));
+
+  /* ---------------- the field ---------------- */
+  var canvas = document.getElementById('field');
+  var field = Robot.Field.create(canvas, { count: 1200, seed: 7, margin: 0.07 });
+  field.start();
+
+  var W = field.width, H = field.height, U = field.pointSize / 20;   // unit ≈ 0.5 on this half-width canvas
+  var cx = W * 0.5, cy = H * 0.5;
+
+  // Precompute 3 nearest neighbours per node once (used for the meshes).
+  var knn = new Array(field.count);
+  for (var i = 0; i < field.count; i++) knn[i] = field.nearest(i, 3);
+
+  var centre = field.pick(cx, cy);
+  if (centre < 0) centre = field.within(cx, cy, 200)[0];
+  var cluster = field.within(cx, cy, 190 * U);                    // ~30–45 nodes
+  var dead = field.within(W * 0.28, H * 0.34, 90 * U).slice(0, 14);
+  var adversaries = field.within(W * 0.72, H * 0.66, 210 * U);
+
+  var timers = [];
+  function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+
+  function meshOf(ids, animate, spread) {
+    // Connect each id to its 3 nearest, staggered by distance from centre when animating.
+    var byDist = ids.slice().sort(function (a, b) {
+      var pa = field.positions, da = Math.hypot(pa[a * 2] - cx, pa[a * 2 + 1] - cy), db = Math.hypot(pa[b * 2] - cx, pa[b * 2 + 1] - cy);
+      return da - db;
+    });
+    byDist.forEach(function (id, k) {
+      var go = function () {
+        field.setState(id, 'active', { animate: animate });
+        knn[id].forEach(function (nb) { field.connect(id, nb, { pulse: animate, duration: 500, animate: animate }); });
+      };
+      if (animate) later(go, Math.pow(k / byDist.length, 0.7) * spread); else go();
+    });
+  }
+
+  var STEPS = {
+    1: function (animate) {
+      var a = centre, b = knn[a][0];
+      field.connect(a, b, { animate: animate });
+      field.setState(a, 'transmit', { animate: animate });   // transmit emits the pulse along the line
+      if (animate) later(function () { field.setState(b, 'active'); }, 600);
+      else field.setState(b, 'active', { animate: false });
+    },
+    2: function (animate) { meshOf(cluster, animate, 900); },
+    3: function (animate) {
+      var all = []; for (var i = 0; i < field.count; i++) all.push(i);
+      meshOf(all, animate, 1600);
+    },
+    4: function (animate) { field.setState(centre, 'deceive', { animate: animate }); },
+    5: function (animate) {
+      dead.forEach(function (id, k) {
+        if (animate) later(function () { field.setState(id, 'terminated'); }, k * 70);
+        else field.setState(id, 'terminated', { animate: false });
+      });
+    },
+    6: function (animate) {
+      adversaries.forEach(function (id, k) {
+        if (animate) later(function () { field.setState(id, 'adversarial'); }, k * 12);
+        else field.setState(id, 'adversarial', { animate: false });
+      });
+    },
+    7: function (animate) {
+      field.freezeAll();
+      field.fadeLines(animate ? 800 : 0);
+      field.dimAll(animate ? 1500 : 0);
+    },
+    8: function () { field.wipe(); }
+  };
+
+  var scene = Scene.create({
+    name: 'robot-test',
+    beats: 9,
+    goTo: function (index, o) {
+      clearTimers();
+      field.wipe();                       // rebuild from scratch so goTo is idempotent
+      for (var s = 1; s <= index; s++) STEPS[s](o.animate && s === index);
+      var lis = document.querySelectorAll('#beats li');
+      for (var i = 0; i < lis.length; i++) lis[i].classList.toggle('now', +lis[i].dataset.i === index);
+    }
+  });
+
+  /* ---------------- the figures ---------------- */
+  var wrap = document.getElementById('figures');
+  var notes = {
+    idle: 'dim amber · slow breathing',
+    active: 'warm gold · quicker pulse',
+    transmit: 'brighter · pulses leave along lines',
+    deceive: 'brief flicker to a false hue',
+    terminated: 'fades to black, stays black',
+    adversarial: 'crimson · active pulse'
+  };
+  var figs = [];
+  ['idle', 'active', 'transmit', 'deceive', 'terminated', 'adversarial'].forEach(function (st) {
+    var cell = document.createElement('div'); cell.className = 'cell';
+    var fig = Robot.Figure.create(cell, { size: 170, state: st, antenna: true });
+    var label = document.createElement('div'); label.className = 'label'; label.textContent = st;
+    var note = document.createElement('div'); note.className = 'note'; note.textContent = notes[st];
+    cell.appendChild(label); cell.appendChild(note);
+    wrap.appendChild(cell);
+    figs.push({ fig: fig, state: st });
+  });
+  // T: replay every figure's transition from idle so reviewers can judge the tween.
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 't' && e.key !== 'T') return;
+    figs.forEach(function (f) { f.fig.setState('idle'); });
+    setTimeout(function () { figs.forEach(function (f) { f.fig.setState(f.state); }); }, 1200);
+  });
+
+  /* ---------------- fps in the HUD ---------------- */
+  setInterval(function () {
+    if (!scene.hudVisible) return;
+    scene.setHudExtra(field.fps.toFixed(0) + ' fps · ' + field.connectionCount + ' lines · ' + field.pulseCount + ' pulses');
+  }, 250);
+
+  window.field = field; window.scene = scene; window.figs = figs;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

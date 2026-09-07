@@ -1319,8 +1319,11 @@ def main(argv: list[str] | None = None) -> int:
         assert chrome is not None
         out_pdf = out_dir / f"{args.name}.pdf"
         pages, mediabox, sizes, choices = export_pdf(root, index, slides, out_pdf, out_dir, chrome, warn, args.keep_pngs, overrides)
-        print(f"PDF   {out_pdf}  ({human(out_pdf.stat().st_size)}), {pages} pages for {len(slides)} slides, page box [{mediabox}] pt", end="")
-        if pages == len(slides):
+        # reveal prints each fragment step as its own page (pdfSeparateFragments).
+        fragments = len(re.findall(r'class="[^"]*\bfragment\b', index.read_text(encoding="utf-8")))
+        expected = len(slides) + fragments
+        print(f"PDF   {out_pdf}  ({human(out_pdf.stat().st_size)}), {pages} pages for {len(slides)} slides + {fragments} fragments, page box [{mediabox}] pt", end="")
+        if pages == expected:
             print("  OK")
         else:
             print("  MISMATCH")

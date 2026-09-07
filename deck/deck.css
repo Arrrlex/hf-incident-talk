@@ -27,7 +27,8 @@
 /* The bottom 96px of every slide belong to the persistent timeline band
    (shared/deck.js mounts it in #tl-band). Content is kept above it. */
 :root { --band-h: 96px; }
-.reveal .slides section { padding-bottom: var(--band-h); }
+/* Text slides keep the 7% safe margin on the sides (134px at 1920). */
+.reveal .slides section { box-sizing: border-box; padding-bottom: var(--band-h); padding-left: 134px; padding-right: 134px; }
 .reveal .slides section.scene { height: 1080px; padding: 0; top: 0 !important; }
 .reveal .slides section.scene iframe {
   position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - var(--band-h));
@@ -35,6 +36,7 @@
 }
 #tl-band {
   position: fixed; left: 0; top: 0; width: 1920px; height: var(--band-h);
+  box-sizing: border-box;
   padding: 0 134px;                 /* the 7% safe margin, so the caption is not flush with the edge */
   --tl-height: var(--band-h);
   pointer-events: none; z-index: 20;
@@ -44,7 +46,7 @@
 #tl-band .tl { height: 100%; }
 .reveal .progress { display: none; }
 .reveal .controls { display: none; }
-.reveal .slide-number { color: #5a5a5a; font-size: 18px; background: transparent; }
+.reveal .slide-number { color: #5a5a5a; font-size: 18px; background: transparent; bottom: calc(var(--band-h) + 6px); right: 14px; }
 .quiet { color: #9a9a9a; }
 .crimson { color: #e0483f; }   /* act three only */
 .orange { color: #ff9416; }   /* PauseAI orange: emphasis */

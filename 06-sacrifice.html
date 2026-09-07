@@ -110,19 +110,14 @@
 
   /* Beats:
      0  black
-     1  transcript + message fade in (~800ms); the corner light is active
-     2  the corner light goes out (terminated, 600ms); nothing else changes
-     3  transcript fades back to black
-     Each beat is rendered from scratch so stepping back restores. */
+     1  transcript fades in (~800ms); the corner light stays on
+     The deck shows beat 1 directly (data-start="1" data-end="1"), so in the
+     talk this is an ordinary slide; standalone, Space fades it in. */
   Scene.create({
     name: 'sacrifice',
-    beats: 4,
+    beats: 2,
     goTo: function (index, o) {
-      var animate = o.animate;
-      showPaper(index === 1 || index === 2, animate);
-      var lightOn = index < 2;
-      var target = lightOn ? 'active' : 'terminated';
-      if (fig.state !== target) fig.setState(target, { animate: animate });
+      showPaper(index === 1, o.animate);
     }
   });
 

@@ -13,7 +13,7 @@
      people, not machines: no robots, just a small hollow ring per rung that
      gains a centre dot when someone finally sees something. Colour grades
      from a very dim grey-blue up to the clinical cyan of humans/records.
-     The top rung: the full picture: is a ghost, and is never lit. -->
+     No ghost rung: the ladder ends at the last dated rung. -->
 <div class="stage register-cold" id="stage">
   <h1 style="position:absolute;left:134px;top:72px;margin:0;font-size:30px;font-weight:400;color:#53e8ff">Human oversight</h1>
 </div>
@@ -42,7 +42,7 @@
   ];
   for (var i = 1; i < RUNGS.length; i++) RUNGS[i].figure = 'ring';
 
-  // Ten rows (baseline, eight rungs, the ghost) between y=962 and y=228 inside
+  // Nine rows (baseline, eight rungs) between y=962 and y=228 inside
   // the safe area (76–1004): pitch 78, labels 26px, rings instead of robots so
   // the labels can start further left. Cyan marks human oversight, keeping
   // this meter visually separate from the escalation meter's orange.
@@ -50,8 +50,8 @@
     rungs: RUNGS,
     band: { afterRung: 0, text: 'What the humans knew' },
     gradient: ['#3a3a3a', '#53e8ff'],          // dim grey → cyan: the human oversight record
-    continuation: true,                        // the rail peters out before the full picture
-    ghost: { label: 'The full picture' },
+    continuation: true,                        // the rail carries on past the top rung
+    ghost: null,
     geometry: {
       rung1Y: 852, step: 78, bandOffset: 68,
       labelX: 540, labelOffset: 40,

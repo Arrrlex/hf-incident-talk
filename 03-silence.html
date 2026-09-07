@@ -22,11 +22,11 @@
   }
   .overlay .caption { transform: translate(-50%, -50%) translateY(-6px); }
 
-  /* The 0 "resolves": comes up from nothing and sharpens over ~1s. */
+  /* The 0 "resolves": comes up from nothing and sharpens over ~0.7s. */
   .overlay .zero {
     opacity: 1;
     filter: blur(0);
-    transition: opacity 1000ms var(--ease-out), filter 1000ms var(--ease-out);
+    transition: opacity 700ms var(--ease-out), filter 700ms var(--ease-out);
   }
   .overlay .zero.is-hidden { opacity: 0; filter: blur(10px); }
 
@@ -77,13 +77,13 @@
     if (!target.frozen && cur.frozen) field.unfreezeAll();
 
     if (target.lines !== cur.lines) {
-      // Lines fade out over 800ms when the Silence lands; they come back in 600ms.
-      var lineMs = animate ? (target.lines === 0 ? 800 : 600) : 1;
+      // Lines fade out over 700ms when the Silence lands; they come back in 600ms.
+      var lineMs = animate ? (target.lines === 0 ? 700 : 600) : 1;
       if (target.lines === 0) field.fadeLines(lineMs); else field.unfadeLines(lineMs);
     }
     if (target.lights !== cur.lights) {
-      // Lights take ~1.5s to dim from alive; every other change is a 600ms step.
-      var lightMs = animate ? (cur.lights === 1 && target.lights < 1 ? 1500 : 600) : 1;
+      // Lights dim over 700ms; every other change is a 600ms step.
+      var lightMs = animate ? (cur.lights === 1 && target.lights < 1 ? 700 : 600) : 1;
       if (target.lights === 1) field.undimAll(lightMs);
       else field.dimAll(lightMs, target.lights);
     }
@@ -106,47 +106,24 @@
   }
 
   /* ---------------- beats ----------------
-     0  the buzzing mesh, warm, alive
-     1  one line of text over it: "How many of them alerted a human?": hold
-     2  everything freezes; lines fade; every light dims to near-black over ~1.5s
-     3  a single large thin 0 resolves in the centre; hold in near darkness
-     4  clear to plain black, so the presenter can leave the moment */
-  var token = 0;
-
+     0  the buzzing mesh, alive, with the question over it: "How many of them alerted a human?"
+     1  one press: everything freezes, lines fade, lights dim to near-black and the 0 resolves, all in ~0.7s
+     2  clear to plain black, so the presenter can leave the moment */
   var scene = Scene.create({
     name: 'silence',
-    beats: 5,
+    beats: 3,
     goTo: function (index, o) {
-      var mine = ++token;                        // cancels any wait still pending from the last beat
       var animate = o.animate;
-
       switch (index) {
         case 0:
           setField(ALIVE, animate);
-          setOverlay(false, false, animate);
+          setOverlay(true, false, animate);
           break;
         case 1:
-          setField(ALIVE, animate);
-          setOverlay(true, false, animate);
+          setField(DARK, animate);
+          setOverlay(false, true, animate);
           break;
         case 2:
-          setField(DARK, animate);
-          setOverlay(true, false, animate);
-          break;
-        case 3:
-          setField(DARK, animate);
-          if (animate && o.direction > 0) {
-            // The question goes first; a breath of darkness; then the answer.
-            setOverlay(false, false, true);
-            Scene.wait(900).then(function () {
-              if (mine !== token) return;
-              setOverlay(false, true, true);
-            });
-          } else {
-            setOverlay(false, true, animate);
-          }
-          break;
-        case 4:
           setField(BLACK, animate);
           setOverlay(false, false, animate);
           break;

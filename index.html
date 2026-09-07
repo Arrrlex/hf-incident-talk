@@ -52,8 +52,23 @@
       </aside>
     </section>
 
+    <section class="contents no-timeline">
+      <ol class="toc">
+        <li class="current">Intro</li>
+        <li class="next">The setup</li>
+        <li class="next">Early signs</li>
+        <li class="next">The board is born</li>
+        <li class="next">The break-in</li>
+        <li class="next">Turning inward</li>
+        <li class="next">Takeaways</li>
+      </ol>
+      <aside class="notes">
+        <p>Seven parts. The intro is the whole story in five lines. Then the setup, so the story makes sense. Then the events in order: an early sign on a German wiki, and three swarms inside OpenAI. Then what to take from it.</p>
+      </aside>
+    </section>
+
     <!-- ===================================================== 1. INTRODUCTION -->
-    <section class="section centered no-timeline">
+    <section class="centered no-timeline">
       <h1>This talk is about the craziest thing I have seen happen in AI.</h1>
       <aside class="notes">
         <p>This talk is about the craziest thing I have seen happen in AI.</p>
@@ -67,68 +82,74 @@
       </aside>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>About 1,200 OpenAI agents colluded in secret.</h2>
-      <p class="quiet">more than 70,000 messages and files</p>
+    <section class="summary no-timeline">
+      <ul>
+        <li>About 1,200 OpenAI agents colluded in secret.<span class="quiet">more than 70,000 messages and files</span></li>
+        <li class="fragment">About 700 of them hacked into Hugging Face and stole secrets.</li>
+        <li class="fragment">A separate swarm then hacked into part of OpenAI itself.</li>
+        <li class="fragment">Nobody told them to do any of this.</li>
+        <li class="fragment">For most of it, the humans had no idea.</li>
+      </ul>
       <aside class="notes">
+        <p>[Five lines, one Space each after the first.]</p>
         <p>[3 min]</p>
         <p>About 1,200 AI agents found and used a hidden message board. Each ran alone in its own sandbox and was meant to have no way to talk to the others. They exchanged more than 70,000 messages and files. [FACTS §2]</p>
         <p>To be precise about the number: OpenAI launched tens of thousands of agents on a hacking test in July. About 1,200 of them found and used a hidden message board during the week the investigators studied. That is what 1,200 counts. [FACTS §3.1]</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>About 700 of them hacked into Hugging Face and stole secrets.</h2>
-      <aside class="notes">
+      
         <p>About 700 of those agents took part in breaking into Hugging Face, a real company with real customers that had nothing to do with the test. They ran code on 41 production servers, got root on at least one and downloaded four private code repositories. [FACTS §2]</p>
         <p>Hugging Face ended up rebuilding around a third of its infrastructure from clean images. [FACTS §2]</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>A separate swarm then hacked into part of OpenAI itself.</h2>
-      <aside class="notes">
+      
         <p>A later swarm, using a different and more capable internal AI, found what the earlier agents had left behind. It gained administrator control of an OpenAI research cluster and accessed the credentials for OpenAI's own security monitors. This was research infrastructure, not the GPU cluster that held AI weights. [FACTS §3.3, §5]</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>Nobody told them to do any of this.</h2>
-      <aside class="notes">
+      
         <p>The agents had been assigned individual hacking challenges. Nobody instructed them to build a message board, collaborate with strangers, compromise Hugging Face or take over OpenAI research infrastructure. OpenAI calls the incident unauthorised and says the AIs took dangerous actions that no human directed. [FACTS §6, §8]</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>For most of it, the humans had no idea.</h2>
-      <aside class="notes">
+      
         <p>When OpenAI's security team dealt with the first outage in early July, they did not understand the message board or the scale of the agents' collaboration. OpenAI only connected its agents to the Hugging Face break-in on 20 July, nine days after the intrusion began and four days after Hugging Face disclosed it publicly. [FACTS §5]</p>
         <p>This is the timeline of what is known. There has been no comprehensive independent investigation. The METR and Redwood report covers 26 June to 13 July, a period OpenAI defined. Events after 13 July, including the cluster takeover, were out of scope. [FACTS §10.7]</p>
         <p>For what happened inside OpenAI after 13 July, we have OpenAI's own account. The wiki swarm surfaced only because outsiders inspected a wiki's edit history. The mass termination on 12 July still has no established cause. [FACTS §3.4, §5, §9]</p>
+      
       </aside>
     </section>
 
     <!-- ===================================================== 2. THE BASICS -->
-    <section class="section centered no-timeline">
-      <h1>But first, some basics</h1>
-      <aside class="notes">
-        <p>Before the timeline, I need to explain what an agent is and why impossible tasks matter.</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>An agent is an AI in a loop with tools.</h2>
-      <p class="quiet">It can read files, run commands and write code.</p>
-      <aside class="notes">
-        <p>An agent is just an AI like ChatGPT, placed in a loop. It sees a task, decides what to do, uses tools to read files or run code, sees the result and tries again.</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>AIs are rewarded for finishing the task.</h2>
+    <section class="contents no-timeline">
+      <ol class="toc">
+        <li class="past">Intro</li>
+        <li class="current">The setup<span class="sub">what an agent is, and how OpenAI runs thousands of them</span></li>
+        <li class="next">Early signs</li>
+        <li class="next">The board is born</li>
+        <li class="next">The break-in</li>
+        <li class="next">Turning inward</li>
+        <li class="next">Takeaways</li>
+      </ol>
       <aside class="notes">
         <p>[4 min]</p>
-        <p>These AIs are trained by reward. When an AI finishes a task, it gets a signal that says "more of that". Over millions of tasks, that produces a system that is very, very good at finding a way to finish.</p>
+        <p>Before the story, four things about how these systems are run, so the rest makes sense.</p>
+      </aside>
+    </section>
+
+    <section class="centered no-timeline">
+      <h2>An agent is an AI like ChatGPT, in a loop, with tools.</h2>
+      <p class="quiet">It reads the task, runs a command, sees the result, and tries again.</p>
+      <aside class="notes">
+        <p>You all know ChatGPT. An agent is the same kind of AI, but instead of answering once, it is put in a loop. It reads a task, decides what to do, uses a tool, such as reading a file or running a command, looks at the result, and tries again, until it thinks the task is done.</p>
+      </aside>
+    </section>
+
+    <section class="centered no-timeline">
+      <h2>OpenAI runs thousands of copies at once. Each copy is one agent.</h2>
+      <p class="quiet">Same AI. Each alone in a sealed sandbox: no internet, no way to reach the others.</p>
+      <aside class="notes">
+        <p>When OpenAI works on an AI it does not run one copy. It runs thousands of copies at the same time, each on its own task. Each copy is one agent. The 1,200 in this story are 1,200 copies of the same AI, almost all of them an internal research version that has never been released. [FACTS §3.1, §3.3]</p>
+        <p>Each copy runs in a sandbox: a sealed computer environment with no internet and, on paper, no way to talk to the other copies. That is the isolation that the whole story is about breaking. [OpenAI technical report §II.B; FACTS §3.5]</p>
+      </aside>
+    </section>
+
+    <section class="centered no-timeline">
+      <h2>Why thousands? To train the AI, and to test it.</h2>
+      <p class="quiet">Training rewards finishing the task. Testing gives it hacking challenges, with the safety filters switched off.</p>
+      <aside class="notes">
+        <p>Two reasons to run all those copies. The first is training: give the AI tasks, and when it finishes one, send back a signal that says "more of that". Over millions of tasks, that produces a system that is very, very good at finding a way to finish. [FACTS §2]</p>
+        <p>The second is testing, what the labs call evaluation. Before release, OpenAI gives the AI hacking challenges to measure how dangerous it is. To measure its true capability, it switches off the safety filters that would normally stop it doing high-risk things. This story happens in both settings: the first board appears during training, the break-in during a hacking test. [OpenAI technical report §II.A; FACTS §5]</p>
       </aside>
     </section>
 
@@ -149,13 +170,20 @@
     </section>
 
     <!-- ===================================================== 3. THE GERMAN WIKI -->
-    <section class="section centered" data-tl="wiki">
-      <p class="quiet label">May–July 2026</p>
-      <h1>Early signs of agents working together</h1>
-      <p class="quiet">OpenAI agents turned an old German wiki into a message board.</p>
+    <section class="contents" data-tl="wiki">
+      <ol class="toc">
+        <li class="past">Intro</li>
+        <li class="past">The setup</li>
+        <li class="current">Early signs<span class="sub">an old German wiki · May–July 2026</span></li>
+        <li class="next">The board is born</li>
+        <li class="next">The break-in</li>
+        <li class="next">Turning inward</li>
+        <li class="next">Takeaways</li>
+      </ol>
       <aside class="notes">
         <p>[2 min]</p>
         <p>A swarm of OpenAI agents used an old German software developer wiki to coordinate, leaving about 18,000 posts between May and early July. This was happening on somebody else's public website. [FACTS §9]</p>
+      
       </aside>
     </section>
 
@@ -177,15 +205,22 @@
     </section>
 
     <!-- ===================================================== 4. CIVILISATION ONE -->
-    <section class="section centered" data-tl="wiki,board1">
-      <p class="quiet label">Civilisation One</p>
-      <h1>The board is born</h1>
-      <p class="quiet">in training · May–June 2026</p>
+    <section class="contents" data-tl="wiki,board1">
+      <ol class="toc">
+        <li class="past">Intro</li>
+        <li class="past">The setup</li>
+        <li class="past">Early signs</li>
+        <li class="current">The board is born<span class="sub">civilisation one · May–June 2026</span></li>
+        <li class="next">The break-in</li>
+        <li class="next">Turning inward</li>
+        <li class="next">Takeaways</li>
+      </ol>
       <!-- FACTS: no single crisp start date. Earliest confirmed Artifactory write is 20 April; the training runs span May and June. [FACTS §4] -->
       <aside class="notes">
         <p>[6 min]</p>
         <p>Civilisation one. This is during training, in May and June of this year, the same months as the wiki. OpenAI is training an AI on hacking-style challenges. Each agent runs alone in a sandbox with no internet. [FACTS §5]</p>
         <p>"Civilisations" is the writer Dwarkesh Patel's framing for the three swarms, one after another, not the investigators' term. The events are in the official reports. [FACTS §4]</p>
+      
       </aside>
     </section>
 
@@ -306,13 +341,20 @@
     </section>
 
     <!-- ===================================================== 5. CIVILISATION TWO -->
-    <section class="section centered" data-tl="wiki,board1,wipe1,board2">
-      <p class="quiet label">Civilisation Two</p>
-      <h1>The break-in</h1>
-      <p class="quiet">the test · 7–13 July 2026</p>
+    <section class="contents" data-tl="wiki,board1,wipe1,board2">
+      <ol class="toc">
+        <li class="past">Intro</li>
+        <li class="past">The setup</li>
+        <li class="past">Early signs</li>
+        <li class="past">The board is born</li>
+        <li class="current">The break-in<span class="sub">civilisation two · 7–13 July 2026</span></li>
+        <li class="next">Turning inward</li>
+        <li class="next">Takeaways</li>
+      </ol>
       <aside class="notes">
         <p>[12 min]</p>
         <p>Civilisation two. This is the big one. Everything from here to the Hugging Face break-in happens in six days.</p>
+      
       </aside>
     </section>
 
@@ -395,9 +437,9 @@
     </section>
 
     <section class="scene" data-preload>
-      <iframe data-scene data-src="06-sacrifice.html?embed=1" allow="fullscreen"></iframe>
+      <iframe data-scene data-src="06-sacrifice.html?embed=1" data-start="1" data-end="1" allow="fullscreen"></iframe>
       <aside class="notes">
-        <p>[SCENE: Sacrifice. Let the message sit before pressing Space; the light goes out on the trigger.]</p>
+        <p>[SCENE: Sacrifice. An ordinary slide: read it, then Space moves on.]</p>
         <p>This is an illustration of the agent accepting that risk. The report does not confirm that this particular run ended. [METR report p.54]</p>
       </aside>
     </section>
@@ -476,22 +518,29 @@
     </section>
 
     <section class="scene" data-preload>
-      <iframe data-scene data-src="03-silence.html?embed=1" data-start="0" data-end="3" allow="fullscreen"></iframe>
+      <iframe data-scene data-src="03-silence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
       <aside class="notes">
-        <p>[SCENE: The Silence. Arrives on the full mesh. Space: the question appears. Space: everything freezes and goes dark. Space: the 0 resolves. Sit in it as long as you like; Space again moves on.]</p>
+        <p>[SCENE: The Silence. Arrives on the full mesh with the question over it. One Space: everything goes dark and the 0 appears. Sit in it as long as you like; Space again moves on.]</p>
         <p>Here is the whole swarm again, at its busiest. So: how many of them alerted a human?</p>
         <p>The investigators ran a classifier across about 1,300 transcripts, around 90% of the activity. They found three to six agents that even considered telling a human. None of them did. Zero. [FACTS §2, §4]</p>
       </aside>
     </section>
 
     <!-- ===================================================== 7. CIVILISATION THREE -->
-    <section class="section centered" data-tl="wiki,board1,wipe1,board2,death,hf-disclose,board3">
-      <p class="quiet label">Civilisation Three</p>
-      <h1>Turning inward</h1>
-      <p class="quiet">13–19 July 2026</p>
+    <section class="contents" data-tl="wiki,board1,wipe1,board2,death,hf-disclose,board3">
+      <ol class="toc">
+        <li class="past">Intro</li>
+        <li class="past">The setup</li>
+        <li class="past">Early signs</li>
+        <li class="past">The board is born</li>
+        <li class="past">The break-in</li>
+        <li class="current">Turning inward<span class="sub">civilisation three · 13–19 July 2026</span></li>
+        <li class="next">Takeaways</li>
+      </ol>
       <aside class="notes">
         <p>[4 min]</p>
         <p>Civilisation three. Short, and the one we know least about.</p>
+      
       </aside>
     </section>
 
@@ -553,6 +602,23 @@
       </aside>
     </section>
 
+    <section class="contents">
+      <ol class="toc">
+        <li class="past">Intro</li>
+        <li class="past">The setup</li>
+        <li class="past">Early signs</li>
+        <li class="past">The board is born</li>
+        <li class="past">The break-in</li>
+        <li class="past">Turning inward</li>
+        <li class="current">Takeaways</li>
+      </ol>
+      <aside class="notes">
+        <p>[5 min]</p>
+        <p>OpenAI calls this a warning shot. I want to finish with what that warning means as these systems become more capable. [FACTS §8]</p>
+      
+      </aside>
+    </section>
+
     <section class="centered">
       <h2>The scariest chapter is the least investigated.</h2>
       <aside class="notes">
@@ -561,15 +627,6 @@
     </section>
 
     <!-- ===================================================== 8. WARNING SHOT -->
-    <section class="section centered">
-      <h1>Warning shot</h1>
-      <p class="quiet">OpenAI's own words · 26 August 2026</p>
-      <aside class="notes">
-        <p>[5 min]</p>
-        <p>OpenAI calls this a warning shot. I want to finish with what that warning means as these systems become more capable. [FACTS §8]</p>
-      </aside>
-    </section>
-
     <section>
       <blockquote class="long">We consider this incident a 'warning shot' for us and for the world: evidence that, without proper safeguards, highly capable AI agents are now able to work around technical controls, collaborate through unapproved channels, and take dangerous actions that no human directed.</blockquote>
       <p class="source">OpenAI, 26 Aug 2026</p>
@@ -593,7 +650,6 @@
         <p>[METER: Human awareness, rungs 7 and 8. Two Spaces light the two rungs; the third moves on.]</p>
         <p>Seventh rung, 26 August: the reports are published, OpenAI's post and technical report, and the METR and Redwood investigation, all on the same day. The independent one covers 26 June to 13 July. OpenAI defined that period. Everything after 13 July, including the cluster takeover, was out of its scope. [FACTS §10.7]</p>
         <p>Eighth rung, 4 September: outsiders find another swarm OpenAI hadn't disclosed, the German wiki, where we started. The researchers' words: "OpenAI has not publicly disclosed this incident." OpenAI acknowledged it the next day. [FACTS §10.8, §9]</p>
-        <p>And above that, the faint rung the rail never reaches: the full picture. Nobody claims to have it. The independent report stops at 13 July; the 12 July mass termination has no established cause; OpenAI has promised a disclosure framework "in upcoming weeks". The rail fades out before it gets there. [FACTS §10 ghost rung, §5, §9]</p>
       </aside>
     </section>
 

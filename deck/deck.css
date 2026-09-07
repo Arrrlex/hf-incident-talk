@@ -130,3 +130,11 @@
 html.reveal-print .reveal .slides section:not(.scene) {
   padding-left: 134px !important; padding-right: 134px !important; box-sizing: border-box !important;
 }
+
+/* Text laid over a scene (the scene iframe fills the slide beneath it). */
+.reveal .slides section.scene .scene-text {
+  position: absolute; left: 134px; right: 134px; top: 80px; text-align: center;
+  pointer-events: none; z-index: 2;
+}
+.reveal .slides section.scene .scene-text h2 { margin: 0; font-size: 52px; }   /* one line, clear of the board */
+.reveal .slides section.scene .scene-text .quiet { margin-top: 12px; }

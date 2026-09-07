@@ -19,8 +19,9 @@
     1  the first six entries appear one by one, ~400ms apart
     2  the feed accelerates and scrolls: hundreds of lines flow past (the real
        entries cycled for volume; nothing invented); counter top-right climbs
-       to "~18,000 posts" in ~5.9s (the first ~8,000 over ~3.8s, the last
-       ~10,000 at double speed, ~2.1s). Then, within the same beat, the feed
+       to "~18,000 posts" in ~3.9s, only ever speeding up: an accelerating
+       climb to 5,000 over 3s, then the last 13,000 flat out in 0.9s (about
+       four times the speed reached at 5,000). Then, within the same beat, the feed
        freezes and the caption "24 May – early July 2026 · about 18,000 posts
        · 3,700+ agent names" fades in. No extra keypress.
 
@@ -206,8 +207,6 @@
   var TOTAL = 18000;            // "~18,000 posts", L11
   var ROW_H = 26;
   var FIRST = 6;                // entries shown one by one in beat 1
-  var FLOW_MS = 8000;           // beat 2: the base schedule (eased counter curve), start to freeze
-  var FAST_FROM = 8000;         // ...but from this count on, the schedule runs at double speed
   var MAX_ROWS = 60;            // DOM rows kept; older ones are dropped as they scroll off
 
   var list = document.getElementById('list');
@@ -312,32 +311,36 @@
     setCounter(TOTAL, true);
   }
 
-  /* Beat 2 live: from the first six, the interval shrinks from ~400ms to a
-     few ms while the counter eases up to 18,000 along the FLOW_MS schedule.
-     Once the counter passes FAST_FROM the schedule runs at double speed, so
-     the last 10,000 take half as long as the first 8,000 would suggest
-     (~3.8s + ~2.1s ≈ 5.9s in all). Entries cycle. When the flow completes
-     the feed freezes where it is and the caption fades in (same beat). */
-  function baseTimeAt(count) {                     // ms on the base schedule at which the counter reaches `count`
-    var e = (count - FIRST) / (TOTAL - FIRST), lo = 0, hi = 1;
-    for (var i = 0; i < 40; i++) { var mid = (lo + hi) / 2; if (Scene.ease.inOutCubic(mid) < e) lo = mid; else hi = mid; }
-    return lo * FLOW_MS;
+  /* Beat 2 live: the counter only ever speeds up. Phase A accelerates from
+     the first six to CRANK_FROM (5,000) over PHASE_A_MS with a quadratic
+     ease-in; phase B then runs the remaining 13,000 in PHASE_B_MS at a
+     constant, much higher rate (about four times the speed at the end of
+     phase A), so the flood ends flat out rather than easing off. Rows
+     follow the same curve: the interval shrinks from ~400ms to a couple of
+     ms and several rows land per frame at the end. Entries cycle. When the
+     flow completes the feed freezes where it is and the caption fades in
+     (same beat). Total ≈ PHASE_A_MS + PHASE_B_MS. */
+  var CRANK_FROM = 5000, PHASE_A_MS = 3000, PHASE_B_MS = 900;
+  function countAt(elapsed) {
+    if (elapsed <= PHASE_A_MS) {
+      var u = elapsed / PHASE_A_MS;
+      return FIRST + (CRANK_FROM - FIRST) * u * u;
+    }
+    var v = Math.min(1, (elapsed - PHASE_A_MS) / PHASE_B_MS);
+    return CRANK_FROM + (TOTAL - CRANK_FROM) * v;
   }
-  var FAST_AT = baseTimeAt(FAST_FROM);   // ≈3,846ms; the flow then takes (FLOW_MS - FAST_AT) / 2 more, ≈5,923ms in all
   function flow() {
-    var t0 = performance.now(), lastAt = 0, k = FIRST, shownAtStart = FIRST;
-    // ~400ms between rows at the start, down to a few ms by 40% of the base
-    // schedule; the rest runs flat out (several rows per frame), so a few
-    // hundred lines pass in total.
-    function interval(t) {                         // t in 0..1
-      var e = Scene.ease.inOutCubic(Math.min(1, t * 2.5));
-      return 400 * (1 - e) + 6 * e;
+    var t0 = performance.now(), lastAt = 0, k = FIRST;
+    function interval(elapsed) {                    // ms between rows
+      if (elapsed <= PHASE_A_MS) {
+        var u = elapsed / PHASE_A_MS;
+        return 400 * (1 - u * u) + 6 * u * u;       // 400ms → 6ms, accelerating
+      }
+      return 2;                                     // phase B: flat out
     }
     function frame(now) {
       var elapsed = now - t0;
-      var base = elapsed <= FAST_AT ? elapsed : FAST_AT + (elapsed - FAST_AT) * 2;   // warped schedule time
-      var t = base / FLOW_MS;
-      if (t >= 1) {
+      if (elapsed >= PHASE_A_MS + PHASE_B_MS) {
         // Freeze: the flow stops where it is; the counter lands on the total
         // and the caption follows, still within beat 2.
         setCounter(TOTAL, true);
@@ -345,16 +348,16 @@
         later(function () { caption.classList.remove('is-hidden'); }, 300);
         return;
       }
-      var iv = interval(t);
+      var iv = interval(elapsed);
+      var cap = elapsed <= PHASE_A_MS ? 4 : 8;
       var n = 0;
-      while (elapsed - lastAt >= iv && n < 4) {    // catch up when iv < one frame
+      while (elapsed - lastAt >= iv && n < cap) {  // catch up when iv < one frame
         lastAt += iv;
         append(ENTRIES[k % ENTRIES.length], iv > 120);
         k++; n++;
       }
-      if (n === 4) lastAt = elapsed;
-      var c = shownAtStart + Math.round((TOTAL - shownAtStart) * Scene.ease.inOutCubic(t));
-      setCounter(c, true);
+      if (n === cap) lastAt = elapsed;
+      setCounter(Math.round(countAt(elapsed)), true);
       raf = requestAnimationFrame(frame);
     }
     raf = requestAnimationFrame(frame);

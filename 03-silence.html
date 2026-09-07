@@ -30,7 +30,7 @@
   }
   .overlay .zero.is-hidden { opacity: 0; filter: blur(10px); }
 
-  /* While .snap is set, nothing transitions — used to jump to a beat's end state. */
+  /* While .snap is set, nothing transitions: used to jump to a beat's end state. */
   .overlay.snap * { transition: none !important; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -69,7 +69,7 @@
   /* ---------------- the field's three conditions ----------------
      alive: breathing mesh · dark: frozen, no lines, lights at 3% · black: lights at 0.
      We track what the field is currently doing so each goTo only animates
-     the difference — that is what makes ← restore the previous picture. */
+     the difference: that is what makes ← restore the previous picture. */
   var cur = { lights: 1, lines: 1, frozen: false };
 
   function setField(target, animate) {
@@ -107,7 +107,7 @@
 
   /* ---------------- beats ----------------
      0  the buzzing mesh, warm, alive
-     1  one line of text over it: "How many of them alerted a human?" — hold
+     1  one line of text over it: "How many of them alerted a human?": hold
      2  everything freezes; lines fade; every light dims to near-black over ~1.5s
      3  a single large thin 0 resolves in the centre; hold in near darkness
      4  clear to plain black, so the presenter can leave the moment */

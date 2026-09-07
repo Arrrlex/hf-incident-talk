@@ -1,5 +1,5 @@
 /* ==========================================================================
-   scene.js — beat controller, presenter controls, deck bridge (brief §9).
+   scene.js: beat controller, presenter controls, deck bridge (brief §9).
 
    Every scene is a list of numbered "beats"; the presenter steps through
    them with the keyboard. Nothing ever advances on a timer.
@@ -55,7 +55,7 @@
   }
 
   /** Promise that resolves after ms (instantly under reduced motion). For
-      sequencing *within* one beat — never for advancing beats. */
+      sequencing *within* one beat: never for advancing beats. */
   function wait(ms) {
     return new Promise(function (res) { setTimeout(res, reducedMotion() ? 0 : ms); });
   }

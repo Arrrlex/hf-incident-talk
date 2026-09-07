@@ -1,5 +1,5 @@
 /* ==========================================================================
-   fonts.css — vendored fonts (no network at runtime).
+   fonts.css: vendored fonts (no network at runtime).
    Files live in ../vendor/fonts/ and are added by a separate step; the
    stacks in tokens.css fall back to system faces if a file is missing.
    ========================================================================== */

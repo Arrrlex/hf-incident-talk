@@ -37,7 +37,7 @@
     color: var(--text-dim);
   }
 
-  /* The wipe: an 80ms pale flash, then nothing. No transition — it snaps. */
+  /* The wipe: an 80ms pale flash, then nothing. No transition: it snaps. */
   #flash { position: absolute; inset: 0; background: #dfe3ea; opacity: 0; pointer-events: none; }
 
   /* Added briefly while jumping to an end state so nothing tweens. */
@@ -295,7 +295,7 @@
         case 3:                                   // board #2: bigger, faster
           build(BOARDS[1], animate);
           break;
-        case 4:                                   // board #2 dies — not a wipe; end state is dark
+        case 4:                                   // board #2 dies: not a wipe; end state is dark
           if (animate) {
             snap(function () { build(BOARDS[1], false); });
             massTermination(BOARDS[1]);

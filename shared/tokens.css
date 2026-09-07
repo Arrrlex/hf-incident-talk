@@ -1,10 +1,10 @@
 /* ==========================================================================
-   tokens.css — shared design tokens for the talk visuals (brief §4)
+   tokens.css: shared design tokens for the talk visuals (brief §4)
    Load this first in every scene. fonts.css is optional (vendored fonts).
    ========================================================================== */
 
 :root {
-  /* Palette — PauseAI colour scheme (assets/BRAND.md) on a projected black.
+  /* Palette: PauseAI colour scheme (assets/BRAND.md) on a projected black.
      Orange is the agents' light; white is lines, text and the human record;
      red appears only when the swarm turns on its makers. */
   --bg: #000000;                 /* PauseAI dark background */
@@ -15,7 +15,7 @@
   --text-dim: #9a9a9a;
   --accent: #ff9416;             /* PauseAI orange for emphasis in text */
   --accent-subtle: #ffc480;      /* PauseAI brand-subtle (dark theme): pale orange */
-  --adversarial: #e0483f;        /* red — act three only (not a PauseAI colour; kept for meaning) */
+  --adversarial: #e0483f;        /* red: act three only (not a PauseAI colour; kept for meaning) */
   --false-hue: #e6e6e6;          /* the "deceive" flicker colour: a cold white glitch */
   --paper: #ffe7cc;              /* Sacrifice register background: PauseAI bg-subtle (light theme) */
   --ink: #000000;                /* Sacrifice register text */

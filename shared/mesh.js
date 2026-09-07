@@ -1,5 +1,5 @@
 /* ==========================================================================
-   mesh.js — the one mesh that Emergence grows and the Silence starts from.
+   mesh.js: the one mesh that Emergence grows and the Silence starts from.
 
    Both scenes build their field with the same seed, so the 1,200 points sit
    in the same places. This helper turns that layout into one deterministic
@@ -50,7 +50,7 @@
   }
 
   // k nearest neighbours for every point, by brute force with a running
-  // top-k. 1,200² distance checks is ~1.4M — a few milliseconds, and far
+  // top-k. 1,200² distance checks is ~1.4M: a few milliseconds, and far
   // cheaper than sorting the whole array once per point.
   function knnAll(positions, n, k) {
     var out = new Array(n);
@@ -179,7 +179,7 @@
     var a = p.pair[0], b = p.pair[1];
     field.connect(a, b, { animate: animate });
     if (animate) {
-      // 'transmit' sends a pulse along every line the agent has — here, just the one.
+      // 'transmit' sends a pulse along every line the agent has: here, just the one.
       field.setState(a, 'transmit');
       return Scene.wait(600).then(function () { field.setState(b, 'active'); });
     }

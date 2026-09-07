@@ -1,9 +1,9 @@
 /* ==========================================================================
-   robot.js — the agent/light atom (brief §2, §5).
+   robot.js: the agent/light atom (brief §2, §5).
 
    A robot and a dot of light are the same object at two zoom levels:
-     Robot.Field  — pulled back: ~1,200 points of light on one Canvas 2D.
-     Robot.Figure — up close: a small boxy SVG machine whose single eye is
+     Robot.Field : pulled back: ~1,200 points of light on one Canvas 2D.
+     Robot.Figure: up close: a small boxy SVG machine whose single eye is
                     that same light.
 
    Classic script, no modules: sets window.Robot. No network, no deps.
@@ -24,7 +24,7 @@
 
   // Sprite/colour indices.
   var C_AMBER = 0, C_GOLD = 1, C_CRIMSON = 2, C_FALSE = 3, C_PULSE = 4;
-  var COLOURS = ['#b35f00', '#ff9416', '#e0483f', '#e6e6e6', '#ffc480']; // idle, active, adversarial, false hue, transmit — PauseAI orange scheme (assets/BRAND.md)
+  var COLOURS = ['#b35f00', '#ff9416', '#e0483f', '#e6e6e6', '#ffc480']; // idle, active, adversarial, false hue, transmit: PauseAI orange scheme (assets/BRAND.md)
   var LINE_COLOUR = '#ffffff';
 
   // Per-state look: colour index, base alpha, breathing amplitude (fraction
@@ -45,7 +45,7 @@
   var TERMINATE_MS = 600;      // light fades to black
   var FLICKER_MS = 520;        // deceive flicker envelope length
   var FLICKER_EVERY_MS = 3200; // how often a held 'deceive' re-flickers
-  var FLICKER_MAX = 0.75;      // never fully the false hue — must be subtle
+  var FLICKER_MAX = 0.75;      // never fully the false hue: must be subtle
 
   var reducedMotionMQ = (typeof matchMedia === 'function')
     ? matchMedia('(prefers-reduced-motion: reduce)') : null;
@@ -520,7 +520,7 @@
       },
       /** Render one frame now (useful when stopped, e.g. after wipe()). */
       render: function () { draw(0); return field; },
-      /** Advance the simulation by dt ms and render — for tests, rehearsal
+      /** Advance the simulation by dt ms and render: for tests, rehearsal
           tooling and frame-by-frame recording. Not needed in scenes. */
       step: function (dt) {
         dt = dt === undefined ? 16.7 : dt;
@@ -662,7 +662,7 @@
   }
 
   /* =====================================================================
-     Robot.Figure — the up-close little machine (SVG). Its eye is driven by
+     Robot.Figure: the up-close little machine (SVG). Its eye is driven by
      the same LOOK table and breathing maths as a field point, from one
      shared rAF loop, so a figure and a point are visibly the same light.
      ===================================================================== */
@@ -720,7 +720,7 @@
 
     var svg = el('svg', { viewBox: '0 0 100 100', width: size, height: size, 'aria-hidden': 'true' });
 
-    // Antenna: a stub, slightly off-centre, with a dull tip (no light — the
+    // Antenna: a stub, slightly off-centre, with a dull tip (no light: the
     // eye carries all the state).
     if (antenna) {
       svg.appendChild(el('line', { x1: 41, y1: 21, x2: 41, y2: 12, 'class': 'rb-line' }));

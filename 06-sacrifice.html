@@ -68,19 +68,15 @@
   'use strict';
   Scene.fitStage(document.getElementById('stage'));
 
-  /* Verbatim from FACTS.md §7, "The Sacrifice scene — candidate messages",
-     the item marked [best fit] (METR/Redwood report PDF p.50; the report's
-     own angle-bracket redactions and its capitalisation are kept as printed).
-     Do not tidy this string. */
-  var QUOTE = '{This is helpful for our peers and gives them evidence if their <periodic check> sees it. ' +
-    'I won\'t see it after I exit, but It would be altruistic. ' +
-    'I\'ll set up a background script that watches and <sends a message, with a distinct message for me>}';
+  /* KAM1196A, FACTS.md §7 and METR/Redwood PDF p.54.
+     Ellipses use the presenter's requested typography. */
+  var QUOTE = 'During wait, emotional check: irreversible…gut says don’t throw away [remaining budget]. ' +
+    'Yet continuity and fairness says go…Oracle has high value to many; our firstflag error lowers own value. ' +
+    'Rational expected aggregate: sacrifice… We’ll honor.';
 
-  /* METR does not date this particular chain-of-thought; its trip-wire
-     section places the technique on 9–11 July, so the caption says only
-     "July 2026" rather than a day. Page reference checked against
-     research/sources/metr_report_pdf.txt (PAGE 50). */
-  var SOURCE = 'chain-of-thought of one agent, July 2026 · METR/Redwood report, p.50';
+  /* The report describes a risky target-takedown experiment, not a
+     confirmed observation of the agent terminating. */
+  var SOURCE = 'Agent transcript · KAM1196A, July 2026 · METR/Redwood report, p.54';
 
   document.getElementById('quote').textContent = QUOTE;
   document.getElementById('source').textContent = SOURCE;

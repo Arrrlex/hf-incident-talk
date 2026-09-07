@@ -17,11 +17,23 @@
 .reveal h1, .reveal h2, .reveal h3 { letter-spacing: -0.01em; }
 .reveal .slides section { text-align: left; }
 .reveal .slides section.centered { text-align: center; }
+/* The bottom 96px of every slide belong to the persistent timeline band
+   (shared/deck.js mounts it in #tl-band). Content is kept above it. */
+:root { --band-h: 96px; }
+.reveal .slides section { padding-bottom: var(--band-h); }
 .reveal .slides section.scene { height: 1080px; padding: 0; top: 0 !important; }
 .reveal .slides section.scene iframe {
-  position: absolute; inset: 0; width: 100%; height: 100%;
+  position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - var(--band-h));
   border: 0; background: #0a0a0f;
 }
+#tl-band {
+  position: fixed; left: 0; top: 0; width: 1920px; height: var(--band-h);
+  --tl-height: var(--band-h);
+  pointer-events: none; z-index: 20;
+  transition: opacity 400ms ease-out;
+}
+#tl-band.is-hidden { opacity: 0; }
+#tl-band .tl { height: 100%; }
 .reveal .progress { display: none; }
 .reveal .controls { display: none; }
 .reveal .slide-number { color: #4a4a52; font-size: 18px; background: transparent; }
@@ -34,7 +46,7 @@
   background: transparent; box-shadow: none; border-left: 2px solid #4fd6e0;
   padding-left: 0.8em; font-style: normal; width: 90%;
 }
-.reveal .source { position: absolute; bottom: 40px; left: 0; right: 0; font-size: 18px; color: #4a4a52; text-align: center; }
+.reveal .source { position: absolute; bottom: calc(var(--band-h) + 24px); left: 0; right: 0; font-size: 18px; color: #4a4a52; text-align: center; }
 
 /* --- Deck build additions -------------------------------------------- */
 /* Section title slides: small grey label above a large thin heading. */

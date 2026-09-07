@@ -2,3 +2,4 @@
 node_modules/
 recordings/*.mov
 recordings/*.mp4
+dist/

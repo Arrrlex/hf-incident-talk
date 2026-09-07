@@ -54,6 +54,9 @@ Two ways to make sure a broken laptop or browser cannot break the talk.
 
 ### (a) PDF export of the deck
 
+The quickest route is `uv run scripts/export.py --pdf` (see Exporting below). The manual route:
+
+
 Open `index.html?print-pdf` in Chrome, then File → Print, destination "Save as PDF", landscape, margins none, background graphics on. This is reveal.js's standard print route. Scene slides come out as black frames in the PDF (they are live iframes), so pair the PDF with the recordings below.
 
 ### (b) MP4 recordings of each scene
@@ -83,12 +86,23 @@ To swap a recording in for a scene on the night, replace that scene's `<section>
 </section>
 ```
 
+## Exporting
+
+`uv run scripts/export.py` writes three files to `dist/` (gitignored):
+
+- `hf-incident-talk.html`: one self-contained copy of the deck that runs from a double-click anywhere. reveal, fonts, scripts and all the scenes are inlined; the speaker view and hash links still work.
+- `hf-incident-talk.pdf`: one 1920×1080 page per slide. Each scene slide is replaced by a screenshot of the scene at the beat it shows in the talk (the Silence and the Sacrifice use the beat before their black ending).
+- `hf-incident-talk-notes.md`: the speaker notes as a printable script.
+
+`--html` or `--pdf` builds one of them. `--scene-beat 03-silence.html=2` picks a different beat for a scene. Needs `uv` and Google Chrome; a full run takes about a minute. Known limit: the timeline band is not in the PDF. Details in `scripts/README.md`.
+
 ## Repo layout
 
 - `index.html` — the deck (reveal.js). Slides plus speaker notes.
 - `deck/deck.css` — deck styling on top of reveal's black theme, in the PauseAI scheme (black, orange `#ff9416`, pale orange `#ffc480`, white; red only for the act-three lines).
 - `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `06-sacrifice.html` — the standalone story scenes the deck embeds.
 - `05-escalation.html`, `08-awareness.html` — the two meters (built on `shared/ladder.js`), embedded one rung at a time.
+- `scripts/export.py` — builds the standalone HTML, the PDF and the notes file into `dist/`.
 - `07-timeline.html` — standalone preview of the timeline band (`shared/timeline.js`); not a slide in the talk.
 - `assets/` — the AI Safety Berlin and PauseAI logo files used on the title and end slides, with `BRAND.md` (palette and sources).
 - `00-robot-test.html` — test page for the robot/light component.

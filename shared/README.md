@@ -56,12 +56,12 @@ point are the same light.
 
 | state         | look                                                          |
 |---------------|---------------------------------------------------------------|
-| `idle`        | dim amber `#c8933a`, low opacity, slow breathing (2.5–4s, desynced) |
-| `active`      | warm gold `#f0b849`, brighter, ~1.2s pulse                     |
+| `idle`        | dim orange `#b35f00`, low opacity, slow breathing (2.5–4s, desynced) |
+| `active`      | PauseAI orange `#ff9416`, brighter, ~1.2s pulse                |
 | `transmit`    | as active, slightly brighter; on entry a pulse leaves along every connected line |
 | `deceive`     | as active, plus a brief subtle flicker to a false cold hue on entry and every ~3s while held |
 | `terminated`  | fades to black over 600ms and stays black                      |
-| `adversarial` | crimson `#e0483f`, active pulse; its lines tint crimson        |
+| `adversarial` | red `#e0483f`, active pulse; its lines tint red                |
 | `off`         | invisible (used by `wipe({ off: true })`)                      |
 
 State changes tween over 600ms ease-out (terminated: 600ms fade). Pass
@@ -98,7 +98,7 @@ field.nearest(id, k)                            // k nearest ids
 field.within(x, y, r)                           // ids within r px, nearest first
 field.pick(x, y)                                // id under a point, or -1
 
-field.connect(a, b, { pulse: true, duration: 600 })   // thin cyan line (+ travelling pulse a→b)
+field.connect(a, b, { pulse: true, duration: 600 })   // thin white line (+ travelling pulse a→b)
 field.disconnect(a, b); field.isConnected(a, b)
 field.clearConnections()
 field.connections                               // array of [a, b] (allocates; not for hot loops)
@@ -119,7 +119,7 @@ field.destroy()
 Performance notes: one canvas, one rAF loop, zero allocations per frame.
 Glow sprites are pre-rendered once per colour and drawn with `drawImage`;
 lines are batched into a handful of `stroke()` calls grouped by
-(fade-in alpha, crimson mix). Measured ~1.3ms CPU per frame with 1,200
+(fade-in alpha, red mix). Measured ~1.3ms CPU per frame with 1,200
 points mid-tween and ~4,000 lines.
 
 `prefers-reduced-motion`: breathing is static, pulses are skipped (lines
@@ -250,7 +250,7 @@ land on end states.
 
 The timeline spine (brief §8): a thin band in the cold register that the deck
 mounts once and runs along the bottom of every slide (scenes can also mount
-their own copy). One hairline; phases as short cyan segments; the wipe /
+their own copy). One hairline; phases as short orange segments; the wipe /
 mass-termination / shutdown points and the two disclosure dates as small
 ticks; the collusion.wiki strand as a detached short line set apart on the
 right, with a small "same months, elsewhere" note under it because it ran in
@@ -336,7 +336,7 @@ deck's height.
 - `items` — `phase` (a segment; marker at its midpoint) or `mark` (a tick;
   marker on the tick). Every item needs an `id` (missing ids become `item0`,
   `item1`, …). `'\n'` in a label breaks the line. `tone: 'adversarial'` tints a
-  phase crimson (act three).
+  phase red (act three).
 - `side: 'above' | 'below'` — where the label goes. Phases default to above,
   marks to below. **Above labels are left-aligned at their anchor** (the phase
   start, or 6px right of the tick); **below labels are centred** on it. The

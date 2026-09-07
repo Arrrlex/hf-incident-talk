@@ -248,67 +248,105 @@ land on end states.
 
 ## Timeline (timeline.js)
 
-The timeline spine (brief §8): a thin band for the top of any scene, in the
-cold register. One hairline; phases as short cyan segments (labels above);
-the wipe / mass-termination / shutdown points as small ticks (labels below);
-the collusion.wiki strand as a detached short line set apart on the right.
-A progress marker lights items up in step order, so the recurrence
-(build → wipe → build → mass termination → build → shutdown) reads at a glance.
-Standalone: depends on nothing but tokens.css for colours.
+The timeline spine (brief §8): a thin band in the cold register that the deck
+mounts once and runs along the bottom of every slide (scenes can also mount
+their own copy). One hairline; phases as short cyan segments; the wipe /
+mass-termination / shutdown points and the two disclosure dates as small
+ticks; the collusion.wiki strand as a detached short line set apart on the
+right, with a small "same months, elsewhere" note under it because it ran in
+parallel with civilisation one rather than after it. A quiet caption at the far
+left ("what is known so far") says this is the timeline of what is known — there
+has been no comprehensive independent investigation.
+
+Items are lit **by id, in any order** — the talk opens with the wiki strand and
+only then walks the three OpenAI boards — and a marker sits on the most
+recently lit item. Standalone: depends on nothing but tokens.css for colours.
 
 ```html
 <script src="shared/timeline.js"></script>                <!-- window.Timeline -->
 ...
-<div class="stage"><div class="safe">
-  <div id="timeline" style="position:absolute;left:0;right:0;top:0"></div>
-  <!-- the scene's own content below it -->
-</div></div>
+<div id="tl-band" style="--tl-height: 96px"></div>        <!-- the deck's band, bottom of every slide -->
 ```
 
 ```js
-var tl = Timeline.create(document.getElementById('timeline'), {
+var tl = Timeline.create(document.getElementById('tl-band'), {
   data: Timeline.DEFAULT_DATA,   // default; see below
-  step: 0,                       // initial step
+  lit: ['wiki'],                 // initial lit ids (or `step: n` for the legacy prefix)
   mainWidth: 0.82,               // fraction of the container for the dated strand
   detachedWidth: 0.14            // fraction for the detached strand (the rest is the gap)
 });
-tl.setStep(i);                  // light items 0..i-1, marker on item i-1; step 0 = nothing lit
+tl.setLit(['wiki', 'board1']);          // light exactly these ids; marker on the LAST one
+tl.setLit([]);                          // nothing lit, marker hidden
+tl.setLit(ids, { animate: false });
+tl.lit;                                 // current lit ids, in the order given
+tl.ids;                                 // all ids in item order (detached last)
+
+tl.setStep(i);                          // legacy: light the first i ids in item order; step 0 = nothing lit
 tl.setStep(i, { animate: false });
 tl.next(); tl.prev();
-tl.step; tl.steps;              // current step, total number of steps (items + detached + 1)
-tl.el;                          // the <div class="tl"> (76px tall, 100% wide)
+tl.step; tl.steps;                      // number of lit items; total steps (items + detached + 1)
+tl.el;                                  // the <div class="tl">
 tl.destroy();
 ```
 
-The band is 76px tall and positioned entirely in % of its container's width,
-so it needs no measuring and survives `.stage` scaling and resizes. Drive it
-from the scene's `goTo` — either one beat per step (see `07-timeline.html`)
-or by calling `tl.setStep(n)` at whichever beats the scene wants to move it.
+Ids in `DEFAULT_DATA`, in item order: `board1`, `wipe1`, `board2`, `death`,
+`board3`, `shutdown`, `hf-disclose`, `oai-disclose`, then the detached `wiki`.
+Unknown ids passed to `setLit` are dropped with a `console.warn`. Duplicate
+ids in the list are lit once. `tl.el` carries `data-lit="wiki,board1"` and
+`data-step="2"` for CSS hooks and tests.
+
+### Size
+
+Height comes from the CSS variable `--tl-height` (default 76px; the deck sets
+96px on `#tl-band`). Everything is positioned in % of the container's width and
+relative to the band's vertical centre, so it needs no measuring, survives
+`.stage` / reveal scaling, and lays out correctly at both 76 and 96. Above
+labels sit on `bottom: calc(50% + 10px)`, below labels on `top: calc(50% + 11px)`,
+and the caption on `top: calc(50% - 38px)` (the top edge of a 76px band).
+
+`07-timeline.html` shows the band alone: beat `i` = `setStep(i)`; `?lit=wiki,board1`
+lights exactly those ids on load (for testing `setLit`); `?h=96` previews the
+deck's height.
 
 ### Data
 
 ```js
 {
-  axis: { start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.30, end: '2026-07-26' },
-  items: [                                            // in step order
-    { kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
-    { kind: 'mark',  at: '2026-07-06', label: '6 Jul · wiped' },
-    { kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
+  caption: 'what is known so far',                    // optional; small dim label, far left, above the line
+  axis: { start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.12, end: '2026-07-28' },
+  items: [                                            // item order = setStep() order
+    { id: 'board1', kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
+    { id: 'wipe1',  kind: 'mark',  at: '2026-07-06', label: '6 Jul · wiped' },
+    { id: 'board3', kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
+    { id: 'hf-disclose', kind: 'mark', at: '2026-07-16', label: '16 Jul · Hugging Face\ndiscloses a breach', side: 'above' },
     ...
   ],
-  detached: { label: '11 May–2 Jul · collusion.wiki\n(separate swarm)' }   // optional; lit at the last step
+  detached: {                                         // optional; lit by its id, last in setStep() order
+    id: 'wiki',
+    label: '11 May–2 Jul · collusion.wiki\n(separate swarm)',
+    note: 'same months, elsewhere'                    // optional; quiet 12px line under the strand
+  }
 }
 ```
 
 - `axis` — dates are `YYYY-MM-DD`. With `pivot`, the axis is piecewise linear:
   `start…pivot` occupies the first `pivotAt` of the strand and `pivot…end` the
-  rest (the default compresses May–early July so the July fortnight has room).
-  Omit `pivot` for a linear axis.
-- `items` — `phase` (a segment, label above, marker at its midpoint) or `mark`
-  (a tick, label below, marker on the tick). `'\n'` in a label breaks the line.
-  `tone: 'adversarial'` tints a phase crimson (act three).
-- `detached` — drawn on its own short hairline, not on the shared axis.
+  rest (the default compresses May–early July into 12% so the July weeks have
+  room). Omit `pivot` for a linear axis.
+- `items` — `phase` (a segment; marker at its midpoint) or `mark` (a tick;
+  marker on the tick). Every item needs an `id` (missing ids become `item0`,
+  `item1`, …). `'\n'` in a label breaks the line. `tone: 'adversarial'` tints a
+  phase crimson (act three).
+- `side: 'above' | 'below'` — where the label goes. Phases default to above,
+  marks to below. **Above labels are left-aligned at their anchor** (the phase
+  start, or 6px right of the tick); **below labels are centred** on it. The
+  default data puts the two disclosure marks above so the crowded 12–21 Jul
+  stretch stays legible at 1920 wide.
+- `detached` — drawn on its own short hairline, not on the shared axis. Its
+  `note` is rendered under the line at 12px, dimmer than the labels, and stays
+  dim when lit.
 
-`Timeline.DEFAULT_DATA` holds the verified phases from FACTS.md §5 (the
-"May–Jun" phase segment starts at the first board note, 12 May).
+`Timeline.DEFAULT_DATA` holds the verified dates from FACTS.md §5 (the
+"May–Jun" phase segment starts at the first board note, 12 May; the
+disclosure marks are from the "Discovery & disclosure" list).
 `prefers-reduced-motion` disables the 400ms transitions.

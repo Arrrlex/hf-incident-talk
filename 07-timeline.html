@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="shared/fonts.css">
 <style>
   /* The recurrence at a glance: the band alone, set at the vertical centre
-     because nothing else shares this slide. Sits at the top when dropped into
-     another scene (see shared/README.md). */
+     because nothing else shares this slide. In the deck it runs along the
+     bottom of every slide at 96px (see shared/README.md); ?h=96 previews that. */
   #timeline { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); }
   .help { position: absolute; left: 0; bottom: 0; font-size: 13px; color: var(--text-dim); line-height: 1.7; opacity: .6; }
 </style>
@@ -31,15 +31,25 @@
   'use strict';
   if (Scene.embedded) document.getElementById('help').hidden = true;
   else document.body.classList.add('show-cursor');
+  var hParam = /[?&]h=(\d+)/.exec(location.search);   // ?h=96 previews the deck's band height
+  if (hParam) document.getElementById('timeline').style.setProperty('--tl-height', hParam[1] + 'px');
   Scene.fitStage(document.getElementById('stage'));
 
   var tl = Timeline.create(document.getElementById('timeline'), { data: Timeline.DEFAULT_DATA });
 
-  // One beat per timeline step; beat 0 is the unlit skeleton.
+  // ?lit=wiki,board1 lights exactly those ids (any order, marker on the last)
+  // for testing setLit; the beats below still work once you press a key.
+  var litParam = /[?&]lit=([^&#]*)/.exec(location.search);
+  var litIds = litParam ? decodeURIComponent(litParam[1]).split(',').map(function (s) { return s.trim(); }).filter(Boolean) : null;
+
+  // One beat per timeline step (beat i = setStep(i)); beat 0 is the unlit skeleton.
   var scene = Scene.create({
     name: 'timeline',
     beats: tl.steps,
-    goTo: function (index, o) { tl.setStep(index, { animate: o.animate }); }
+    goTo: function (index, o) {
+      if (litIds) { tl.setLit(litIds, { animate: false }); litIds = null; return; }   // first render only
+      tl.setStep(index, { animate: o.animate });
+    }
   });
 
   window.tl = tl; window.scene = scene;   // for poking at in the console

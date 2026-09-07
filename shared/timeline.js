@@ -1,16 +1,24 @@
 /* ==========================================================================
    timeline.js — the timeline spine (brief §8).
 
-   A thin horizontal band for the top of any scene, in the cold register: one
-   hairline, phases as short cyan segments above it, the wipe / termination /
-   shutdown points as small ticks, and the collusion.wiki strand as a detached
-   short line set apart on the right. A progress marker the scene advances
-   lights the items up in order, so the recurrence (build → wipe → build →
-   mass termination → build → shutdown) reads at a glance.
+   A thin horizontal band, in the cold register, that runs along the bottom
+   of every slide of the talk (the deck mounts it once; scenes may also mount
+   their own copy): one hairline, phases as short cyan segments above it, the
+   wipe / termination / shutdown / disclosure points as small ticks, and the
+   collusion.wiki strand as a detached short line set apart on the right.
+   Items are lit BY ID, in any order (the talk opens with the wiki strand and
+   only then walks the three OpenAI boards), so the recurrence
+   (build → wipe → build → mass termination → build → shutdown) reads at a
+   glance whatever the running order. A marker sits on the most recently lit
+   item.
+
+   It is the timeline of what is KNOWN — the small caption at the far left
+   says so, because there has been no comprehensive independent investigation.
 
    Orientation only, not a data viz. Everything is positioned in % of the
-   container's width, so the band can be dropped into any container inside
-   a .stage without measuring anything. Nothing here advances on a timer.
+   container's width and relative to the band's vertical centre, so it can be
+   dropped into any container at any height (--tl-height, default 76px)
+   without measuring anything. Nothing here advances on a timer.
 
    Classic script, no modules: sets window.Timeline. See shared/README.md.
    ========================================================================== */
@@ -21,33 +29,41 @@
   function reducedMotion() { return !!(rmMQ && rmMQ.matches); }
 
   /* ---------------------------------------------------------------------
-     Default data — dates from FACTS.md §5 only. Items are in step order.
-     Labels may contain '\n' for a manual line break (keeps neighbours from
-     colliding in the crowded July stretch).
+     Default data — dates from FACTS.md §5 only. Item order is the legacy
+     step order used by setStep(); the deck lights by id instead.
+     Labels may contain '\n' for a manual line break. `side` puts a label
+     above or below the line (phases default above, marks below); above
+     labels are left-aligned at their anchor, below labels are centred on
+     it. Sides here are chosen so nothing collides at 1920 wide.
      --------------------------------------------------------------------- */
   var DEFAULT_DATA = {
+    caption: 'what is known so far',
     /* Piecewise-linear axis: May–early July is compressed into the first
-       30% of the strand so the fortnight that matters has room to breathe. */
-    axis: { start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.30, end: '2026-07-26' },
+       12% of the strand so the July weeks that matter have room to breathe. */
+    axis: { start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.12, end: '2026-07-28' },
     items: [
-      { kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
-      { kind: 'mark',  at: '2026-07-06', label: '6 Jul · wiped' },
-      { kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nboard #2 · Hugging Face' },
-      { kind: 'mark',  at: '2026-07-12', label: '12 Jul · mass termination\n(cause unknown)' },
-      { kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
-      { kind: 'mark',  at: '2026-07-19', label: '19–25 Jul · shutdown' }
+      { id: 'board1',   kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
+      { id: 'wipe1',    kind: 'mark',  at: '2026-07-06', label: '6 Jul · wiped' },
+      { id: 'board2',   kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nboard #2 · Hugging Face' },
+      { id: 'death',    kind: 'mark',  at: '2026-07-12', label: '12 Jul · mass termination\n(cause unknown)' },
+      { id: 'board3',   kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
+      { id: 'shutdown', kind: 'mark',  at: '2026-07-19', label: '19–25 Jul · shutdown' },
+      /* How the humans found out (FACTS.md §5, "Discovery & disclosure"). */
+      { id: 'hf-disclose',  kind: 'mark', at: '2026-07-16', label: '16 Jul · Hugging Face\ndiscloses a breach', side: 'above' },
+      { id: 'oai-disclose', kind: 'mark', at: '2026-07-21', label: '21 Jul · OpenAI\ndiscloses', side: 'above' }
     ],
-    /* Separate, probably-distinct swarm (FACTS.md §9). Not on the shared axis. */
-    detached: { label: '11 May–2 Jul · collusion.wiki\n(separate swarm)' }
+    /* Separate, probably-distinct swarm (FACTS.md §9). Ran in parallel with
+       civilisation one (11 May–2 Jul) but is not on the shared axis. */
+    detached: { id: 'wiki', label: '11 May–2 Jul · collusion.wiki\n(separate swarm)', note: 'same months, elsewhere' }
   };
 
   var CSS = [
-    '.tl{position:relative;height:76px;font:13px/16px ui-monospace,"JetBrains Mono","SF Mono",Menlo,monospace;',
+    '.tl{position:relative;height:var(--tl-height,76px);font:13px/16px ui-monospace,"JetBrains Mono","SF Mono",Menlo,monospace;',
     '  color:var(--text-dim,#8a8b92);letter-spacing:.02em;white-space:nowrap;pointer-events:none}',
     '.tl *{box-sizing:border-box}',
     '.tl-strand{position:absolute;top:0;height:100%}',
     '.tl-line{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--text-dim,#8a8b92);opacity:.35}',
-    '.tl-phase{position:absolute;top:50%;height:3px;margin-top:-1px;background:var(--line,#4fd6e0);opacity:.22;',
+    '.tl-phase{position:absolute;top:50%;height:3px;margin-top:-1px;background:var(--light-active,#ff9416);opacity:.22;',
     '  transition:opacity 400ms cubic-bezier(.22,.61,.36,1)}',
     '.tl-phase.tone-adversarial{background:var(--adversarial,#e0483f)}',
     '.tl-mark{position:absolute;top:50%;width:1.5px;height:14px;margin:-7px 0 0 -.75px;background:var(--text,#e8e8ea);opacity:.3;',
@@ -56,10 +72,16 @@
     '.tl-label.above{bottom:calc(50% + 10px)}',
     '.tl-label.below{top:calc(50% + 11px);transform:translateX(-50%);text-align:center}',
     '.tl-label div{display:block}',
+    /* The "what is known" caption: quiet, far left, above the line. Sits at
+       the top edge of a 76px band and 10px down in a 96px one. */
+    '.tl-caption{position:absolute;left:0;top:calc(50% - 38px);font-size:12px;line-height:12px;letter-spacing:.06em;opacity:.38}',
+    /* The detached strand's "same months, elsewhere" note: quieter still. */
+    '.tl-note{font-size:12px;line-height:14px;opacity:.3}',
     '.is-past .tl-phase,.is-current .tl-phase{opacity:.85}',
     '.is-past .tl-mark,.is-current .tl-mark{opacity:1}',
     '.is-past .tl-label{opacity:1}',
     '.is-current .tl-label{opacity:1;color:var(--text,#e8e8ea)}',
+    '.is-past .tl-note,.is-current .tl-note{opacity:.55;color:var(--text-dim,#8a8b92)}',
     '.tl-marker{position:absolute;top:50%;width:7px;height:7px;margin:-3px 0 0 -3.5px;border-radius:50%;',
     '  background:var(--text,#e8e8ea);opacity:0;transition:left 400ms cubic-bezier(.22,.61,.36,1),opacity 400ms}',
     '.tl-marker.is-on{opacity:1}',
@@ -112,7 +134,7 @@
   function pct(f) { return (f * 100).toFixed(3) + '%'; }
 
   /* ---------------------------------------------------------------------
-     Timeline.create(containerEl, { data, step, mainWidth, detachedWidth })
+     Timeline.create(containerEl, { data, step, lit, mainWidth, detachedWidth })
      --------------------------------------------------------------------- */
   function create(container, opts) {
     if (!container) throw new Error('Timeline.create: a container element is required');
@@ -125,18 +147,30 @@
     var detW = opts.detachedWidth !== undefined ? opts.detachedWidth : (detached ? 0.14 : 0);
     var scale = makeScale(data.axis);
     var SEG_INSET = 3;   // px trimmed off each end of a phase so touching phases stay distinct
+    var TICK_GAP = 6;    // px between a tick and its label when the label sits above (left-aligned)
 
     var root = div('tl');
     container.appendChild(root);
+
+    if (data.caption) div('tl-caption', root).textContent = data.caption;
 
     // Main strand
     var main = div('tl-strand', root);
     main.style.left = '0'; main.style.width = pct(mainW);
     div('tl-line', main);
 
-    // Each step lights one item; anchors are in % of the whole container.
-    var steps = [];   // [{ el, anchor }]
-    items.forEach(function (it) {
+    // Items are addressed by id; `order` is the legacy step order (items, then
+    // the detached strand). Anchors are in % of the whole container.
+    var byId = {};    // id -> { el, anchor }
+    var order = [];
+    function register(id, el, anchor) {
+      id = String(id);
+      if (byId[id]) console.warn('Timeline: duplicate item id "' + id + '"');
+      byId[id] = { el: el, anchor: anchor };
+      order.push(id);
+    }
+
+    items.forEach(function (it, i) {
       var wrap = div('tl-item', main);
       var anchor;
       if (it.kind === 'phase') {
@@ -144,19 +178,24 @@
         var seg = div('tl-phase' + (it.tone ? ' tone-' + it.tone : ''), wrap);
         seg.style.left = 'calc(' + pct(a) + ' + ' + SEG_INSET + 'px)';
         seg.style.width = 'calc(' + pct(b - a) + ' - ' + (2 * SEG_INSET) + 'px)';
-        var lb = label(it.label, 'above', wrap);
-        lb.style.left = pct(a);
+        var side = it.side === 'below' ? 'below' : 'above';
+        var lb = label(it.label, side, wrap);
+        lb.style.left = side === 'below' ? pct((a + b) / 2) : pct(a);
         anchor = (a + b) / 2 * mainW;
       } else {
         var x = scale(it.at);
         div('tl-mark', wrap).style.left = pct(x);
-        label(it.label, 'below', wrap).style.left = pct(x);
+        var mside = it.side === 'above' ? 'above' : 'below';
+        var ml = label(it.label, mside, wrap);
+        ml.style.left = mside === 'above' ? 'calc(' + pct(x) + ' + ' + TICK_GAP + 'px)' : pct(x);
         anchor = x * mainW;
       }
-      steps.push({ el: wrap, anchor: anchor });
+      register(it.id !== undefined ? it.id : 'item' + i, wrap, anchor);
     });
 
-    // Detached strand (the separate swarm), set apart on the right.
+    // Detached strand (the separate swarm), set apart on the right. It ran
+    // in parallel with the main strand's early months, so it carries a small
+    // note rather than a position on the axis.
     if (detached) {
       var det = div('tl-strand tl-item', root);
       det.style.right = '0'; det.style.width = pct(detW);
@@ -164,53 +203,84 @@
       var dseg = div('tl-phase', det);
       dseg.style.left = '6%'; dseg.style.width = '88%';
       label(detached.label, 'above', det).style.left = '0';
-      steps.push({ el: det, anchor: 1 - detW / 2 });
+      if (detached.note) {
+        var note = label(detached.note, 'below', det);
+        note.classList.add('tl-note');
+        note.style.left = '50%';
+      }
+      register(detached.id !== undefined ? detached.id : 'detached', det, 1 - detW / 2);
     }
 
     var marker = div('tl-marker', root);
 
-    var step = 0;
-    var total = steps.length + 1;   // step 0 = nothing lit
+    var lit = [];   // ids currently lit, in the order given; the last one carries the marker
 
     function render(animate) {
       if (!animate) root.classList.add('no-anim');
-      for (var i = 0; i < steps.length; i++) {
-        var el = steps[i].el;
-        el.classList.toggle('is-past', i < step - 1);
-        el.classList.toggle('is-current', i === step - 1);
-      }
-      if (step > 0) {
-        marker.style.left = pct(steps[step - 1].anchor);
+      var last = lit.length ? lit[lit.length - 1] : null;
+      var on = {};
+      lit.forEach(function (id) { on[id] = true; });
+      order.forEach(function (id) {
+        var el = byId[id].el;
+        el.classList.toggle('is-past', !!on[id] && id !== last);
+        el.classList.toggle('is-current', id === last);
+      });
+      if (last !== null) {
+        marker.style.left = pct(byId[last].anchor);
         marker.classList.add('is-on');
       } else {
         marker.classList.remove('is-on');
       }
-      root.setAttribute('data-step', String(step));
+      root.setAttribute('data-step', String(lit.length));
+      root.setAttribute('data-lit', lit.join(','));
       if (!animate) {
         void root.offsetWidth;                 // flush with transitions off
         requestAnimationFrame(function () { root.classList.remove('no-anim'); });
       }
     }
 
+    function wantAnimate(o) { return !(o && o.animate === false) && !reducedMotion(); }
+
     var tl = {
       el: root,
       data: data,
-      get step() { return step; },
-      get steps() { return total; },
-      /** Light items 0..i-1 (i-1 being "current") and move the marker there. */
-      setStep: function (i, o) {
-        step = Math.max(0, Math.min(total - 1, i | 0));
-        var animate = !(o && o.animate === false) && !reducedMotion();
-        render(animate);
+      /** Ids in item order (detached last) — the order setStep() walks. */
+      get ids() { return order.slice(); },
+      /** Ids currently lit, in the order they were given. */
+      get lit() { return lit.slice(); },
+      /** Number of lit items (equals i after setStep(i)). */
+      get step() { return lit.length; },
+      get steps() { return order.length + 1; },
+      /**
+       * Light exactly the items whose ids are listed (everything else unlit)
+       * and put the marker on the last id. An empty array clears the band.
+       * Unknown ids are dropped with a console warning.
+       */
+      setLit: function (ids, o) {
+        var seen = {}, next = [];
+        (ids || []).forEach(function (id) {
+          id = String(id);
+          if (!byId[id]) { console.warn('Timeline.setLit: unknown id "' + id + '"'); return; }
+          if (seen[id]) return;
+          seen[id] = true;
+          next.push(id);
+        });
+        lit = next;
+        render(wantAnimate(o));
         return tl;
       },
-      next: function (o) { return tl.setStep(step + 1, o); },
-      prev: function (o) { return tl.setStep(step - 1, o); },
+      /** Legacy: light the first i items in item order (detached last); step 0 = nothing lit. */
+      setStep: function (i, o) {
+        i = Math.max(0, Math.min(order.length, i | 0));
+        return tl.setLit(order.slice(0, i), o);
+      },
+      next: function (o) { return tl.setStep(lit.length + 1, o); },
+      prev: function (o) { return tl.setStep(lit.length - 1, o); },
       destroy: function () { if (root.parentNode) root.parentNode.removeChild(root); }
     };
 
-    step = Math.max(0, Math.min(total - 1, (opts.step | 0)));
-    render(false);
+    if (opts.lit) tl.setLit(opts.lit, { animate: false });
+    else tl.setStep(opts.step | 0, { animate: false });
     return tl;
   }
 

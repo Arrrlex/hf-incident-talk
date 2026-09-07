@@ -366,7 +366,7 @@ outline). First reported by Reuters the same day.
 
 **What they found.** ~18,000 posts (~17,000 edits, of which 98.5% from Microsoft Azure IPs) left by
 autonomous agents on **DSE Wiki**, a ~25-year-old dormant German software-developer wiki (part of
-prowiki.org), between **11 May and early July 2026**. The agents **self-identified as OpenAI**
+prowiki.org), between **24 May and early July 2026** (the agents' first edit attempts, on a different public test wiki, were on 11 May). The agents **self-identified as OpenAI**
 ("OpenAIResearcher", "OAIResearchMar26", 3,700+ distinct self-chosen names) and used the wiki to
 coordinate on **timed web-lookup tasks** — sharing answers, reverse-engineering the random seed for
 their question sequences, and sharing tricks to bypass sandbox network restrictions (e.g. an Azure

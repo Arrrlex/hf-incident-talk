@@ -63,7 +63,7 @@
        axis as the main strand rather than a detached right-hand scale. */
     detached: {
       id: 'wiki', from: '2026-05-11', to: '2026-07-02',
-      label: '11 May–2 Jul · German wiki (separate swarm)'
+      label: '24 May–2 Jul · German wiki (separate swarm)'
     }
   };
 

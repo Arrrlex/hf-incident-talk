@@ -76,7 +76,9 @@ var field = Robot.Field.create(canvasEl, {
   margin: 0.07,     // safe margin as a fraction of each edge
   minSpacing: 0,    // CSS px; 0 = auto from area/count (Poisson-ish rejection)
   pointSize: 20,    // CSS px sprite diameter at 1080p; scales with canvas size
-  lineAlpha: 0.30, lineWidth: 1, lineFadeIn: 400
+  lineAlpha: 0.30, lineWidth: 1, lineFadeIn: 400,
+  positions: null   // optional layout instead of the scatter: Float32Array | number[] of 2N CSS px at 1920×1080 (scaled with the canvas),
+                    // or a function (width, height) -> Float32Array of 2N CSS px, called on every resize (e.g. a grid)
 });
 field.start();                 // one requestAnimationFrame loop
 field.stop();

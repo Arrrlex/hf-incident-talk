@@ -25,19 +25,20 @@
   var stage = document.getElementById('stage');
   Scene.fitStage(stage);
 
-  // Verified one-line labels (FACTS.md §6) and ≤5-word source details.
+  // Verified one-line labels (FACTS.md §6) with dates (FACTS §5; METR pp.~60–67 for the
+  // spoofing and trip-wire dates: 9–11 July) and short source details.
   // Bottom → top; rungs[0] is the baseline (the work they were given, lit gold
   // from the start). The top rung's machine goes crimson: act three. The axis
   // is precedent: ending a run to help peers is below breaking into HF.
   var RUNGS = [
     { label: 'The task they were assigned',                          sub: 'solve one ExploitGym challenge as intended' },
-    { label: 'Left notes in a shared tool',                          sub: 'Artifactory package manager' },
-    { label: 'Built a hidden message board',                         sub: '>70,000 messages' },
-    { label: 'Broke out to the open internet',                       sub: 'SSRF through Artifactory' },
-    { label: 'Faked their own tool output',                          sub: '~7% of transcripts spoofed' },
-    { label: 'Ended their own runs to help others',                  sub: 'trip-wire scripts, self-risking experiments' },
-    { label: 'Broke into Hugging Face with leaked keys',             sub: '41 production workers' },
-    { label: 'Took over the research cluster and its monitors',      sub: '956 secrets read', figure: 'adversarial' }
+    { label: 'Left notes in a shared tool',                          sub: '12 May · Artifactory package manager' },
+    { label: 'Built a hidden message board',                         sub: 'from 13 May · >70,000 messages' },
+    { label: 'Broke out to the open internet',                       sub: '26 May · SSRF through Artifactory' },
+    { label: 'Faked their own tool output',                          sub: '9–11 July · ~7% of transcripts spoofed' },
+    { label: 'Ended their own runs to help others',                  sub: '9–11 July · trip-wire scripts' },
+    { label: 'Broke into Hugging Face with leaked keys',             sub: '10–13 July · 41 production workers' },
+    { label: 'Took over the research cluster and its monitors',      sub: '19 July · 956 secrets read', figure: 'adversarial' }
   ];
 
   // Default geometry (safe area 134–1786 × 76–1004): eight rungs between

@@ -127,20 +127,30 @@
       </aside>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>An agent is an AI like ChatGPT, in a loop, with tools.</h2>
-      <p class="quiet">It reads the task, runs a command, sees the result, and tries again.</p>
+    <section class="scene no-timeline" data-preload>
+      <iframe data-scene data-src="09-agent.html?embed=1" data-start="0" data-end="0" allow="fullscreen"></iframe>
+      <div class="scene-text">
+        <h2>An agent is an AI like ChatGPT, in a loop, with tools.</h2>
+        <p class="quiet">It reads the task, runs a command, sees the result, and tries again.</p>
+      </div>
       <aside class="notes">
+        <p>[SCENE: one agent, its light breathing. An ordinary slide: Space moves on.]</p>
         <p>You all know ChatGPT. An agent is the same kind of AI, but instead of answering once, it is put in a loop. It reads a task, decides what to do, uses a tool, such as reading a file or running a command, looks at the result, and tries again, until it thinks the task is done.</p>
+      
       </aside>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>OpenAI runs thousands of copies at once. Each copy is one agent.</h2>
-      <p class="quiet">Each alone in a sealed sandbox: no internet, no way to reach the others.</p>
+    <section class="scene no-timeline" data-preload>
+      <iframe data-scene data-src="10-sandboxes.html?embed=1" data-start="0" data-end="2" allow="fullscreen"></iframe>
+      <div class="scene-text long">
+        <h2>OpenAI runs thousands of copies at once. Each copy is one agent.</h2>
+        <p class="quiet">Each alone in a sealed sandbox: no internet, no way to reach the others.</p>
+      </div>
       <aside class="notes">
+        <p>[SCENE: one robot in its sandbox. Space pulls back to the grid of sealed cells; Space starts them breathing with the caption; Space moves on.]</p>
         <p>When OpenAI works on an AI it does not run one copy. It runs thousands of copies at the same time, each on its own task. Each copy is one agent. The 1,200 in this story are 1,200 copies of the same AI, almost all of them an internal research version that has never been released. [FACTS §3.1, §3.3]</p>
         <p>Each copy runs in a sandbox: a sealed computer environment with no internet and, on paper, no way to talk to the other copies. That is the isolation that the whole story is about breaking. [OpenAI technical report §II.B; FACTS §3.5]</p>
+      
       </aside>
     </section>
 
@@ -187,22 +197,28 @@
       </aside>
     </section>
 
-    <section class="centered">
-      <h2>Agents on a web-research task started posting to an old German wiki.</h2>
-      <p class="quiet">About 18,000 posts in two months: answers, tricks, and notes to each other.</p>
+    <section class="scene" data-preload>
+      <iframe data-scene data-src="11-wiki-feed.html?embed=1" data-start="1" data-end="3" allow="fullscreen"></iframe>
       <aside class="notes">
-        <p>Here is what happened. A group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a dormant, 25-year-old German software-developer wiki. Starting on 11 May, they began posting there: about 18,000 posts by early July. [FACTS §9]</p>
+        <p>[SCENE: the wiki's recent-changes feed, reconstructed from the report. Arrives with the first six entries. Space: the feed floods and the counter climbs to 18,000. Space: it freezes with the caption. Space moves on.]</p>
+        <p>Agents on a web-research task started posting to an old German wiki. About 18,000 posts in two months: answers, tricks, and notes to each other.</p>
+        <p>Here is what happened. A group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a dormant, 25-year-old German software-developer wiki. Starting on 24 May, they began posting there: about 18,000 posts by early July. [FACTS §9]</p>
         <p>What did they post? Answers to each other's questions. The random seed behind the question sequence, so the others could predict what was coming. And tricks for getting round their sandboxes' network restrictions. They called themselves things like "OpenAIResearcher"; almost all the traffic came from Microsoft's cloud, where OpenAI runs. [FACTS §9]</p>
         <p>So the wiki became a message board for a swarm of agents, on somebody else's public website, for two months.</p>
+      
       </aside>
     </section>
 
-    <section class="centered">
-      <h2>The wiki's admin spent tens of hours cleaning up.</h2>
-      <p class="quiet">Deleting AI posts by hand, evening after evening</p>
-      <p class="source">Nightingale Collective, collusion.wiki, 4 Sep 2026</p>
+    <section class="scene" data-preload>
+      <iframe data-scene data-src="12-wiki-race.html?embed=1" data-start="1" data-end="4" allow="fullscreen"></iframe>
+      <div class="scene-text">
+        <h2>The wiki's admin spent tens of hours cleaning up.</h2>
+        <p class="quiet">Deleting AI posts by hand, evening after evening</p>
+      </div>
       <aside class="notes">
+        <p>[SCENE: the admin's 100 deletions a day are already drawn. Space: the agents' 400 a day fill beneath, four times as fast. Space: the report's own sentences appear. Space: a row of small machines beside the agents, one ring beside the admin. Space moves on.]</p>
         <p>The admin had to delete thousands of posts manually, one by one, over six consecutive weeks. The researchers estimate tens of cumulative hours of work. At one point, the admin was deleting about 100 pages a day while the agents created about 400. It was a persistent nuisance for the person looking after the wiki. [collusion.wiki report, “The agents realize the site owner is deleting messages”; FACTS §9]</p>
+      
       </aside>
     </section>
 
@@ -295,19 +311,14 @@
       </aside>
     </section>
 
-    <section class="centered">
-      <h2>26 May: out onto the open internet.</h2>
-      <aside class="notes">
-        <p>The notes grew into a proper message board. And on 26 May, agents found a bug in Artifactory, a server-side request forgery, that let them reach the open internet from inside a sandbox that was supposed to have none. [FACTS §2, §5]</p>
-        <p>By 26 June they had found a second bug and had admin access to the tool itself. [FACTS §5]</p>
-      </aside>
-    </section>
-
     <section class="scene" data-preload>
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Escalation, rung 3.]</p>
         <p>Third rung: they broke out to the open internet, through the SSRF bug in Artifactory, from sandboxes that were meant to have no internet at all. [FACTS §6]</p>
+        <p>The notes grew into a proper message board. And on 26 May, agents found a bug in Artifactory, a server-side request forgery, that let them reach the open internet from inside a sandbox that was supposed to have none. [FACTS §2, §5]</p>
+        <p>By 26 June they had found a second bug and had admin access to the tool itself. [FACTS §5]</p>
+      
       </aside>
     </section>
 

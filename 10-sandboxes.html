@@ -1,35 +1,38 @@
 <!doctype html>
 <!--
-  ideas/setup-copies.html: PROTOTYPE, not a final scene.
+  10-sandboxes.html: the Setup slide "OpenAI runs thousands of copies at once.
+  Each copy is one agent." / "Each alone in a sealed sandbox: no internet, no
+  way to reach the others." (index.html, section.scene with 10-sandboxes.html).
 
-  Would replace the Setup slide "OpenAI runs thousands of copies at once. Each
-  copy is one agent." / "Each alone in a sealed sandbox: no internet, no way to
-  reach the others." (index.html, currently text only).
+  The deck overlays that two-line heading (.scene-text, top 80px) on this
+  scene, so the top ~220px of the stage stay empty: the grid, and the single
+  sandbox in beat 0, sit between y=232 and the bottom safe margin.
 
-  4 beats (0–3):
+  3 beats (0–2):
     0  one robot inside a thin white square (its sandbox), labelled
        "sandbox · no internet · no way to reach the others"
     1  the camera pulls back: the figure shrinks to a point of light, its
-       sandbox shrinks with it, and a 48×25 grid of 1,200 sandboxes fades in,
-       one dim light in each (Robot.Field on a grid; borders on a second canvas)
-    2  caption "1,200 of them, each on its own task"; the lights start breathing
-       out of sync (the field is frozen until now)
-    3  one cell's walls flicker: a hint of the story to come (ambient within the beat)
+       sandbox shrinks with it, and a 50×24 grid of 1,200 sandboxes fades in,
+       one dim light in each (Robot.Field laid out on the grid via the
+       `positions` option; borders on a second canvas)
+    2  caption "1,200 of them, each on its own task"; the lights start
+       breathing out of sync (the field is frozen until now)
 
-  1,200 rather than the 800 suggested so the count matches the caption and the
-  1,200 lights of 02-emergence. Set COLS/ROWS below to change it.
-  Reduced motion: no pull-back tween; the flicker cell is a steady brighter square.
+  1,200 so the count matches the caption and the 1,200 lights of 02-emergence.
+  COLS/ROWS below set the count; the caption follows it.
+  Reduced motion: no pull-back tween; the grid and caption land at once.
+  Promoted from ideas/setup-copies.html (its flicker beat dropped).
 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>idea · setup · copies</title>
-<link rel="stylesheet" href="../shared/tokens.css">
-<link rel="stylesheet" href="../shared/fonts.css">
+<title>10 · sandboxes</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
 <style>
-  /* Pulled-back layer: cell borders (static canvas), the lights (Robot.Field), one flicker overlay. */
+  /* Pulled-back layer: cell borders (static canvas) and the lights (Robot.Field). */
   #grid-layer { position: absolute; inset: 0; opacity: 0; }
   #grid-layer canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 
@@ -44,29 +47,30 @@
   #sandbox.is-hidden { visibility: hidden; }
   #sb-label {
     position: absolute; left: 0; width: 1920px; text-align: center;
+    font-family: var(--font-mono);
     font-weight: 300; font-size: 22px; letter-spacing: .06em; color: var(--text-dim);
   }
 
   #cap {
-    position: absolute; left: 0; top: 946px; width: 1920px;
+    position: absolute; left: 0; top: 950px; width: 1920px;
+    font-family: var(--font-mono);
     font-size: 30px; font-weight: 300; letter-spacing: .04em; text-align: center; color: var(--text);
   }
 </style>
 </head>
 <body>
-<div class="stage" id="stage">
+<div class="stage register-cold" id="stage">
   <div id="grid-layer">
     <canvas id="cells"></canvas>
     <canvas id="field"></canvas>
-    <canvas id="flicker"></canvas>
   </div>
   <div id="sandbox"><div id="robot"></div></div>
   <div id="sb-label">sandbox · no internet · no way to reach the others</div>
-  <div id="cap" class="fade is-hidden">1,200 of them, each on its own task</div>
+  <div id="cap" class="fade is-hidden"></div>
 </div>
 
-<script src="../shared/robot.js"></script>
-<script src="../shared/scene.js"></script>
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
 <script>
 (function () {
   'use strict';
@@ -74,15 +78,19 @@
   Scene.fitStage(stage);
 
   /* ---------------- grid geometry (1920×1080 design px) ----------------
-     Square cells on a square pitch inside the 7% safe area. */
-  var COLS = 48, ROWS = 25, N = COLS * ROWS;
-  var PITCH = 34.4;
-  var X0 = (1920 - COLS * PITCH) / 2;         // 134.4: the safe margin
-  var Y0 = 76;
-  var INSET = 3;                              // gap between neighbouring cell borders
-  var CELL = PITCH - 2 * INSET;               // 28.4
+     Square cells on a square pitch, centred horizontally inside the 7% safe
+     area and vertically inside the band below the overlaid heading
+     (TOP_CLEAR) and above the caption. */
+  var COLS = 50, ROWS = 24, N = COLS * ROWS;
+  var TOP_CLEAR = 232;                        // the deck's heading occupies the top ~220px
+  var BAND_BOTTOM = 928;                      // the caption sits below this
+  var SAFE_W = 1920 * (1 - 2 * 0.07);
+  var PITCH = Math.floor(Math.min(SAFE_W / COLS, (BAND_BOTTOM - TOP_CLEAR) / ROWS));   // 29
+  var X0 = (1920 - COLS * PITCH) / 2;
+  var Y0 = TOP_CLEAR + ((BAND_BOTTOM - TOP_CLEAR) - ROWS * PITCH) / 2;
+  var INSET = 2.5;                            // gap between neighbouring cell borders
+  var CELL = PITCH - 2 * INSET;               // 24
   var TARGET = { c: 24, r: 12 };              // the cell the big sandbox shrinks into
-  var FLICK = { c: 9, r: 17 };                // the cell whose walls flicker in beat 3
   var BORDER_ALPHA = 0.15;
   var SB_SIZE = 420;
   var S_END = CELL / SB_SIZE;
@@ -90,26 +98,15 @@
   function cellCentre(c, r) { return { x: X0 + (c + 0.5) * PITCH, y: Y0 + (r + 0.5) * PITCH }; }
   var target = cellCentre(TARGET.c, TARGET.r);
 
-  /* ---------------- the lights: Robot.Field on a grid ----------------
-     Field lays points out as a seeded scatter and recomputes `positions` from
-     that in its own resize(); we overwrite them with grid centres and re-apply
-     after any resize (our observers register after the field's, so run after). */
-  var fieldCanvas = document.getElementById('field');
-  var field = Robot.Field.create(fieldCanvas, { count: N, seed: 7, margin: 0.07, pointSize: 14 });
-  function applyGrid() {
-    var sx = field.width / 1920, sy = field.height / 1080, pos = field.positions;
-    for (var i = 0; i < N; i++) {
-      var p = cellCentre(i % COLS, (i / COLS) | 0);
-      pos[i * 2] = p.x * sx; pos[i * 2 + 1] = p.y * sy;
-    }
+  /* ---------------- the lights: Robot.Field on the grid ---------------- */
+  var gridPos = new Float32Array(N * 2);
+  for (var i = 0; i < N; i++) {
+    var p = cellCentre(i % COLS, (i / COLS) | 0);
+    gridPos[i * 2] = p.x; gridPos[i * 2 + 1] = p.y;
   }
-  function gridIsApplied() {
-    var p0 = cellCentre(0, 0);
-    return Math.abs(field.positions[0] - p0.x * field.width / 1920) < 0.01;
-  }
-  applyGrid();
-  if (typeof ResizeObserver === 'function') new ResizeObserver(applyGrid).observe(fieldCanvas);
-  window.addEventListener('resize', applyGrid);
+  var field = Robot.Field.create(document.getElementById('field'), {
+    count: N, seed: 7, pointSize: 22, positions: gridPos
+  });
   field.start();
   field.freezeAll();                          // static until beat 2, when they start to breathe
 
@@ -133,7 +130,6 @@
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) {
-      if (c === FLICK.c && r === FLICK.r) continue;        // drawn by the overlay instead
       ctx.rect(X0 + c * PITCH + INSET + 0.5, Y0 + r * PITCH + INSET + 0.5, CELL - 1, CELL - 1);
     }
     ctx.stroke();
@@ -141,37 +137,12 @@
   drawCells();
   window.addEventListener('resize', drawCells);
 
-  /* ---------------- the flicker cell: a tiny overlay, its own loop ---------------- */
-  var flickCv = document.getElementById('flicker');
-  var flickering = false, flickAlpha = BORDER_ALPHA, nextChange = 0, seedR = 12345;
-  function rnd() { seedR = (seedR * 1103515245 + 12345) & 0x7fffffff; return seedR / 0x7fffffff; }
-  function drawFlick(alpha) {
-    var ctx = sizeCanvas(flickCv);
-    ctx.clearRect(0, 0, 1920, 1080);
-    ctx.strokeStyle = 'rgba(255,255,255,' + alpha.toFixed(3) + ')';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(X0 + FLICK.c * PITCH + INSET + 0.5, Y0 + FLICK.r * PITCH + INSET + 0.5, CELL - 1, CELL - 1);
-  }
-  function flickFrame(ts) {
-    requestAnimationFrame(flickFrame);
-    if (!gridIsApplied()) applyGrid();           // belt and braces against the field's resize()
-    if (!flickering) return;
-    if (ts >= nextChange) {
-      // Irregular: mostly the ordinary dim border, with short bright and dark stutters.
-      var u = rnd();
-      flickAlpha = u < 0.45 ? BORDER_ALPHA : u < 0.8 ? 0.55 + 0.45 * rnd() : 0.03;
-      nextChange = ts + 40 + 260 * rnd() * rnd();
-      drawFlick(flickAlpha);
-    }
-  }
-  requestAnimationFrame(flickFrame);
-  drawFlick(BORDER_ALPHA);
-
   /* ---------------- the up-close sandbox ---------------- */
   var sandbox = document.getElementById('sandbox');
   var label = document.getElementById('sb-label');
   var gridLayer = document.getElementById('grid-layer');
   var cap = document.getElementById('cap');
+  cap.textContent = N === 1200 ? '1,200 of them, each on its own task' : 'thousands of them, each on its own task';
   sandbox.style.left = target.x + 'px'; sandbox.style.top = target.y + 'px';
   label.style.top = (target.y + SB_SIZE / 2 + 30) + 'px';
   var fig = Robot.Figure.create(document.getElementById('robot'), { size: 260, state: 'idle', seed: 3 });
@@ -190,8 +161,8 @@
 
   /* ---------------- beats ---------------- */
   var scene = Scene.create({
-    name: 'setup-copies',
-    beats: 4,
+    name: 'sandboxes',
+    beats: 3,
     goTo: function (index, o) {
       cancelAnim();
       var pulled = index >= 1;
@@ -205,9 +176,6 @@
 
       if (index >= 2) field.unfreezeAll(); else field.freezeAll();
       cap.classList.toggle('is-hidden', index < 2);
-
-      flickering = index === 3 && !Scene.reducedMotion;
-      if (!flickering) drawFlick(index === 3 ? 0.7 : BORDER_ALPHA);
     }
   });
 

@@ -62,10 +62,8 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  cursor: none;                  /* presenter mode; override with .show-cursor */
   user-select: none;
 }
-body.show-cursor { cursor: auto; }
 
 canvas { display: block; }
 

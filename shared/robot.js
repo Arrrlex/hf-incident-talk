@@ -133,6 +133,15 @@
     var lineWidth = opts.lineWidth || 1;              // CSS px
     var lineAlpha = opts.lineAlpha === undefined ? 0.30 : opts.lineAlpha;
     var lineFadeIn = opts.lineFadeIn === undefined ? 400 : opts.lineFadeIn;
+    // Optional layout instead of the seeded scatter: 2N CSS px at the 1920×1080
+    // design size (scaled with the canvas), or a function (width, height) that
+    // returns 2N CSS px and is called on every resize.
+    var givenPos = opts.positions || null;
+    var posFn = typeof givenPos === 'function' ? givenPos : null;
+    var DESIGN_W = 1920, DESIGN_H = 1080;
+    if (givenPos && !posFn && givenPos.length < count * 2) {
+      throw new Error('Robot.Field: positions needs ' + (count * 2) + ' values, got ' + givenPos.length);
+    }
 
     var ctx = canvas.getContext('2d', { alpha: true });
     var spr = getSprites();
@@ -187,8 +196,21 @@
     var W = 0, H = 0, dpr = 1, unit = 1, pointSize = 20;
     var fps = 0, fpsAcc = 0, fpsN = 0, fpsLast = 0;
 
+    /* --- layout: given positions (opts.positions) -------------------- */
+    // Only the breathing phases come from the rng here; the array form is
+    // normalised against the design size so resize() scales it like the scatter.
+    function layoutGiven() {
+      var rng = makeRng(seed);
+      for (var n = 0; n < N; n++) {
+        if (!posFn) { nx[n] = givenPos[n * 2] / DESIGN_W; ny[n] = givenPos[n * 2 + 1] / DESIGN_H; }
+        periodMul[n] = 0.77 + 0.46 * rng();
+        ph[n] = rng() * TWO_PI;
+      }
+    }
+
     /* --- layout: seeded scatter with Poisson-ish rejection ------------- */
     function layout() {
+      if (givenPos) { layoutGiven(); return; }
       var rng = makeRng(seed);
       var cw = canvas.clientWidth || 1920, chh = canvas.clientHeight || 1080;
       var x0 = cw * margin, y0 = chh * margin, uw = cw * (1 - 2 * margin), uh = chh * (1 - 2 * margin);
@@ -319,6 +341,16 @@
       if (canvas.width !== bw || canvas.height !== bh) { canvas.width = bw; canvas.height = bh; }
       unit = Math.max(0.35, Math.min(W / 1920, H / 1080));
       pointSize = (pointSizeOpt || 20) * unit;
+      if (posFn) {
+        var given = posFn(W, H);
+        var m = Math.min(N, (given.length / 2) | 0);
+        if (m < N) console.warn('Robot.Field: positions() returned ' + given.length + ' values, expected ' + (N * 2));
+        for (var g = 0; g < m; g++) {
+          positions[g * 2] = given[g * 2]; positions[g * 2 + 1] = given[g * 2 + 1];
+          nx[g] = positions[g * 2] / W; ny[g] = positions[g * 2 + 1] / H;
+        }
+        return;
+      }
       for (var i = 0; i < N; i++) { positions[i * 2] = nx[i] * W; positions[i * 2 + 1] = ny[i] * H; }
     }
 

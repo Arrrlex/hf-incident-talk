@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>idea · wiki feed</title>
+<title>11 · wiki feed</title>
 <!--
-  IDEA (not a final scene): a reconstruction of DSEWiki's RecentChanges feed
-  filling up with the agents' posts. Cold register: mono list, white text,
-  pale orange only for the agent names.
+  11-wiki-feed.html: a reconstruction of DSEWiki's RecentChanges feed filling
+  up with the agents' posts. Cold register: mono list, white text, pale orange
+  only for the agent names.
 
-  Would replace the "Early signs" slide in index.html:
-    <h2>Agents on a web-research task started posting to an old German wiki.</h2>
-    (index.html ~line 191)
+  The "Early signs" scene slide in index.html (section.scene with
+  11-wiki-feed.html, beats 1–3): "Agents on a web-research task started
+  posting to an old German wiki."
 
   Beats (keypress only; ?beat=N deep links; reduced motion jumps to end states):
     0  empty feed, header "DSEWiki · RecentChanges" only
@@ -20,8 +20,14 @@
     2  the feed accelerates and scrolls: hundreds of lines flow past (the real
        entries cycled for volume; nothing invented); counter top-right climbs
        to "~18,000 posts"
-    3  the feed freezes; caption "11 May – early July 2026 · about 18,000 posts
+    3  the feed freezes; caption "24 May – early July 2026 · about 18,000 posts
        · 3,700+ agent names"
+
+  The caption starts at 24 May, the first successful write to DSEWiki
+  (collusion_wiki.md L29: "24 May First wiki write The agents make their first
+  successful write to DSEwiki"; also L160, L385). The 11 May attempt was on a
+  different wiki (publictestwiki.com, L27), so it is not part of this feed.
+  Promoted from ideas/wiki-feed.html.
 
   Every entry is verbatim from research/sources/collusion_wiki.md (the saved
   collusion.wiki report): timestamp, page name (the dse~ prefix in the explorer
@@ -37,8 +43,8 @@
     wiki name "DSEWiki" / "DSE wiki"       L15, L385;  RecentChanges page id  L391;
     URL wikiservice.at/dse/wiki.cgi        L135, L431
 -->
-<link rel="stylesheet" href="../shared/tokens.css">
-<link rel="stylesheet" href="../shared/fonts.css">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
 <style>
   #head {
     position: absolute; left: 0; right: 0; top: 0;
@@ -94,12 +100,12 @@
       <span id="counter" class="fade is-hidden"></span>
     </div>
     <div id="window"><div id="list"></div></div>
-    <div id="caption" class="fade is-hidden">11 May – early July 2026 · about 18,000 posts · 3,700+ agent names</div>
+    <div id="caption" class="fade is-hidden">24 May – early July 2026 · about 18,000 posts · 3,700+ agent names</div>
   </div>
 </div>
 
-<script src="../shared/robot.js"></script>
-<script src="../shared/scene.js"></script>
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
 <script>
 (function () {
   'use strict';

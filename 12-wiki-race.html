@@ -4,15 +4,18 @@
 <meta charset="utf-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>idea · wiki race</title>
+<title>12 · wiki race</title>
 <!--
-  IDEA (not a final scene): the wiki's administrator against the agents, as two
-  rows of small marks in the cold register. One mark = one page. The admin's
-  row is white (the human record); the agents' rows are PauseAI orange.
+  12-wiki-race.html: the wiki's administrator against the agents, as two rows
+  of small marks in the cold register. One mark = one page. The admin's row is
+  white (the human record); the agents' rows are PauseAI orange.
 
-  Would replace the "Early signs" slide in index.html:
-    <h2>The wiki's admin spent tens of hours cleaning up.</h2>
-    (index.html ~line 200)
+  The "Early signs" scene slide in index.html (section.scene with
+  12-wiki-race.html, beats 1–4): "The wiki's admin spent tens of hours
+  cleaning up." The deck overlays that two-line heading (.scene-text, top
+  80px) on this scene, so the top ~220px of the stage stay empty: the two
+  blocks start at y≈256 and the source caption sits at the bottom of the safe
+  area.
 
   Beats (keypress only; ?beat=N deep links; reduced motion jumps to end states):
     0  the two labels only
@@ -33,13 +36,16 @@
   The twelve robots in beat 4 are a visual shorthand for "many agents", not a
   count from the source; the source has "over 3,700 distinct self-given agent
   names" (L155).
+  Promoted from ideas/wiki-race.html.
 -->
-<link rel="stylesheet" href="../shared/tokens.css">
-<link rel="stylesheet" href="../shared/fonts.css">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
 <style>
+  /* Offsets are inside .safe (top edge at 75.6px): admin block at y≈256,
+     agents block at y≈486, ending ≈700; the caption starts around y≈800. */
   .block { position: absolute; left: 0; right: 0; }
-  #admin  { top: 150px; }
-  #agents { top: 380px; }
+  #admin  { top: 180px; }
+  #agents { top: 410px; }
 
   .label {
     display: flex; align-items: center; justify-content: space-between;
@@ -108,8 +114,8 @@
   </div>
 </div>
 
-<script src="../shared/robot.js"></script>
-<script src="../shared/scene.js"></script>
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
 <script>
 (function () {
   'use strict';

@@ -1,5 +1,5 @@
 /*
- * deck.js — glue between reveal.js and the standalone scene pages, plus the
+ * deck.js: glue between reveal.js and the standalone scene pages, plus the
  * persistent timeline band along the bottom of every slide.
  *
  * SCENE SLIDES
@@ -37,7 +37,7 @@
   const PASS_THROUGH = new Set(['r', 'R', 'h', 'H']); // scene-local keys, forwarded too
   const DECK_KEYS = new Set(['f', 'F', 'Escape', 's', 'S', 'o', 'O']);
 
-  const BAND_HEIGHT = 96; // px at the 1920×1080 design size; deck.css reserves the same
+  const BAND_HEIGHT = 180; // px at the 1920×1080 design size; deck.css reserves the same
 
   let timeline = null;
 

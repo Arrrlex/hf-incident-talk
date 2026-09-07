@@ -1,5 +1,5 @@
 /* Deck-level styling on top of reveal's black theme. Scenes bring their own look.
-   Palette: PauseAI scheme (assets/BRAND.md) — black, orange #ff9416, pale orange #ffc480, white;
+   Palette: PauseAI scheme (assets/BRAND.md): black, orange #ff9416, pale orange #ffc480, white;
    red #e0483f only for the act-three lines. */
 @import url("../shared/fonts.css");
 
@@ -26,7 +26,7 @@
 .reveal .slides section.centered { text-align: center; }
 /* The bottom 96px of every slide belong to the persistent timeline band
    (shared/deck.js mounts it in #tl-band). Content is kept above it. */
-:root { --band-h: 96px; }
+:root { --band-h: 180px; }
 /* Text slides keep the 7% safe margin on the sides (134px at 1920). */
 .reveal .slides section { box-sizing: border-box; padding-bottom: var(--band-h); padding-left: 134px; padding-right: 134px; }
 .reveal .slides section.scene { height: 1080px; padding: 0; top: 0 !important; }
@@ -56,7 +56,10 @@
   background: transparent; box-shadow: none; border-left: 2px solid #ff9416;
   padding-left: 0.8em; font-style: normal; width: 90%;
 }
-.reveal .source { position: absolute; bottom: calc(var(--band-h) + 24px); left: 0; right: 0; font-size: 18px; color: #6a6a6a; text-align: center; }
+.reveal .source {
+  position: static; max-width: 90%; margin: 30px auto 0;
+  font-size: 22px; line-height: 1.4; color: #9a9a9a; text-align: left;
+}
 
 /* --- Deck build additions -------------------------------------------- */
 /* Section title slides: small grey label above a large thin heading. */
@@ -72,8 +75,16 @@
 .reveal blockquote.long { font-size: 0.95em; }
 /* Board posts are one unbroken token (directory names): let them wrap anywhere. */
 .reveal blockquote.post { font-size: 0.85em; overflow-wrap: anywhere; word-break: break-all; }
-/* Quote slides carry the .source line inside the band padding, so keep the full reserve. */
-.reveal section:has(blockquote) { padding-bottom: calc(var(--band-h) + 60px); }
+/* Sources follow their quotation in normal flow, so they cannot overlap it. */
+.reveal section:has(blockquote) { padding-bottom: var(--band-h); }
+.reveal section:has(h2) blockquote { font-size: 0.95em; margin-top: 34px; }
+.reveal section.agent-quote blockquote,
+.reveal blockquote.agent-quote { color: #ffc480; border-left: 3px dotted #ff9416; }
+.reveal section.agent-quote blockquote::before,
+.reveal blockquote.agent-quote::before {
+  content: "Agent transcript"; display: block; margin-bottom: 22px;
+  color: #ff9416; font-size: 20px; letter-spacing: 0.12em; text-transform: uppercase;
+}
 
 /* Placeholder ask slide: visibly unfinished so it does not slip through. */
 .reveal .ask .quiet { border: 1px dashed #4a4a52; padding: 0.5em 1em; display: inline-block; font-size: 0.7em; }
@@ -97,5 +108,5 @@
 .reveal .known ul { list-style: none; margin: 0; max-width: 1500px; }
 .reveal .known ul.small { font-size: 30px; line-height: 1.45; }
 .reveal .known li { position: relative; padding-left: 1.4em; margin-bottom: 0.55em; color: #d0d0d0; }
-.reveal .known li::before { content: "—"; position: absolute; left: 0; color: #ff9416; }
+.reveal .known li::before { content: "•"; position: absolute; left: 0; color: #ff9416; }
 .reveal .known li.orange { color: #ff9416; margin-top: 0.9em; }

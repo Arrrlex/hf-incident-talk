@@ -8,10 +8,9 @@
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/fonts.css">
 <style>
-  /* The recurrence at a glance: the band alone, set at the vertical centre
-     because nothing else shares this slide. In the deck it runs along the
-     bottom of every slide at 96px (see shared/README.md); ?h=96 previews that. */
-  #timeline { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); }
+  /* The recurrence at a glance: the band alone, set at the vertical centre.
+     The taller preview gives the two context lanes room to breathe. */
+  #timeline { --tl-height: 180px; position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); }
   .help { position: absolute; left: 0; bottom: 0; font-size: 13px; color: var(--text-dim); line-height: 1.7; opacity: .6; }
 </style>
 </head>

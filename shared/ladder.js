@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ladder.js — the vertical "ladder" meter (brief §6.5), as a reusable part.
+   ladder.js: the vertical "ladder" meter (brief §6.5), as a reusable part.
 
    A rail on the left, a baseline rung at the bottom, an optional band just
    above it ("Nobody asked for anything above this line"), then rungs that
@@ -26,7 +26,8 @@
                  | function (i, count) { return 'rgb(…)'; },   // i = 1..count
        continuation: true,                     // faint rail fading upward past the top ("no top in sight")
        ghost: { label: 'The full picture' } | null,  // an extra top rung drawn faint, never lit
-       geometry: { … },                        // optional, container px — see DEFAULT_GEOMETRY
+       axisLabel: 'more serious',               // optional upward axis annotation
+       geometry: { … },                        // optional, container px: see DEFAULT_GEOMETRY
        type: { labelSize: 30, labelLineHeight: 34, subSize: 16, subLineHeight: 18,
                subGap: 36, bandSize: 18 },     // optional, px
        seed: 20                                // robot figures get seed + rung index
@@ -46,13 +47,13 @@
      label    one line of text (mono, 300 weight)
      sub      optional dim detail on the same line, after a gap
      figure   what sits on the rung's left end:
-                'idle' | 'active' | 'adversarial' (any Robot state) — a small
+                'idle' | 'active' | 'adversarial' (any Robot state): a small
                   Robot.Figure; it is 'idle' while unlit and takes this state
                   when lit. Default 'active'.
-                'ring'        — a small hollow circle that gains a centre dot
+                'ring'       : a small hollow circle that gains a centre dot
                   when lit (the quiet option: for rungs about people, not machines)
-                'ring-hollow' — a hollow circle that stays hollow when lit
-                'none'        — nothing
+                'ring-hollow': a hollow circle that stays hollow when lit
+                'none'       : nothing
      colour   override for this rung's line/figure colour (otherwise the gradient)
 
    Geometry (container px; defaults reproduce 05-escalation)
@@ -72,7 +73,7 @@
    Animation: rail 400ms, rung 500ms, label fade 400ms after 250ms, figure per
    robot.js. `light(n, { animate: false })` lands the end state in one frame;
    so does every call under prefers-reduced-motion. Nothing here advances on
-   a timer — drive it from Scene.goTo.
+   a timer: drive it from Scene.goTo.
    ========================================================================== */
 (function () {
   'use strict';
@@ -131,6 +132,8 @@
     '.ld-label.ld-ghost-label { color: var(--text-dim); opacity: .55; }',
     '.ld-band-text { left: 50%; transform: translate(-50%, -50%); padding: 0 18px; background: var(--bg);',
     '  font-weight: 300; font-size: var(--ld-band-size); letter-spacing: .08em; color: var(--text-dim); }',
+    '.ld-axis { position: absolute; white-space: nowrap; font-family: var(--font-mono);',
+    '  font-weight: 300; font-size: 18px; letter-spacing: .08em; color: var(--text-dim); }',
     '.ld-fig { position: absolute; }',
     '.ld-instant * { transition: none !important; }'
   ].join('\n');
@@ -187,6 +190,7 @@
     var band = opts.band === undefined ? null : opts.band;
     var ghost = opts.ghost || null;
     var continuation = opts.continuation !== false;
+    var axisLabel = opts.axisLabel || null;
     var seed = opts.seed === undefined ? 20 : opts.seed;
     var id = 'ld' + (++seq);
 
@@ -322,7 +326,7 @@
       labelWithSub('ld-label ld-ghost-label', ghost, G.labelX, ghostY - G.labelOffset);
     }
 
-    // Continuation: the rail carries on above the top rung and fades out —
+    // Continuation: the rail carries on above the top rung and fades out
     // to nothing at topFadeY, or, with a ghost, before it reaches the ghost.
     var railTop = null;
     if (continuation && count >= 1) {
@@ -334,6 +338,14 @@
       defs.appendChild(grad);
       railTop = line({ x1: G.railX, y1: topY, x2: G.railX, y2: fadeY, 'class': 'ld-rail-top', stroke: 'url(#' + id + '-fade)' });
       svg.appendChild(railTop);
+    }
+
+    // An explicit arrow makes the meaning of the upward axis legible without
+    // relying on the colour gradient alone.
+    if (axisLabel) {
+      var axisX = opts.axisX === undefined ? G.rungEnd + 28 : opts.axisX;
+      var axisY = opts.axisY === undefined ? Math.max(24, G.topFadeY - 20) : opts.axisY;
+      div('ld-axis', '↑ ' + axisLabel, axisX, axisY);
     }
 
     /* ---------------------------------------------------------- lighting */

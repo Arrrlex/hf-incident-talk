@@ -1,18 +1,18 @@
 /* ==========================================================================
-   timeline.js — the timeline spine (brief §8).
+   timeline.js: the timeline spine (brief §8).
 
    A thin horizontal band, in the cold register, that runs along the bottom
    of every slide of the talk (the deck mounts it once; scenes may also mount
    their own copy): one hairline, phases as short cyan segments above it, the
-   wipe / termination / shutdown / disclosure points as small ticks, and the
-   collusion.wiki strand as a detached short line set apart on the right.
+   wipe / termination / shutdown / disclosure points as small ticks, and
+   separate context lanes for collusion.wiki and the METR investigation.
    Items are lit BY ID, in any order (the talk opens with the wiki strand and
    only then walks the three OpenAI boards), so the recurrence
    (build → wipe → build → mass termination → build → shutdown) reads at a
    glance whatever the running order. A marker sits on the most recently lit
    item.
 
-   It is the timeline of what is KNOWN — the small caption at the far left
+   It is the timeline of what is KNOWN: the small caption at the far left
    says so, because there has been no comprehensive independent investigation.
 
    Orientation only, not a data viz. Everything is positioned in % of the
@@ -29,7 +29,7 @@
   function reducedMotion() { return !!(rmMQ && rmMQ.matches); }
 
   /* ---------------------------------------------------------------------
-     Default data — dates from FACTS.md §5 only. Item order is the legacy
+     Default data: dates from FACTS.md. Item order is the legacy
      step order used by setStep(); the deck lights by id instead.
      Labels may contain '\n' for a manual line break. `side` puts a label
      above or below the line (phases default above, marks below); above
@@ -38,23 +38,49 @@
      --------------------------------------------------------------------- */
   var DEFAULT_DATA = {
     caption: 'what is known so far',
-    /* Piecewise-linear axis: May–early July is compressed into the first
-       12% of the strand so the July weeks that matter have room to breathe. */
-    axis: { start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.12, end: '2026-07-28' },
+    /* Piecewise-linear axis: keep the May–early July lead-in compact, give
+       the incident dates most of the width, and reserve the final quarter for
+       the late-July and August investigation visits. */
+    axis: {
+      start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.18, end: '2026-08-16',
+      stops: [
+        { date: '2026-05-01', at: 0 },
+        { date: '2026-07-04', at: 0.18 },
+        { date: '2026-07-25', at: 0.75 },
+        { date: '2026-08-16', at: 1 }
+      ]
+    },
     items: [
       { id: 'board1',   kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
       { id: 'wipe1',    kind: 'mark',  at: '2026-07-06', label: '6 Jul · wiped' },
       { id: 'board2',   kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nboard #2 · Hugging Face' },
-      { id: 'death',    kind: 'mark',  at: '2026-07-12', label: '12 Jul · mass termination\n(cause unknown)' },
+      { id: 'death',    kind: 'mark',  at: '2026-07-12', label: '12 Jul · mass death\n(cause unknown)' },
       { id: 'board3',   kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
-      { id: 'shutdown', kind: 'mark',  at: '2026-07-19', label: '19–25 Jul · shutdown' },
+      { id: 'shutdown', kind: 'mark',  at: '2026-07-19', label: '19–25 Jul\nshutdown' },
       /* How the humans found out (FACTS.md §5, "Discovery & disclosure"). */
-      { id: 'hf-disclose',  kind: 'mark', at: '2026-07-16', label: '16 Jul · Hugging Face\ndiscloses a breach', side: 'above' },
-      { id: 'oai-disclose', kind: 'mark', at: '2026-07-21', label: '21 Jul · OpenAI\ndiscloses', side: 'above' }
+      { id: 'hf-disclose',  kind: 'mark', at: '2026-07-16', label: '16 Jul\nHF discloses', side: 'below' },
+      { id: 'oai-disclose', kind: 'mark', at: '2026-07-21', label: '21 Jul · OpenAI\ndiscloses', side: 'above' },
+      /* METR's event window and the dates when its researchers worked on site
+         are separate facts. The dashed range is the former; the solid spans
+         are the latter. */
+      {
+        id: 'metr', kind: 'investigation',
+        window: { from: '2026-06-26', to: '2026-07-13' },
+        spans: [
+          { from: '2026-07-29', to: '2026-07-31' },
+          { from: '2026-08-05', to: '2026-08-06' },
+          { from: '2026-08-15', to: '2026-08-16' }
+        ],
+        label: 'METR investigation',
+        note: 'scope 26 Jun–13 Jul · visits 29–31 Jul, 5–6 & 15–16 Aug'
+      }
     ],
-    /* Separate, probably-distinct swarm (FACTS.md §9). Ran in parallel with
-       civilisation one (11 May–2 Jul) but is not on the shared axis. */
-    detached: { id: 'wiki', label: '11 May–2 Jul · collusion.wiki\n(separate swarm)', note: 'same months, elsewhere' }
+    /* Separate, probably-distinct swarm (FACTS.md §9). Its dates use the same
+       axis as the main strand rather than a detached right-hand scale. */
+    detached: {
+      id: 'wiki', from: '2026-05-11', to: '2026-07-02',
+      label: '11 May–2 Jul · German wiki (separate swarm)'
+    }
   };
 
   var CSS = [
@@ -63,24 +89,38 @@
     '.tl *{box-sizing:border-box}',
     '.tl-strand{position:absolute;top:0;height:100%}',
     '.tl-line{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--text-dim,#8a8b92);opacity:.35}',
+    '.tl-secondary{top:0;height:100%}',
+    '.tl-secondary .tl-line{top:16%;opacity:.28}',
+    '.tl-meta{position:absolute;left:0;top:0;width:100%;height:100%}',
+    '.tl-meta .tl-line{top:86%;opacity:.28}',
     '.tl-phase{position:absolute;top:50%;height:3px;margin-top:-1px;background:var(--light-active,#ff9416);opacity:.22;',
     '  transition:opacity 400ms cubic-bezier(.22,.61,.36,1)}',
     '.tl-phase.tone-adversarial{background:var(--adversarial,#e0483f)}',
+    '.tl-secondary .tl-phase{top:16%;margin-top:-1px;background:var(--light-active,#ff9416);opacity:.32}',
+    '.tl-meta-window{position:absolute;top:86%;height:7px;margin-top:-3px;border:1px dashed var(--text-dim,#8a8b92);opacity:.45}',
+    '.tl-meta-span{position:absolute;top:86%;height:5px;margin-top:-2px;background:var(--light-active,#ff9416);opacity:.35}',
     '.tl-mark{position:absolute;top:50%;width:1.5px;height:14px;margin:-7px 0 0 -.75px;background:var(--text,#e8e8ea);opacity:.3;',
     '  transition:opacity 400ms cubic-bezier(.22,.61,.36,1)}',
     '.tl-label{position:absolute;opacity:.42;transition:color 400ms,opacity 400ms}',
-    '.tl-label.above{bottom:calc(50% + 10px)}',
+    '.tl-label.above{bottom:calc(50% + 8px)}',
     '.tl-label.below{top:calc(50% + 11px);transform:translateX(-50%);text-align:center}',
+    '.tl-secondary .tl-label.above{top:calc(16% - 22px);bottom:auto}',
+    '.tl-secondary .tl-label.below{top:calc(16% + 8px)}',
+    '.tl-meta .tl-label.above{top:calc(86% - 18px);bottom:auto}',
+    '.tl-meta .tl-label.below{top:calc(86% + 8px);font-size:11px;line-height:13px}',
+    '.tl-meta .tl-note{transform:none}',
     '.tl-label div{display:block}',
     /* The "what is known" caption: quiet, far left, above the line. Sits at
        the top edge of a 76px band and 10px down in a 96px one. */
-    '.tl-caption{position:absolute;left:0;top:calc(50% - 38px);font-size:12px;line-height:12px;letter-spacing:.06em;opacity:.38}',
-    /* The detached strand's "same months, elsewhere" note: quieter still. */
+    '.tl-caption{position:absolute;right:0;top:0;font-size:12px;line-height:12px;letter-spacing:.06em;opacity:.38}',
+    /* Context lane notes stay quieter than the main event labels. */
     '.tl-note{font-size:12px;line-height:14px;opacity:.3}',
     '.is-past .tl-phase,.is-current .tl-phase{opacity:.85}',
     '.is-past .tl-mark,.is-current .tl-mark{opacity:1}',
     '.is-past .tl-label{opacity:1}',
     '.is-current .tl-label{opacity:1;color:var(--text,#e8e8ea)}',
+    '.is-past .tl-meta-window,.is-current .tl-meta-window{opacity:.75;border-color:var(--text,#e8e8ea)}',
+    '.is-past .tl-meta-span,.is-current .tl-meta-span{opacity:.9}',
     '.is-past .tl-note,.is-current .tl-note{opacity:.55;color:var(--text-dim,#8a8b92)}',
     '.tl-marker{position:absolute;top:50%;width:7px;height:7px;margin:-3px 0 0 -3.5px;border-radius:50%;',
     '  background:var(--text,#e8e8ea);opacity:0;transition:left 400ms cubic-bezier(.22,.61,.36,1),opacity 400ms}',
@@ -107,6 +147,23 @@
     return Date.UTC(+p[0], (+p[1]) - 1, +p[2]) / 86400000;
   }
   function makeScale(axis) {
+    if (axis.stops && axis.stops.length > 1) {
+      var stops = axis.stops.map(function (stop) {
+        return { day: days(stop.date), at: Number(stop.at) };
+      });
+      return function (iso) {
+        var d = days(iso);
+        if (d <= stops[0].day) return Math.max(0, Math.min(1, stops[0].at));
+        for (var i = 1; i < stops.length; i += 1) {
+          if (d <= stops[i].day) {
+            var prev = stops[i - 1], next = stops[i];
+            var f = prev.at + (d - prev.day) / (next.day - prev.day) * (next.at - prev.at);
+            return Math.max(0, Math.min(1, f));
+          }
+        }
+        return Math.max(0, Math.min(1, stops[stops.length - 1].at));
+      };
+    }
     var s = days(axis.start), e = days(axis.end);
     var p = axis.pivot ? days(axis.pivot) : null;
     var pa = axis.pivotAt === undefined ? 0.5 : axis.pivotAt;
@@ -143,8 +200,8 @@
     var data = opts.data || DEFAULT_DATA;
     var items = data.items || [];
     var detached = data.detached || null;
-    var mainW = opts.mainWidth !== undefined ? opts.mainWidth : (detached ? 0.82 : 1);
-    var detW = opts.detachedWidth !== undefined ? opts.detachedWidth : (detached ? 0.14 : 0);
+    var mainW = opts.mainWidth !== undefined ? opts.mainWidth : 1;
+    var detW = opts.detachedWidth !== undefined ? opts.detachedWidth : 0.14;
     var scale = makeScale(data.axis);
     var SEG_INSET = 3;   // px trimmed off each end of a phase so touching phases stay distinct
     var TICK_GAP = 6;    // px between a tick and its label when the label sits above (left-aligned)
@@ -163,15 +220,16 @@
     // the detached strand). Anchors are in % of the whole container.
     var byId = {};    // id -> { el, anchor }
     var order = [];
-    function register(id, el, anchor) {
+    function register(id, el, anchor, lane) {
       id = String(id);
       if (byId[id]) console.warn('Timeline: duplicate item id "' + id + '"');
-      byId[id] = { el: el, anchor: anchor };
+      byId[id] = { el: el, anchor: anchor, lane: lane || 50 };
       order.push(id);
     }
 
     items.forEach(function (it, i) {
-      var wrap = div('tl-item', main);
+      var itemParent = it.kind === 'investigation' ? root : main;
+      var wrap = div('tl-item' + (it.kind === 'investigation' ? ' tl-meta' : ''), itemParent);
       var anchor;
       if (it.kind === 'phase') {
         var a = scale(it.from), b = scale(it.to);
@@ -182,6 +240,26 @@
         var lb = label(it.label, side, wrap);
         lb.style.left = side === 'below' ? pct((a + b) / 2) : pct(a);
         anchor = (a + b) / 2 * mainW;
+      } else if (it.kind === 'investigation') {
+        div('tl-line', wrap);
+        var winA = scale(it.window.from), winB = scale(it.window.to);
+        var windowEl = div('tl-meta-window', wrap);
+        windowEl.style.left = 'calc(' + pct(winA) + ' + ' + SEG_INSET + 'px)';
+        windowEl.style.width = 'calc(' + pct(winB - winA) + ' - ' + (2 * SEG_INSET) + 'px)';
+        (it.spans || []).forEach(function (span) {
+          var spanA = scale(span.from), spanB = scale(span.to);
+          var spanEl = div('tl-meta-span', wrap);
+          spanEl.style.left = 'calc(' + pct(spanA) + ' + ' + SEG_INSET + 'px)';
+          spanEl.style.width = 'calc(' + pct(spanB - spanA) + ' - ' + (2 * SEG_INSET) + 'px)';
+        });
+        var metaLabel = label(it.label, 'above', wrap);
+        metaLabel.style.left = pct(winA);
+        if (it.note) {
+          var metaNote = label(it.note, 'below', wrap);
+          metaNote.classList.add('tl-note');
+          metaNote.style.left = pct(winA);
+        }
+        anchor = scale(it.spans && it.spans.length ? it.spans[0].from : it.window.from) * mainW;
       } else {
         var x = scale(it.at);
         div('tl-mark', wrap).style.left = pct(x);
@@ -190,25 +268,35 @@
         ml.style.left = mside === 'above' ? 'calc(' + pct(x) + ' + ' + TICK_GAP + 'px)' : pct(x);
         anchor = x * mainW;
       }
-      register(it.id !== undefined ? it.id : 'item' + i, wrap, anchor);
+      register(it.id !== undefined ? it.id : 'item' + i, wrap, anchor, it.kind === 'investigation' ? 86 : 50);
     });
 
-    // Detached strand (the separate swarm), set apart on the right. It ran
-    // in parallel with the main strand's early months, so it carries a small
-    // note rather than a position on the axis.
+    // Context strand for the separate swarm. It shares the main date scale and
+    // sits above the event line.
     if (detached) {
-      var det = div('tl-strand tl-item', root);
-      det.style.right = '0'; det.style.width = pct(detW);
+      var hasDetachedDates = detached.from !== undefined && detached.to !== undefined;
+      var det = div('tl-strand tl-item' + (hasDetachedDates ? ' tl-secondary' : ''), root);
+      det.style.left = hasDetachedDates ? '0' : 'auto';
+      det.style.right = hasDetachedDates ? 'auto' : '0';
+      det.style.width = pct(hasDetachedDates ? mainW : detW);
       div('tl-line', det);
       var dseg = div('tl-phase', det);
-      dseg.style.left = '6%'; dseg.style.width = '88%';
-      label(detached.label, 'above', det).style.left = '0';
+      var detA = hasDetachedDates ? scale(detached.from) : 0.06;
+      var detB = hasDetachedDates ? scale(detached.to) : 0.94;
+      dseg.style.left = hasDetachedDates
+        ? 'calc(' + pct(detA) + ' + ' + SEG_INSET + 'px)'
+        : '6%';
+      dseg.style.width = hasDetachedDates
+        ? 'calc(' + pct(detB - detA) + ' - ' + (2 * SEG_INSET) + 'px)'
+        : '88%';
+      label(detached.label, 'above', det).style.left = hasDetachedDates ? pct(detA) : '0';
       if (detached.note) {
         var note = label(detached.note, 'below', det);
         note.classList.add('tl-note');
-        note.style.left = '50%';
+        note.style.left = hasDetachedDates ? pct((detA + detB) / 2) : '50%';
       }
-      register(detached.id !== undefined ? detached.id : 'detached', det, 1 - detW / 2);
+      register(detached.id !== undefined ? detached.id : 'detached', det,
+        hasDetachedDates ? (detA + detB) / 2 * mainW : 1 - detW / 2, hasDetachedDates ? 16 : 50);
     }
 
     var marker = div('tl-marker', root);
@@ -227,6 +315,7 @@
       });
       if (last !== null) {
         marker.style.left = pct(byId[last].anchor);
+        marker.style.top = byId[last].lane + '%';
         marker.classList.add('is-on');
       } else {
         marker.classList.remove('is-on');
@@ -244,7 +333,7 @@
     var tl = {
       el: root,
       data: data,
-      /** Ids in item order (detached last) — the order setStep() walks. */
+      /** Ids in item order (detached last): the order setStep() walks. */
       get ids() { return order.slice(); },
       /** Ids currently lit, in the order they were given. */
       get lit() { return lit.slice(); },

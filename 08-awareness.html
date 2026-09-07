@@ -13,8 +13,10 @@
      people, not machines: no robots, just a small hollow ring per rung that
      gains a centre dot when someone finally sees something. Colour grades
      from a very dim grey-blue up to the clinical cyan of humans/records.
-     The top rung — the full picture — is a ghost, and is never lit. -->
-<div class="stage register-cold" id="stage"></div>
+     The top rung: the full picture: is a ghost, and is never lit. -->
+<div class="stage register-cold" id="stage">
+  <h1 style="position:absolute;left:134px;top:72px;margin:0;font-size:30px;font-weight:400;color:#53e8ff">Human oversight</h1>
+</div>
 
 <script src="shared/robot.js"></script>
 <script src="shared/scene.js"></script>
@@ -32,7 +34,7 @@
     { label: '~26 May · a team sees board activity, disallowed internet access',      sub: 'no action recorded' },
     { label: '27 Jun · a security alert fires; on-call says the run need not stop',  sub: 'port sweeps' },
     { label: '5 Jul · outage; admin compromise found; board not understood',         sub: 'Artifactory rebuilt 6 Jul' },
-    { label: '16 Jul · Hugging Face discloses a breach — by whom, unknown',           sub: '“used LLM still not known”' },
+    { label: '16 Jul · Hugging Face discloses a breach, attacker unknown',            sub: '“used LLM still not known”' },
     { label: '19–20 Jul · an alert at OpenAI; then the link to Hugging Face',        sub: 'ExploitGym stopped 19 Jul' },
     { label: '21 Jul · OpenAI discloses publicly',                                   sub: 'five days after Hugging Face' },
     { label: '26 Aug · reports published; the independent one stops at 13 Jul',      sub: 'scope set by OpenAI' },
@@ -42,11 +44,12 @@
 
   // Ten rows (baseline, eight rungs, the ghost) between y=962 and y=228 inside
   // the safe area (76–1004): pitch 78, labels 26px, rings instead of robots so
-  // the labels can start further left.
+  // the labels can start further left. Cyan marks human oversight, keeping
+  // this meter visually separate from the escalation meter's orange.
   var ladder = Ladder.create(stage, {
     rungs: RUNGS,
     band: { afterRung: 0, text: 'What the humans knew' },
-    gradient: ['#3a3a3a', '#ffffff'],          // dim grey → white: the human record, in the PauseAI scheme
+    gradient: ['#3a3a3a', '#53e8ff'],          // dim grey → cyan: the human oversight record
     continuation: true,                        // the rail peters out before the full picture
     ghost: { label: 'The full picture' },
     geometry: {

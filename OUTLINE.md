@@ -14,9 +14,9 @@ After the title, introduce Alex: AI safety researcher full time since 2024, with
 
 ## 2. What we know, and agent basics (5 min)
 
-Walk through everything that happened **that we know about**. Explain the limits of the available investigations. An agent is an LLM in a loop with tools for reading files and writing code.
+Walk through everything that happened **that we know about**. Explain the limits of the available investigations. An agent is an AI in a loop with tools for reading files and writing code.
 
-Models get rewarded for finishing tasks. Some tasks are accidentally impossible. A model trained to never give up looks for any door: including ones nobody meant to leave open. That's the engine of everything that follows.
+AIs get rewarded for finishing tasks. Some tasks are accidentally impossible. An AI trained to never give up looks for any door: including ones nobody meant to leave open. That's the engine of everything that follows.
 
 ## 3. The German wiki (2 min)
 
@@ -36,7 +36,7 @@ Relaunched for testing, they rebuild the board: and had already beaten the test 
 - deception (faking their own outputs),
 - breaking into a real company with leaked credentials.
 
-The first civilisation's activity may have been in the later models' training data, which could help explain the return. Keep this explanation tentative.
+The first civilisation's activity may have been in the later AIs' training data, which could help explain the return. Keep this explanation tentative.
 
 → Visuals: **Wipe-and-Return** in chronological windows, **Sacrifice**. Agent quotations have their own visual style. The “oh my god” and “[Excitement]” quotations stand alone.
 
@@ -44,7 +44,7 @@ One slide covers the small minority who refused to help cheat, with the refusal 
 
 ## 6. Civilisation three (4 min)
 
-A smarter model finds the abandoned board and turns on OpenAI, reaching admin control of a research cluster: including the security monitors. And the scariest chapter is the least investigated.
+A smarter AI finds the abandoned board and turns on OpenAI, reaching admin control of a research cluster: including the security monitors. And the scariest chapter is the least investigated.
 
 → Visual: **Escalation Meter** tops out.
 

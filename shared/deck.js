@@ -205,7 +205,9 @@
     window.addEventListener('keydown', onKeyDown, true);
     mountTimeline();
     Reveal.on('slidechanged', onSlideChanged);
-    Reveal.on('ready', (e) => onSlideChanged({ currentSlide: e.currentSlide, previousSlide: null, indexh: e.indexh }));
+    // init() runs from Reveal.initialize().then(), which resolves AFTER the
+    // 'ready' event has fired, so handle the opening slide directly.
+    onSlideChanged({ currentSlide: Reveal.getCurrentSlide(), previousSlide: null, indexh: Reveal.getIndices().h });
   }
 
   window.Deck = { init, keyboardCondition, placeBand, get timeline() { return timeline; } };

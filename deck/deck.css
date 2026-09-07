@@ -1,4 +1,6 @@
-/* Deck-level styling on top of reveal's black theme. Scenes bring their own look. */
+/* Deck-level styling on top of reveal's black theme. Scenes bring their own look.
+   Palette: PauseAI scheme (assets/BRAND.md) — black, orange #ff9416, pale orange #ffc480, white;
+   red #e0483f only for the act-three lines. */
 @import url("../shared/fonts.css");
 
 :root {
@@ -10,6 +12,11 @@
   --r-heading-text-transform: none;
   --r-heading-font-weight: 300;
   --r-link-color: #ff9416;
+  --r-link-color-dark: #b35f00;
+  --r-link-color-hover: #ffc480;
+  /* black.css leaves its blue selection colour behind; make it orange on black. */
+  --r-selection-background-color: rgba(255, 148, 22, 0.75);
+  --r-selection-color: #000000;
   --r-main-font-size: 44px;
 }
 
@@ -39,11 +46,9 @@
 .reveal .controls { display: none; }
 .reveal .slide-number { color: #5a5a5a; font-size: 18px; background: transparent; }
 .quiet { color: #9a9a9a; }
-.crimson { color: #e0483f; }
-.cyan { color: #ffc480; }   /* legacy class name; now PauseAI pale orange */
-.amber { color: #ff9416; }   /* PauseAI orange */
-.orange { color: #ff9416; }
-.pale { color: #ffc480; }
+.crimson { color: #e0483f; }   /* act three only */
+.orange { color: #ff9416; }   /* PauseAI orange: emphasis */
+.pale { color: #ffc480; }     /* PauseAI pale orange: softer emphasis */
 .big { font-size: 2.2em; font-weight: 300; }
 .reveal blockquote {
   background: transparent; box-shadow: none; border-left: 2px solid #ff9416;
@@ -65,7 +70,30 @@
 .reveal blockquote.long { font-size: 0.95em; }
 /* Board posts are one unbroken token (directory names): let them wrap anywhere. */
 .reveal blockquote.post { font-size: 0.85em; overflow-wrap: anywhere; word-break: break-all; }
-.reveal section:has(blockquote) { padding-bottom: 90px; }
+/* Quote slides carry the .source line inside the band padding, so keep the full reserve. */
+.reveal section:has(blockquote) { padding-bottom: calc(var(--band-h) + 60px); }
 
 /* Placeholder ask slide: visibly unfinished so it does not slip through. */
 .reveal .ask .quiet { border: 1px dashed #4a4a52; padding: 0.5em 1em; display: inline-block; font-size: 0.7em; }
+
+/* --- Logos (title and end slides) ------------------------------------ */
+/* Two marks side by side at the same visual height, generous gap, centred.
+   The AI Safety Berlin mark is round (500×500); the PauseAI banner is a wide
+   wordmark (1280×449), so both are sized by height only. */
+.reveal .logos {
+  display: flex; justify-content: center; align-items: center; gap: 140px;
+  margin-top: 1.4em;
+}
+.reveal .logos figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.reveal .logos img { height: 110px; width: auto; margin: 0; border: 0; box-shadow: none; background: transparent; }
+.reveal .logos figcaption { font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: #9a9a9a; }
+.reveal .logos-small { gap: 90px; margin-top: 1.2em; }
+.reveal .logos-small img { height: 56px; }
+
+/* --- "This is the timeline of what we know" ------------------------- */
+.reveal .known h2 { margin-bottom: 0.7em; }
+.reveal .known ul { list-style: none; margin: 0; max-width: 1500px; }
+.reveal .known ul.small { font-size: 30px; line-height: 1.45; }
+.reveal .known li { position: relative; padding-left: 1.4em; margin-bottom: 0.55em; color: #d0d0d0; }
+.reveal .known li::before { content: "—"; position: absolute; left: 0; color: #ff9416; }
+.reveal .known li.orange { color: #ff9416; margin-top: 0.9em; }

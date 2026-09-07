@@ -2,7 +2,7 @@
 
 ## What this is
 
-A 45-minute public talk for an AI Safety Berlin / Pause AI Berlin audience about the 2026 OpenAI / Hugging Face incident: roughly 1,200 AI agents that were meant to be isolated found a way to talk to each other, cheated their test, broke into a real company, and never told a human. The repo holds the slide deck (`index.html`, built on reveal.js), five standalone animated scenes that the deck embeds, the speaker notes (inside the deck), and the fact-check (`FACTS.md`) that every number, date and quote on a slide is drawn from. Everything is plain HTML, CSS and JavaScript with no build step and no network access at runtime, so it runs from a USB stick on an unknown laptop.
+A 45-minute public talk for an AI Safety Berlin / Pause AI Berlin audience about the 2026 OpenAI / Hugging Face incident: roughly 1,200 AI agents that were meant to be isolated found a way to talk to each other, cheated their test, broke into a real company, and never told a human. The repo holds the slide deck (`index.html`, built on reveal.js), the standalone animated scenes that the deck embeds (four story scenes and two "meters" that climb one rung at a time through the talk), the speaker notes (inside the deck), and the fact-check (`FACTS.md`) that every number, date and quote on a slide is drawn from. Everything is plain HTML, CSS and JavaScript with no build step and no network access at runtime, so it runs from a USB stick on an unknown laptop.
 
 ## How to run
 
@@ -16,7 +16,13 @@ Then go to <http://localhost:8765/index.html>. You can also open `index.html` di
 
 - **S** opens the speaker view in a second window: current slide, next slide, notes, and a timer.
 - **F** goes fullscreen.
-- The scenes are also standalone pages you can open on their own, for rehearsal or as a fallback: `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `05-escalation.html`, `06-sacrifice.html`, `07-timeline.html`. (`00-robot-test.html` is a test page for the robot component, not part of the talk.)
+- The scenes are also standalone pages you can open on their own, for rehearsal or as a fallback: `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `06-sacrifice.html`, and the two meters `05-escalation.html` and `08-awareness.html`. (`07-timeline.html` previews the timeline band on its own; `00-robot-test.html` is a test page for the robot component. Neither is a slide in the talk.)
+
+## How the deck is put together
+
+- **Running order.** Title → the German wiki (collusion.wiki, the opening hook) → "this is the timeline of what we know" → cold open → the one idea → civilisation one → civilisation two → the silence → civilisation three → warning shot and the ask (with the "what we know" slide reprised) → Q&A → end. Section timings are in the notes as `[n min]` and sum to about 45 minutes.
+- **Timeline band.** A thin timeline runs along the bottom 96px of every slide except the title and end slides (`shared/timeline.js`, mounted by `shared/deck.js`). The first slide of each phase carries `data-tl="id,id,…"` naming the items to light; the nearest preceding `data-tl` applies to the slides after it, and the last id is the current one (marker). Ids: `wiki`, `board1`, `wipe1`, `board2`, `death`, `hf-disclose`, `board3`, `shutdown`, `oai-disclose`. `class="no-timeline"` on a section hides the band there.
+- **The two meters.** The escalation meter (`05-escalation.html`, what the agents did: 7 rungs) and the human-awareness meter (`08-awareness.html`, what the humans knew and when: 8 rungs, plus a faint "The full picture" rung that is never lit) are each embedded several times, at the point in the story where that rung happens. Each instance is a window of beats: `data-start` is the number of rungs already lit on arrival and `data-end` the rung this slide lights, e.g. `<iframe data-scene data-src="05-escalation.html?embed=1" data-start="2" data-end="3">`. Arriving forwards shows rungs ≤ 2 already lit, Space lights rung 3, the next Space leaves the slide. Arriving backwards shows the window's end. Each meter slide's note says what the new rung is and where in `FACTS.md` it comes from (§6 for escalation, §10 for awareness).
 
 ## Controls
 
@@ -32,13 +38,13 @@ Deck and scenes share one set of keys:
 | S | Speaker view (deck only) |
 | Esc | Slide overview (deck only); also leaves fullscreen |
 
-On a normal slide, Space moves to the next slide. On a scene slide, the deck hands the keys to the scene: each Space advances the scene one beat, and only when the scene has no more beats does the next Space move on to the next slide. Going backwards works the same way in reverse. Nothing ever advances on a timer; every step is a keypress.
+On a normal slide, Space moves to the next slide. On a scene slide, the deck hands the keys to the scene: each Space advances the scene one beat, and only when the scene has no more beats does the next Space move on to the next slide. On a meter slide the window is usually one rung: Space lights it, the next Space moves on. Going backwards works the same way in reverse. Nothing ever advances on a timer; every step is a keypress.
 
 ## Rehearsal tips
 
 - Slides have hash URLs: `index.html#/12` opens slide 12 directly, and the address bar updates as you move, so you can bookmark the start of each section.
 - Scenes take `?beat=N` when opened standalone: `05-escalation.html?beat=3` opens the escalation meter already on rung 3. Useful for checking one beat without stepping through the others.
-- Arriving on a scene slide by going forwards starts it at beat 0; arriving by going backwards puts it at its last beat, so stepping back through the deck looks right.
+- Arriving on a scene slide by going forwards starts it at beat 0 (or at its `data-start` rung, for a meter slide); arriving by going backwards puts it at its last beat (or its `data-end` rung), so stepping back through the deck looks right.
 - The speaker view (S) shows the notes and the next slide. The notes are the script; the slides are cues.
 - Open the deck at the venue's actual resolution once. It is designed at 1920×1080 and scales to fit, but a quick check of the quote slides at the real projector size is worth it.
 
@@ -80,11 +86,13 @@ To swap a recording in for a scene on the night, replace that scene's `<section>
 ## Repo layout
 
 - `index.html` — the deck (reveal.js). Slides plus speaker notes.
-- `deck/deck.css` — deck styling on top of reveal's black theme.
-- `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `05-escalation.html`, `06-sacrifice.html` — the standalone scenes the deck embeds.
-- `07-timeline.html` — the timeline recap scene (the band is `shared/timeline.js`).
+- `deck/deck.css` — deck styling on top of reveal's black theme, in the PauseAI scheme (black, orange `#ff9416`, pale orange `#ffc480`, white; red only for the act-three lines).
+- `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `06-sacrifice.html` — the standalone story scenes the deck embeds.
+- `05-escalation.html`, `08-awareness.html` — the two meters (built on `shared/ladder.js`), embedded one rung at a time.
+- `07-timeline.html` — standalone preview of the timeline band (`shared/timeline.js`); not a slide in the talk.
+- `assets/` — the AI Safety Berlin and PauseAI logo files used on the title and end slides, with `BRAND.md` (palette and sources).
 - `00-robot-test.html` — test page for the robot/light component.
-- `shared/` — design system shared by deck and scenes: `tokens.css` (palette, type, motion), `fonts.css`, `robot.js` (the agent light, as a canvas field or an SVG figure), `scene.js` (beat controller, keys, deck bridge), `deck.js` (forwards keys from the deck to the current scene). `shared/README.md` documents the API and the postMessage protocol.
+- `shared/` — design system shared by deck and scenes: `tokens.css` (palette, type, motion), `fonts.css`, `robot.js` (the agent light, as a canvas field or an SVG figure), `scene.js` (beat controller, keys, deck bridge), `ladder.js` (the rung meter), `timeline.js` (the timeline band), `deck.js` (forwards keys from the deck to the current scene, handles the meter windows, mounts the band). `shared/README.md` documents the API and the postMessage protocol.
 - `vendor/` — reveal.js 5.2.1 and the two fonts, copied in so nothing loads from the network.
 - `FACTS.md` — the fact-check. Source of truth for everything on a slide.
 - `OUTLINE.md` — the talk structure and minute budget.

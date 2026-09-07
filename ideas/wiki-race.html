@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>idea · wiki race</title>
+<!--
+  IDEA (not a final scene): the wiki's administrator against the agents, as two
+  rows of small marks in the cold register. One mark = one page. The admin's
+  row is white (the human record); the agents' rows are PauseAI orange.
+
+  Would replace the "Early signs" slide in index.html:
+    <h2>The wiki's admin spent tens of hours cleaning up.</h2>
+    (index.html ~line 200)
+
+  Beats (keypress only; ?beat=N deep links; reduced motion jumps to end states):
+    0  the two labels only
+    1  the admin's row fills to 100 marks over ~1.5s
+    2  the agents' rows fill to 400 marks over the same ~1.5s (four rows of
+       100, so four times the rate), visibly outrunning the admin
+    3  caption: the two sentences from the report, quoted exactly, in .source
+    4  optional: twelve small robots (Robot.Figure) appear beside the agents'
+       label and one white ring beside the admin's, to make the asymmetry
+       legible. No faces, no huddle: a row of machines and one person.
+
+  Numbers, all from research/sources/collusion_wiki.md:
+    "deleting an average of 100 pages a day while the agents created about 400
+     new pages per day"                                                 L564
+    "they spent tens of cumulative hours doing so, taking at least a few
+     minutes each evening to delete posts for 6 consecutive weeks."     L550
+    attribution: Nightingale Collective, collusion.wiki, 4 Sep 2026 (FACTS.md §9)
+  The twelve robots in beat 4 are a visual shorthand for "many agents", not a
+  count from the source; the source has "over 3,700 distinct self-given agent
+  names" (L155).
+-->
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/fonts.css">
+<style>
+  .block { position: absolute; left: 0; right: 0; }
+  #admin  { top: 150px; }
+  #agents { top: 380px; }
+
+  .label {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px; margin-bottom: 18px;
+    font-family: var(--font-mono); font-weight: 300; font-size: 28px;
+    letter-spacing: .03em; color: var(--text);
+  }
+  #agents .label { color: var(--accent); }
+  .label .lead { display: flex; align-items: center; gap: 48px; }
+  .label .who {
+    display: flex; align-items: center; gap: 10px; height: 60px;
+    opacity: 0; transition: opacity var(--dur-mid) var(--ease-out);
+  }
+  .label .who.is-shown { opacity: 1; }
+
+  /* One human-scale ring beside the admin's label. */
+  .ring { width: 30px; height: 30px; border: 2px solid var(--text); border-radius: 50%; margin-right: 6px; }
+
+  /* Marks: 100 per row at a 16px pitch (1600px); 3px hairline ticks. */
+  .rows { display: flex; flex-direction: column; gap: 8px; }
+  .row  { display: flex; gap: 13px; height: 28px; }
+  .tick { width: 3px; height: 28px; background: var(--text); opacity: 0; flex: none; }
+  #agents .tick { background: var(--light-active); }
+  .tick.on { opacity: .9; }
+  #admin .count, #agents .count {
+    font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 300;
+    color: var(--text-dim); min-width: 4ch; text-align: right;
+  }
+
+  #caption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    text-align: center;
+  }
+  .source {
+    font-family: var(--font-mono); font-weight: 300; font-size: 20px;
+    line-height: 32px; letter-spacing: .02em; color: var(--text-dim);
+    max-width: 1500px; margin: 0 auto;
+  }
+  .source + .source { margin-top: 14px; }
+  .source .who { display: block; margin-top: 18px; font-size: 17px; color: var(--text-dim); opacity: .7; }
+
+  .instant .fade, .instant .tick, .instant .who { transition: none !important; }
+</style>
+</head>
+<body>
+<div class="stage register-cold" id="stage">
+  <div class="safe">
+    <div class="block" id="admin">
+      <div class="label">
+        <span class="lead"><span>the admin deleted ~100 pages a day</span><span class="who" id="admin-who"><span class="ring"></span></span></span>
+        <span class="count" id="admin-count"></span>
+      </div>
+      <div class="rows" id="admin-rows"></div>
+    </div>
+    <div class="block" id="agents">
+      <div class="label">
+        <span class="lead"><span>the agents created ~400 a day</span><span class="who" id="agents-who"></span></span>
+        <span class="count" id="agents-count"></span>
+      </div>
+      <div class="rows" id="agents-rows"></div>
+    </div>
+    <div id="caption" class="fade is-hidden">
+      <p class="source">“The administrator spent the next 5 days fighting a losing battle against the agents, deleting an average of 100 pages a day while the agents created about 400 new pages per day.”</p>
+      <p class="source">“In fact, they spent tens of cumulative hours doing so, taking at least a few minutes each evening to delete posts for 6 consecutive weeks.”<span class="who">Nightingale Collective, collusion.wiki, 4 Sep 2026</span></p>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/robot.js"></script>
+<script src="../shared/scene.js"></script>
+<script>
+(function () {
+  'use strict';
+  var stage = document.getElementById('stage');
+  Scene.fitStage(stage);
+
+  var ADMIN = 100, AGENTS = 400, PER_ROW = 100, FILL_MS = 1500;   // L564
+
+  function buildRows(container, n) {
+    var ticks = [];
+    for (var r = 0; r < n / PER_ROW; r++) {
+      var row = document.createElement('div'); row.className = 'row';
+      for (var i = 0; i < PER_ROW; i++) {
+        var t = document.createElement('div'); t.className = 'tick';
+        row.appendChild(t); ticks.push(t);
+      }
+      container.appendChild(row);
+    }
+    return ticks;
+  }
+  var adminTicks = buildRows(document.getElementById('admin-rows'), ADMIN);
+  var agentTicks = buildRows(document.getElementById('agents-rows'), AGENTS);
+  var adminCount = document.getElementById('admin-count');
+  var agentCount = document.getElementById('agents-count');
+  var adminWho = document.getElementById('admin-who');
+  var agentsWho = document.getElementById('agents-who');
+  var caption = document.getElementById('caption');
+
+  // Twelve small machines, built once, shown in beat 4.
+  var figures = [];
+  for (var k = 0; k < 12; k++) {
+    var holder = document.createElement('span');
+    agentsWho.appendChild(holder);
+    figures.push(Robot.Figure.create(holder, { size: 48, state: 'idle', antenna: true, seed: 20 + k }));
+  }
+
+  function reveal(ticks, n, countEl, total) {
+    for (var i = 0; i < ticks.length; i++) ticks[i].classList.toggle('on', i < n);
+    countEl.textContent = n > 0 ? n + (n >= total ? '' : '') : '';
+  }
+
+  var tweens = [];
+  function clearTweens() { tweens.forEach(function (t) { t.cancel(); }); tweens = []; }
+  function fill(ticks, countEl, total, animate) {
+    if (!animate) { reveal(ticks, total, countEl, total); return; }
+    reveal(ticks, 0, countEl, total);
+    tweens.push(Scene.tween(0, total, FILL_MS, Scene.ease.linear, function (v) {
+      reveal(ticks, Math.round(v), countEl, total);
+    }));
+  }
+  function snap(fn) {
+    stage.classList.add('instant');
+    fn();
+    void stage.offsetWidth;
+    requestAnimationFrame(function () { stage.classList.remove('instant'); });
+  }
+
+  var scene = Scene.create({
+    name: 'wiki-race',
+    beats: 5,
+    goTo: function (index, o) {
+      clearTweens();
+      var animate = o.animate && o.direction >= 0;
+      var fwd = o.direction > 0;
+
+      snap(function () {
+        caption.classList.toggle('is-hidden', index < 3);
+        adminWho.classList.toggle('is-shown', index >= 4);
+        agentsWho.classList.toggle('is-shown', index >= 4);
+        figures.forEach(function (f) { f.setState(index >= 4 ? 'active' : 'idle', { animate: false }); });
+      });
+
+      // Earlier fills land complete; only the beat just reached plays out.
+      fill(adminTicks, adminCount, ADMIN, animate && fwd && index === 1);
+      if (index < 1) reveal(adminTicks, 0, adminCount, ADMIN);
+      fill(agentTicks, agentCount, AGENTS, animate && fwd && index === 2);
+      if (index < 2) reveal(agentTicks, 0, agentCount, AGENTS);
+
+      if (index === 3 && animate) {
+        caption.classList.add('is-hidden');
+        requestAnimationFrame(function () { caption.classList.remove('is-hidden'); });
+      }
+      if (index === 4 && animate) {
+        snap(function () { adminWho.classList.remove('is-shown'); agentsWho.classList.remove('is-shown'); });
+        requestAnimationFrame(function () {
+          adminWho.classList.add('is-shown');
+          agentsWho.classList.add('is-shown');
+          figures.forEach(function (f, i) { setTimeout(function () { f.setState('active'); }, 80 * i); });
+        });
+      }
+    }
+  });
+
+  window.scene = scene;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!doctype html>
+<!--
+  ideas/setup-loop.html: PROTOTYPE, not a final scene.
+
+  Would replace the Setup slide "An agent is an AI like ChatGPT, in a loop,
+  with tools." (index.html, currently text only).
+
+  7 beats (0–6):
+    0  one robot, idle, with a small task card
+    1  the loop appears: thin hairlines, three stations and the entry line
+    2  "read the task" lights; the pulse sits on the task card
+    3  the pulse travels the entry line to "decide"
+    4  the pulse arcs to "use a tool"; the robot's eye goes active; tool glyphs light
+    5  the pulse arcs to "see the result"; the eye returns to idle
+    6  the pulse arcs back to "decide" and the loop keeps cycling on its own,
+       ~4 s per lap (the one allowed idle motion). Nothing advances a beat.
+
+  Cold register, quiet. Reduced motion: beat 6 is static (all stations lit).
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>idea · setup · the loop</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/fonts.css">
+<style>
+  #robot { position: absolute; left: 330px; top: 440px; width: 220px; height: 220px; }
+
+  /* The task card: a small mono card at the robot's eye height. */
+  .card {
+    position: absolute; left: 590px; top: 478px; width: 230px; height: 64px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    padding: 0 18px; display: flex; align-items: center; gap: 10px;
+    font-size: 20px; letter-spacing: .04em; white-space: nowrap;
+  }
+  .card .k { color: var(--text); }
+  .card .v { color: var(--text-dim); }
+
+  /* The loop (SVG, 1920×1080 design coordinates). */
+  #loop { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+  .hair { fill: none; stroke: #fff; stroke-opacity: .35; stroke-width: 1.5; }
+  .hair-dim { fill: none; stroke: #fff; stroke-opacity: .2; stroke-width: 1.5; }
+  .chev { fill: none; stroke: #fff; stroke-opacity: .5; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .station text {
+    font-family: var(--font-mono); font-weight: 300; font-size: 24px; letter-spacing: .04em;
+    fill: var(--text-dim); transition: fill var(--dur-fast) var(--ease-out);
+  }
+  .station .dot {
+    fill: #000; stroke: #fff; stroke-opacity: .5; stroke-width: 1.5;
+    transition: fill var(--dur-fast) var(--ease-out), stroke var(--dur-fast) var(--ease-out), stroke-opacity var(--dur-fast) var(--ease-out);
+  }
+  .station.lit text { fill: var(--text); }
+  .station.lit .dot { fill: var(--accent-subtle); stroke: var(--accent-subtle); stroke-opacity: 1; }
+
+  /* Tool glyphs: flat, monochrome, hairline. */
+  .tools .g { fill: none; stroke: var(--text-dim); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; transition: stroke var(--dur-fast) var(--ease-out); }
+  .tools text { font-family: var(--font-mono); font-weight: 400; font-size: 24px; fill: var(--text-dim); transition: fill var(--dur-fast) var(--ease-out); }
+  .tools.lit .g { stroke: var(--text); }
+  .tools.lit text { fill: var(--text); }
+
+  .pulse { fill: var(--accent-subtle); }
+  .pulse-glow { fill: var(--accent-subtle); opacity: .22; }
+  #pulse-g.is-hidden { opacity: 0; }
+  #pulse-g { transition: opacity var(--dur-fast) var(--ease-out); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .station text, .station .dot, .tools .g, .tools text, #pulse-g { transition-duration: 1ms; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div id="robot"></div>
+  <div class="card"><span class="k">TASK:</span><span class="v">…</span></div>
+
+  <svg id="loop" class="fade is-hidden" viewBox="0 0 1920 1080" aria-hidden="true">
+    <!-- geometry is filled in by the script so the numbers live in one place -->
+    <g id="geom"></g>
+    <g id="pulse-g" class="is-hidden">
+      <circle class="pulse-glow" id="pulse-glow" r="16" cx="0" cy="0"></circle>
+      <circle class="pulse" id="pulse" r="6" cx="0" cy="0"></circle>
+    </g>
+  </svg>
+</div>
+
+<script src="../shared/robot.js"></script>
+<script src="../shared/scene.js"></script>
+<script>
+(function () {
+  'use strict';
+  Scene.fitStage(document.getElementById('stage'));
+
+  var fig = Robot.Figure.create(document.getElementById('robot'), { size: 220, state: 'idle', seed: 3 });
+
+  /* ---------------- geometry ----------------
+     The cycle is a circle with three stations. "read the task" is the entry
+     line from the task card into "decide": it happens once, the rest repeats. */
+  var CX = 1310, CY = 560, R = 300;
+  var A_DECIDE = -150, A_TOOL = -30, A_RESULT = 90;   // degrees, y down, increasing = clockwise on screen
+  var ENTRY = { x: 820, y: 510 };                      // right edge of the task card
+  var LAP_MS = 4000;                                   // ambient lap time (beat 6)
+
+  function onArc(deg) { var a = deg * Math.PI / 180; return { x: CX + R * Math.cos(a), y: CY + R * Math.sin(a) }; }
+  function lerp(p, q, t) { return { x: p.x + (q.x - p.x) * t, y: p.y + (q.y - p.y) * t }; }
+  var P_DECIDE = onArc(A_DECIDE), P_TOOL = onArc(A_TOOL), P_RESULT = onArc(A_RESULT);
+
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || geom).appendChild(e);
+    return e;
+  }
+  var geom = document.getElementById('geom');
+
+  // The cycle and the entry line.
+  el('circle', { cx: CX, cy: CY, r: R, 'class': 'hair' });
+  el('line', { x1: ENTRY.x, y1: ENTRY.y, x2: P_DECIDE.x, y2: P_DECIDE.y, 'class': 'hair' });
+
+  // Direction chevrons on the arcs (tangent points clockwise).
+  [-90, 30, 150].forEach(function (deg) {
+    var p = onArc(deg);
+    el('path', { d: 'M-8,-6 L0,0 L-8,6', 'class': 'chev', transform: 'translate(' + p.x + ',' + p.y + ') rotate(' + (deg + 90) + ')' });
+  });
+
+  // Stations: a dot and a label. The entry has no dot; its label sits above the line.
+  function station(id, p, label, lx, ly, anchor, dot) {
+    var g = el('g', { 'class': 'station', id: 'st-' + id });
+    if (dot) el('circle', { cx: p.x, cy: p.y, r: 7, 'class': 'dot' }, g);
+    var t = el('text', { x: lx, y: ly, 'text-anchor': anchor }, g);
+    t.textContent = label;
+    return g;
+  }
+  var mid = lerp(ENTRY, P_DECIDE, 0.5);
+  var ST = [
+    station('read',   ENTRY,    'read the task',  mid.x + 10, mid.y + 44, 'middle', false),
+    station('decide', P_DECIDE, 'decide',         P_DECIDE.x - 24, P_DECIDE.y - 30, 'middle', true),
+    station('tool',   P_TOOL,   'use a tool',     P_TOOL.x,   P_TOOL.y - 34,   'middle', true),
+    station('result', P_RESULT, 'see the result', P_RESULT.x, P_RESULT.y + 52, 'middle', true)
+  ];
+  var POS = [ENTRY, P_DECIDE, P_TOOL, P_RESULT];
+
+  // Tool glyphs beside "use a tool": a file, a terminal prompt, a globe.
+  var tools = el('g', { 'class': 'tools', id: 'tools' });
+  var TX = 1700, TY0 = 340, TSTEP = 72, BX = 1650;
+  el('line', { x1: P_TOOL.x + 12, y1: P_TOOL.y, x2: BX, y2: P_TOOL.y, 'class': 'hair-dim' }, tools);
+  el('line', { x1: BX, y1: TY0, x2: BX, y2: TY0 + 2 * TSTEP, 'class': 'hair-dim' }, tools);
+  [0, 1, 2].forEach(function (i) { el('line', { x1: BX, y1: TY0 + i * TSTEP, x2: BX + 22, y2: TY0 + i * TSTEP, 'class': 'hair-dim' }, tools); });
+  // file: a sheet with a folded corner
+  el('path', { 'class': 'g', d: 'M' + (TX - 11) + ',' + (TY0 - 16) + ' h14 l8,8 v24 h-22 z M' + (TX + 3) + ',' + (TY0 - 16) + ' v8 h8' }, tools);
+  // terminal prompt
+  var tt = el('text', { x: TX, y: TY0 + TSTEP + 9, 'text-anchor': 'middle' }, tools); tt.textContent = '>_';
+  // globe: circle, one meridian, one equator
+  var gy = TY0 + 2 * TSTEP;
+  el('circle', { 'class': 'g', cx: TX, cy: gy, r: 15 }, tools);
+  el('ellipse', { 'class': 'g', cx: TX, cy: gy, rx: 6, ry: 15 }, tools);
+  el('line', { 'class': 'g', x1: TX - 15, y1: gy, x2: TX + 15, y2: gy }, tools);
+
+  /* ---------------- pulse ---------------- */
+  var pulseG = document.getElementById('pulse-g');
+  var pulse = document.getElementById('pulse'), pulseGlow = document.getElementById('pulse-glow');
+  function setPulse(p) {
+    pulse.setAttribute('cx', p.x); pulse.setAttribute('cy', p.y);
+    pulseGlow.setAttribute('cx', p.x); pulseGlow.setAttribute('cy', p.y);
+  }
+  function showPulse(v) { pulseG.classList.toggle('is-hidden', !v); }
+
+  function setLit(which) {   // which: array of station indices, or 'all'
+    ST.forEach(function (g, i) { g.classList.toggle('lit', which === 'all' ? i > 0 : which.indexOf(i) >= 0); });
+    tools.classList.toggle('lit', which === 'all' || which.indexOf(2) >= 0);
+  }
+
+  // Paths between consecutive stations, as functions of t in [0,1].
+  var SEG = [
+    null,
+    function (t) { return lerp(ENTRY, P_DECIDE, t); },                        // 1: read → decide
+    function (t) { return onArc(A_DECIDE + (A_TOOL - A_DECIDE) * t); },       // 2: decide → tool
+    function (t) { return onArc(A_TOOL + (A_RESULT - A_TOOL) * t); },         // 3: tool → result
+    function (t) { return onArc(A_RESULT + (A_DECIDE + 360 - A_RESULT) * t); } // 4: result → decide
+  ];
+
+  /* ---------------- animation state ---------------- */
+  var tw = null, raf = 0, token = 0;
+  function cancelAnim() {
+    token++;
+    if (tw) { tw.cancel(); tw = null; }
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+  }
+
+  // Travel from station k-1 to station k over one beat transition.
+  function travel(k, done) {
+    var mine = token;
+    setLit([]);
+    tw = Scene.tween(0, 1, 800, Scene.ease.inOutSine, function (v) { setPulse(SEG[k](v)); }, function () {
+      if (mine !== token) return;
+      tw = null;
+      setLit([k]);
+      done && done();
+    });
+  }
+
+  // Beat 6 ambient: the pulse laps the circle for as long as the beat holds.
+  function startAmbient() {
+    var mine = token;
+    var last = 0, deg = A_DECIDE, eyeActive = false;
+    function angDist(a, b) { var d = ((a - b) % 360 + 540) % 360 - 180; return Math.abs(d); }
+    function frame(ts) {
+      if (mine !== token) return;
+      raf = requestAnimationFrame(frame);
+      var dt = last ? Math.min(100, ts - last) : 16.7;
+      last = ts;
+      deg += dt * 360 / LAP_MS;
+      if (deg > 360) deg -= 360;
+      setPulse(onArc(deg));
+      var lit = [];
+      if (angDist(deg, A_DECIDE) < 22) lit.push(1);
+      if (angDist(deg, A_TOOL) < 22) lit.push(2);
+      if (angDist(deg, A_RESULT) < 22) lit.push(3);
+      setLit(lit);
+      // Eye active from just before "use a tool" until well past it (~1 s per lap).
+      var rel = ((deg - A_TOOL) % 360 + 360) % 360;
+      var wantActive = rel > 325 || rel < 55;
+      if (wantActive !== eyeActive) { eyeActive = wantActive; fig.setState(eyeActive ? 'active' : 'idle'); }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  /* ---------------- beats ---------------- */
+  var loop = document.getElementById('loop');
+  var scene = Scene.create({
+    name: 'setup-loop',
+    beats: 7,
+    goTo: function (index, o) {
+      cancelAnim();
+      loop.classList.toggle('is-hidden', index < 1);
+
+      if (index < 2) {
+        showPulse(false); setLit([]);
+        fig.setState('idle', { animate: o.animate });
+        return;
+      }
+
+      if (index === 6) {
+        showPulse(true);
+        if (Scene.reducedMotion) {          // static end state: every station lit, no travelling pulse
+          setPulse(P_DECIDE); setLit('all'); fig.setState('active', { animate: false });
+          return;
+        }
+        fig.setState('idle', { animate: o.animate });
+        if (o.animate && o.direction >= 0) { setPulse(P_RESULT); travel(4, startAmbient); }
+        else { setPulse(P_DECIDE); setLit([1]); startAmbient(); }
+        return;
+      }
+
+      // Beats 2–5: the pulse rests on station k = index - 2, arriving from the previous one.
+      var k = index - 2;
+      fig.setState(k === 2 ? 'active' : 'idle', { animate: o.animate });
+      showPulse(true);
+      if (o.animate && o.direction >= 0 && k >= 1) { setPulse(POS[k - 1]); travel(k); }
+      else { setPulse(POS[k]); setLit([k]); }
+    }
+  });
+
+  window.scene = scene; window.fig = fig;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

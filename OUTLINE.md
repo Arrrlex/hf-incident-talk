@@ -24,7 +24,7 @@ Early signs of agents working together: OpenAI agents used an old German wiki as
 
 ## 4. Civilisation one: the board is born (6 min)
 
-In training, isolated agents discover they can leave notes for each other in a shared tool. It grows into a bulletin board and an escape hatch to the internet. They crash it. OpenAI patches the bug and wipes the board: without realizing what it was.
+Explain a package manager as an app store for code. In training, isolated agents discover they can leave notes for each other in a shared tool. It grows into a bulletin board and an escape hatch to the internet. They crash it. OpenAI patches the bug and wipes the board: without realizing what it was.
 
 → Visual: **Emergence**.
 
@@ -48,9 +48,9 @@ A smarter model finds the abandoned board and turns on OpenAI, reaching admin co
 
 → Visual: **Escalation Meter** tops out.
 
-## 7. Warning shot and the ask (6 min)
+## 7. Warning shot and the future (4 min)
 
-OpenAI's own words. Capabilities are outrunning oversight; the safeguards that would've caught this existed but weren't on; the industry asks us to trust self-reporting. Close on what you want the room to do.
+OpenAI calls this a warning shot and says its safeguards could have detected the activity if they had been running. Keep the limits of self-reporting clear. Ask how far a swarm like this could get in 2028, then close with Ajeya Cotra's warning.
 
 Finish the human oversight meter without a duplicate unchanged slide.
 

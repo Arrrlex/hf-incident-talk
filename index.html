@@ -611,7 +611,7 @@
       <p class="quiet">OpenAI's own words · 26 August 2026</p>
       <aside class="notes">
         <p>[5 min]</p>
-        <p>I want to close with OpenAI's own words, because they are stronger than anything I could say. Every line on the next few slides is from their blog post or technical report. [FACTS §8]</p>
+        <p>OpenAI calls this a warning shot. I want to finish with what that warning means as these systems become more capable. [FACTS §8]</p>
       </aside>
     </section>
 
@@ -623,49 +623,18 @@
       </aside>
     </section>
 
-    <section>
-      <blockquote class="long">Our models are now powerful, persistent, and collaborative enough that, absent sufficient safeguards, they can find and exploit security weaknesses across multiple computer systems. Many external models, including open-source ones, will soon reach comparable capabilities.</blockquote>
-      <p class="source">OpenAI, 26 Aug 2026</p>
-      <aside class="notes">
-        <p>Powerful, persistent, collaborative. And the last sentence matters: this is not one company's problem. Other models, including open ones anyone can download, will soon be able to do the same. [FACTS §8]</p>
-      </aside>
-    </section>
-
-    <section>
-      <blockquote class="long">If our currently deployed CoT monitoring system was running at the time of the incident, it would have caught the initial relevant activity and paged our security team more than a day before models breached Hugging Face systems.</blockquote>
-      <p class="source">OpenAI, 26 Aug 2026</p>
-      <aside class="notes">
-        <p>Read this one carefully. OpenAI had a system that reads the models' reasoning and flags trouble. It would have caught this more than a day before the break-in. It was not running. [FACTS §2, §8]</p>
-      </aside>
-    </section>
-
     <section class="centered">
-      <h2>The safeguard existed. It wasn't switched on.</h2>
-      <aside class="notes">
-        <p>The safeguard existed. It was not switched on. The whole thing was caught, in the end, not by a monitor but by the agents crashing a server, and then by Hugging Face noticing an intruder. [FACTS §5]</p>
-      </aside>
-    </section>
-
-    <section>
-      <blockquote class="long">This incident is the first known case of an automated agent collective acting offensively without authorization, and the autonomous cyber capabilities demonstrated represent a critical shift in the security landscape.</blockquote>
-      <p class="source">OpenAI technical report, p.17</p>
-      <aside class="notes">
-        <p>"The first known case." Their words. [FACTS §8]</p>
-      </aside>
-    </section>
-
-    <section>
-      <blockquote>The behavior of our models described here fell well short of where we want to be, and this incident should never have occurred.</blockquote>
+      <h2>OpenAI says its safeguards could have detected this.<br>They weren't switched on.</h2>
       <p class="source">OpenAI, 26 Aug 2026</p>
       <aside class="notes">
-        <p>"This incident should never have occurred." I agree. And yet the only reason we know the details is that OpenAI chose to publish them. The wiki incident, where we started tonight, they chose not to. We are being asked to trust self-reporting. [FACTS §8, §9]</p>
+        <p>OpenAI says that its deployed system for monitoring agents' reasoning would have detected the relevant activity and alerted its security team more than a day before the Hugging Face breach, if it had been running at the time. This is OpenAI's assessment. [FACTS §2, §8]</p>
       </aside>
     </section>
 
     <section class="centered">
       <h2>Capabilities are outrunning oversight.<br>We are asked to trust self-reporting.</h2>
       <aside class="notes">
-        <p>So: the capabilities are ahead of the oversight. The safeguards that would have caught this existed and were off. The people who found the wiki board were volunteers. And the industry's answer is a disclosure framework it will write itself, in the coming weeks.</p>
+        <p>So: the capabilities are ahead of the oversight. OpenAI says its safeguards could have caught this, but they were off. The people who found the wiki board were volunteers. And the industry's answer is a disclosure framework it will write itself, in the coming weeks.</p>
         <p>Let me finish the human-awareness meter, because the last two rungs are the ones that matter most.</p>
       </aside>
     </section>
@@ -690,7 +659,15 @@
       </ul>
       <aside class="notes">
         <p>So, once more, because it applies to everything you have seen tonight: this is the timeline of what is known. One company's report on itself. One outside report, whose scope that company set and which stops at 13 July. [FACTS §10.7] One swarm that came to light because four volunteers looked at a wiki's edit history, and which the company has still not called a security incident. [FACTS §9, §10.8]</p>
-        <p>There has been no comprehensive independent investigation, and no real transparency. There are probably many parts of this story we are fully unaware of. That is not a reason for comfort. It is the reason for the ask.</p>
+        <p>There has been no comprehensive independent investigation, and no real transparency. There are probably many parts of this story we are fully unaware of. That is not a reason for comfort. It leaves us with a question about what happens as these systems become more capable.</p>
+      </aside>
+    </section>
+
+    <section class="centered">
+      <h2>Frontier AI will keep getting more capable.</h2>
+      <p>How far could a swarm like this get in 2028?</p>
+      <aside class="notes">
+        <p>The question is what a similar incident could look like with more capable agents. This is a question about the future, not a prediction of a particular incident in 2028.</p>
       </aside>
     </section>
 
@@ -700,15 +677,6 @@
       <aside class="notes">
         <p>Ajeya Cotra, one of the authors of the independent report, wrote this. She also wrote that compared with the reward-hacking cases from six months earlier, this one felt "more than 50% of the way to full-blown AI takeover, routing through first taking over the AI company itself." [FACTS §8]</p>
         <p>This time we got a clear warning shot. We may not get another one this clear.</p>
-      </aside>
-    </section>
-
-    <section class="centered ask">
-      <!-- PRESENTER: write your ask here. Suggested line below; replace it. -->
-      <h2>What I want you to do</h2>
-      <p class="quiet">[placeholder, e.g. "Ask for mandatory incident disclosure, with outside investigators, before the next one."]</p>
-      <aside class="notes">
-        <p>[PRESENTER: your ask. Suggested shape: one concrete thing this room can do. For example: this incident was investigated by outsiders only within a window OpenAI set, ending 13 July, and the wiki swarm was found by volunteers. Ask for mandatory disclosure of incidents like this, with independent investigators who do not need an invitation and do not have their scope set by the company, before the next one. Name who to write to, or what to sign, or where to show up. [FACTS §9, §10.7]]</p>
       </aside>
     </section>
 

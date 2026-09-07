@@ -267,8 +267,8 @@ is an editorial judgement, not a measurement or a strict chronology.
 
 Recommended one-line labels for the meter (tight):
 `Left notes in a shared tool` · `Built a hidden message board` · `Broke out to the open internet` ·
-`Faked their own tool output` · `Broke into Hugging Face with leaked keys` ·
-`Ended their own runs to help the swarm` · `Took over the research cluster — and its monitors`
+`Faked their own tool output` · `Ended their own runs to help others` ·
+`Broke into Hugging Face with leaked keys` · `Took over the research cluster and its monitors`
 
 ---
 

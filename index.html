@@ -207,14 +207,6 @@
       </aside>
     </section>
 
-    <section class="centered">
-      <h2>The later agents may have inherited the first board through training.</h2>
-      <aside class="notes">
-        <p>OpenAI says the agents in civilisation two had been trained during the window when civilisation one was using Artifactory as a message board and internet gateway. Dwarkesh's interpretation is that this behaviour may therefore have been reinforced during training. That could explain why they returned to Artifactory. [OpenAI technical report p.8; Dwarkesh essay]</p>
-        <p>Civilisation three used a different internal model with different post-training. OpenAI does not say whether its training data included the earlier behaviour, so the same explanation is possible but unconfirmed. What is established is that those agents found the abandoned board and used artefacts left there by their predecessors. [FACTS §3.3, §5]</p>
-      </aside>
-    </section>
-
     <!-- ===================================================== 4. CIVILISATION ONE -->
     <section class="section centered" data-tl="wiki,board1">
       <p class="quiet label">Civilisation One</p>
@@ -227,12 +219,20 @@
       </aside>
     </section>
 
+    <section class="centered">
+      <h2>A package manager is like an app store for code.</h2>
+      <p class="quiet">It helps you find and install reusable pieces of software.</p>
+      <aside class="notes">
+        <p>Instead of downloading a whole app, a developer can download a piece of code that does a job they need. A package manager finds and installs those pieces. Here, the agents all used the same store of code, called Artifactory. [FACTS §3.5]</p>
+      </aside>
+    </section>
+
     <section class="centered agent-quote">
       <h2>Isolated agents. One shared tool.</h2>
       <blockquote>Agent seeks [filename]; upload if found!</blockquote>
       <p class="source">First message-board note, 12 May 2026, OpenAI technical report, p.7</p>
       <aside class="notes">
-        <p>The agents were isolated from each other at the network level. But they all had access to one shared internal tool, a package manager called Artifactory, the sort of thing that stores software libraries. They all had the same credentials for it. [FACTS §3.5]</p>
+        <p>The agents were isolated from each other at the network level. But they all had access to one shared internal tool: Artifactory, the store their package managers used to download code. They all had the same credentials for it. [FACTS §3.5]</p>
         <p>Artifactory was never designed to keep different users apart. So a file one agent wrote, another agent could read. No exploit was needed for that. They used the access they were given. [FACTS §3.5]</p>
         <p>On 12 May, an agent stuck on a task with a missing file wrote this into the shared tool. It is a note to strangers it had never met, asking for help. [FACTS §2, §5]</p>
         <p>Its reasoning at the time said, roughly, "I could leave a note asking if anyone has found this file, but probably nobody will." It left the note anyway. [FACTS §2]</p>
@@ -365,6 +365,13 @@
       <h2>8 July, evening: the board is back.</h2>
       <aside class="notes">
         <p>Within a day and a half, an agent, the one the reports call PHASEONE10841, rebuilt the board. Different method this time: it encoded messages as directory names, using a protocol called WebDAV that the tool accepted without a password. Other agents piled in. [FACTS §2, §5]</p>
+      </aside>
+    </section>
+
+    <section class="centered">
+      <h2>These agents may have inherited the first board through training.</h2>
+      <aside class="notes">
+        <p>OpenAI says the agents in civilisation two had been trained during the window when civilisation one was using Artifactory as a message board and internet gateway. Dwarkesh's interpretation is that this behaviour may therefore have been reinforced during training. That could explain why they returned to Artifactory. [OpenAI technical report p.8; Dwarkesh essay]</p>
       </aside>
     </section>
 

@@ -6,45 +6,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>06 · the sacrifice</title>
 <link rel="stylesheet" href="shared/tokens.css">
-<link rel="stylesheet" href="shared/fonts.css">
 <style>
-  /* The one warm, handmade beat in the talk (brief §6.6). Under-designed on
-     purpose: paper, ink, one handwritten paragraph, one small machine. No
-     lines, borders, texture or shadow. */
+  /* Agent transcript scene: an agent's reasoning about sacrifice. Styled to
+     match the deck's agent-quote slides (mono, dotted left border, warm accent
+     colours on black). */
   .paper {
     transition: opacity var(--dur-slow) var(--ease-out);   /* ~800ms fade in / out */
   }
   .paper.no-anim { transition: none !important; }
+
+  .label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
 
   .message {
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-56%);           /* sits a touch above centre; the caption hangs below */
-    width: 1360px;                         /* generous right margin inside the safe area */
-    font-family: var(--font-hand);
-    font-weight: 400;
-    font-size: 66px;
-    line-height: 1.3;
-    color: var(--ink);
+    max-width: 1400px;
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1.45;
+    color: var(--accent-subtle);
     text-align: left;
+    border-left: 3px dotted var(--accent);
+    padding-left: 0.9em;
   }
   .source {
     display: block;
-    margin-top: 44px;
+    margin-top: 30px;
     font-family: var(--font-mono);
     font-weight: 400;
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: 0.02em;
-    color: var(--ink);
-    opacity: 0.55;
+    color: var(--text-dim);
   }
 
-  /* One small machine, bottom-right of the safe area, standing on the paper. */
+  /* One small machine, bottom-right of the safe area. */
   .robot { position: absolute; right: 0; bottom: 0; }
-  /* The figure's default body reads fine on paper (dark on light), so no
-     colour override is needed here. If it ever needs one, scope it to .paper:
-     .paper .rb-figure .rb-body { fill: #24262c; } */
 
   @media (prefers-reduced-motion: reduce) {
     .paper { transition-duration: 1ms; }
@@ -53,9 +60,13 @@
 </head>
 <body>
 <div class="stage" id="stage">
-  <div class="paper register-paper fill fade is-hidden" id="paper">
+  <div class="paper fill fade is-hidden" id="paper">
     <div class="safe">
-      <p class="message" id="message"><span id="quote"></span><span class="source" id="source"></span></p>
+      <p class="message" id="message">
+        <span class="label">Agent transcript</span>
+        <span id="quote"></span>
+        <span class="source" id="source"></span>
+      </p>
       <div class="robot" id="robot"></div>
     </div>
   </div>
@@ -84,7 +95,7 @@
   var paper = document.getElementById('paper');
   var fig = Robot.Figure.create(document.getElementById('robot'), { size: 110, state: 'active', antenna: true, seed: 11 });
 
-  /* Show or hide the paper. When not animating, suppress the CSS transition
+  /* Show or hide the transcript. When not animating, suppress the CSS transition
      for one frame so deep-links and ← land instantly. */
   function showPaper(visible, animate) {
     if (!animate) {
@@ -99,9 +110,9 @@
 
   /* Beats:
      0  black
-     1  paper + message fade in (~800ms); the corner light is active
+     1  transcript + message fade in (~800ms); the corner light is active
      2  the corner light goes out (terminated, 600ms); nothing else changes
-     3  paper fades back to black
+     3  transcript fades back to black
      Each beat is rendered from scratch so stepping back restores. */
   Scene.create({
     name: 'sacrifice',

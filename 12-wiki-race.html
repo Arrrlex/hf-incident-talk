@@ -11,21 +11,23 @@
   white (the human record); the agents' rows are PauseAI orange.
 
   The "Early signs" scene slide in index.html (section.scene with
-  12-wiki-race.html, beats 1–4): "The wiki's admin spent tens of hours
+  12-wiki-race.html, beats 1–2): "The wiki's admin spent tens of hours
   cleaning up." The deck overlays that two-line heading (.scene-text, top
   80px) on this scene, so the top ~220px of the stage stay empty: the two
   blocks start at y≈256 and the source caption sits at the bottom of the safe
   area.
 
   Beats (keypress only; ?beat=N deep links; reduced motion jumps to end states):
-    0  the two labels only
+    0  the two labels; twelve small robots (Robot.Figure, eyes idle) beside
+       the agents' label and one white ring beside the admin's, to make the
+       asymmetry legible. No faces, no huddle: a row of machines and one
+       person. Present from the start.
     1  the admin's row fills to 100 marks over ~1.5s
     2  the agents' rows fill to 400 marks over the same ~1.5s (four rows of
-       100, so four times the rate), visibly outrunning the admin
-    3  caption: the two sentences from the report, quoted exactly, in .source
-    4  optional: twelve small robots (Robot.Figure) appear beside the agents'
-       label and one white ring beside the admin's, to make the asymmetry
-       legible. No faces, no huddle: a row of machines and one person.
+       100, so four times the rate), visibly outrunning the admin; the robots'
+       eyes go active as the fill starts. ~400ms after the marks land, the
+       caption (the two sentences from the report, quoted exactly, in .source)
+       fades in, within the same beat, no extra keypress.
 
   Numbers, all from research/sources/collusion_wiki.md:
     "deleting an average of 100 pages a day while the agents created about 400
@@ -33,7 +35,7 @@
     "they spent tens of cumulative hours doing so, taking at least a few
      minutes each evening to delete posts for 6 consecutive weeks."     L550
     attribution: Nightingale Collective, collusion.wiki, 4 Sep 2026 (FACTS.md §9)
-  The twelve robots in beat 4 are a visual shorthand for "many agents", not a
+  The twelve robots are a visual shorthand for "many agents", not a
   count from the source; the source has "over 3,700 distinct self-given agent
   names" (L155).
   Promoted from ideas/wiki-race.html.
@@ -55,11 +57,7 @@
   }
   #agents .label { color: var(--accent); }
   .label .lead { display: flex; align-items: center; gap: 48px; }
-  .label .who {
-    display: flex; align-items: center; gap: 10px; height: 60px;
-    opacity: 0; transition: opacity var(--dur-mid) var(--ease-out);
-  }
-  .label .who.is-shown { opacity: 1; }
+  .label .who { display: flex; align-items: center; gap: 10px; height: 60px; }
 
   /* One human-scale ring beside the admin's label. */
   .ring { width: 30px; height: 30px; border: 2px solid var(--text); border-radius: 50%; margin-right: 6px; }
@@ -87,7 +85,7 @@
   .source + .source { margin-top: 14px; }
   .source .who { display: block; margin-top: 18px; font-size: 17px; color: var(--text-dim); opacity: .7; }
 
-  .instant .fade, .instant .tick, .instant .who { transition: none !important; }
+  .instant .fade, .instant .tick { transition: none !important; }
 </style>
 </head>
 <body>
@@ -140,11 +138,10 @@
   var agentTicks = buildRows(document.getElementById('agents-rows'), AGENTS);
   var adminCount = document.getElementById('admin-count');
   var agentCount = document.getElementById('agents-count');
-  var adminWho = document.getElementById('admin-who');
   var agentsWho = document.getElementById('agents-who');
   var caption = document.getElementById('caption');
 
-  // Twelve small machines, built once, shown in beat 4.
+  // Twelve small machines, built once, present from beat 0 (eyes idle until beat 2).
   var figures = [];
   for (var k = 0; k < 12; k++) {
     var holder = document.createElement('span');
@@ -157,8 +154,11 @@
     countEl.textContent = n > 0 ? n + (n >= total ? '' : '') : '';
   }
 
-  var tweens = [];
+  var tweens = [], timers = [];
   function clearTweens() { tweens.forEach(function (t) { t.cancel(); }); tweens = []; }
+  // Timers are only ever used *within* a beat (the caption after the fill); every goTo clears them.
+  function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
   function fill(ticks, countEl, total, animate) {
     if (!animate) { reveal(ticks, total, countEl, total); return; }
     reveal(ticks, 0, countEl, total);
@@ -175,36 +175,30 @@
 
   var scene = Scene.create({
     name: 'wiki-race',
-    beats: 5,
+    beats: 3,
     goTo: function (index, o) {
-      clearTweens();
+      clearTweens(); clearTimers();
       var animate = o.animate && o.direction >= 0;
       var fwd = o.direction > 0;
+      var liveAgents = animate && fwd && index === 2;
 
       snap(function () {
-        caption.classList.toggle('is-hidden', index < 3);
-        adminWho.classList.toggle('is-shown', index >= 4);
-        agentsWho.classList.toggle('is-shown', index >= 4);
-        figures.forEach(function (f) { f.setState(index >= 4 ? 'active' : 'idle', { animate: false }); });
+        // Live beat 2 hides the caption here and fades it in after the fill.
+        caption.classList.toggle('is-hidden', index < 2 || liveAgents);
+        if (!liveAgents) figures.forEach(function (f) { f.setState(index >= 2 ? 'active' : 'idle', { animate: false }); });
       });
 
       // Earlier fills land complete; only the beat just reached plays out.
       fill(adminTicks, adminCount, ADMIN, animate && fwd && index === 1);
       if (index < 1) reveal(adminTicks, 0, adminCount, ADMIN);
-      fill(agentTicks, agentCount, AGENTS, animate && fwd && index === 2);
+      fill(agentTicks, agentCount, AGENTS, liveAgents);
       if (index < 2) reveal(agentTicks, 0, agentCount, AGENTS);
 
-      if (index === 3 && animate) {
-        caption.classList.add('is-hidden');
-        requestAnimationFrame(function () { caption.classList.remove('is-hidden'); });
-      }
-      if (index === 4 && animate) {
-        snap(function () { adminWho.classList.remove('is-shown'); agentsWho.classList.remove('is-shown'); });
-        requestAnimationFrame(function () {
-          adminWho.classList.add('is-shown');
-          agentsWho.classList.add('is-shown');
-          figures.forEach(function (f, i) { setTimeout(function () { f.setState('active'); }, 80 * i); });
-        });
+      if (liveAgents) {
+        // Eyes wake as the agents' rows start filling; the caption follows
+        // ~400ms after the 400 marks land (timing within the beat).
+        figures.forEach(function (f, i) { later(function () { f.setState('active'); }, 80 * i); });
+        later(function () { caption.classList.remove('is-hidden'); }, FILL_MS + 400);
       }
     }
   });

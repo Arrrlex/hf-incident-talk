@@ -8,20 +8,21 @@
   scene, so the top ~220px of the stage stay empty: the grid, and the single
   sandbox in beat 0, sit between y=232 and the bottom safe margin.
 
-  3 beats (0–2):
+  2 beats (0–1):
     0  one robot inside a thin white square (its sandbox), labelled
        "sandbox · no internet · no way to reach the others"
     1  the camera pulls back: the figure shrinks to a point of light, its
        sandbox shrinks with it, and a 50×24 grid of 1,200 sandboxes fades in,
        one dim light in each (Robot.Field laid out on the grid via the
-       `positions` option; borders on a second canvas)
-    2  caption "1,200 of them, each on its own task"; the lights start
-       breathing out of sync (the field is frozen until now)
+       `positions` option; borders on a second canvas). The field is held
+       still during the 1.5s pull-back; when the tween lands, the lights start
+       breathing out of sync, within the same beat (no extra keypress).
 
-  1,200 so the count matches the caption and the 1,200 lights of 02-emergence.
-  COLS/ROWS below set the count; the caption follows it.
-  Reduced motion: no pull-back tween; the grid and caption land at once.
-  Promoted from ideas/setup-copies.html (its flicker beat dropped).
+  1,200 so the count matches the 1,200 lights of 02-emergence. COLS/ROWS below
+  set the count.
+  Reduced motion: no pull-back tween; the grid lands at once, breathing.
+  Promoted from ideas/setup-copies.html (its flicker beat and its
+  "1,200 of them, each on its own task" caption beat dropped).
 -->
 <html lang="en-GB">
 <head>
@@ -50,12 +51,6 @@
     font-family: var(--font-mono);
     font-weight: 300; font-size: 22px; letter-spacing: .06em; color: var(--text-dim);
   }
-
-  #cap {
-    position: absolute; left: 0; top: 950px; width: 1920px;
-    font-family: var(--font-mono);
-    font-size: 30px; font-weight: 300; letter-spacing: .04em; text-align: center; color: var(--text);
-  }
 </style>
 </head>
 <body>
@@ -66,7 +61,6 @@
   </div>
   <div id="sandbox"><div id="robot"></div></div>
   <div id="sb-label">sandbox · no internet · no way to reach the others</div>
-  <div id="cap" class="fade is-hidden"></div>
 </div>
 
 <script src="shared/robot.js"></script>
@@ -108,7 +102,7 @@
     count: N, seed: 7, pointSize: 22, positions: gridPos
   });
   field.start();
-  field.freezeAll();                          // static until beat 2, when they start to breathe
+  field.freezeAll();                          // static until the pull-back lands, then they breathe
 
   /* ---------------- cell borders: one static canvas ---------------- */
   function sizeCanvas(cv) {
@@ -141,8 +135,6 @@
   var sandbox = document.getElementById('sandbox');
   var label = document.getElementById('sb-label');
   var gridLayer = document.getElementById('grid-layer');
-  var cap = document.getElementById('cap');
-  cap.textContent = N === 1200 ? '1,200 of them, each on its own task' : 'thousands of them, each on its own task';
   sandbox.style.left = target.x + 'px'; sandbox.style.top = target.y + 'px';
   label.style.top = (target.y + SB_SIZE / 2 + 30) + 'px';
   var fig = Robot.Figure.create(document.getElementById('robot'), { size: 260, state: 'idle', seed: 3 });
@@ -162,20 +154,30 @@
   /* ---------------- beats ---------------- */
   var scene = Scene.create({
     name: 'sandboxes',
-    beats: 3,
+    beats: 2,
     goTo: function (index, o) {
       cancelAnim();
-      var pulled = index >= 1;
 
-      if (!pulled) { sandbox.classList.remove('is-hidden'); setCamera(0); }
-      else if (index === 1 && o.animate && o.direction >= 0) {
+      if (index === 0) {
         sandbox.classList.remove('is-hidden');
         setCamera(0);
-        tw = Scene.tween(0, 1, 1500, Scene.ease.outCubic, setCamera, function () { tw = null; sandbox.classList.add('is-hidden'); });
-      } else { setCamera(1); sandbox.classList.add('is-hidden'); }
-
-      if (index >= 2) field.unfreezeAll(); else field.freezeAll();
-      cap.classList.toggle('is-hidden', index < 2);
+        field.freezeAll();
+      } else if (o.animate && o.direction >= 0) {
+        // Pull back with the lights held still; when the tween lands they
+        // start to breathe. Timing within the beat, not a new beat.
+        field.freezeAll();
+        sandbox.classList.remove('is-hidden');
+        setCamera(0);
+        tw = Scene.tween(0, 1, 1500, Scene.ease.outCubic, setCamera, function () {
+          tw = null;
+          sandbox.classList.add('is-hidden');
+          field.unfreezeAll();
+        });
+      } else {
+        setCamera(1);
+        sandbox.classList.add('is-hidden');
+        field.unfreezeAll();
+      }
     }
   });
 

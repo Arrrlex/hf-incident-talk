@@ -37,9 +37,6 @@
     color: var(--text-dim);
   }
 
-  /* The wipe: an 80ms pale flash, then nothing. No transition: it snaps. */
-  #flash { position: absolute; inset: 0; background: #dfe3ea; opacity: 0; pointer-events: none; }
-
   /* Added briefly while jumping to an end state so nothing tweens. */
   .instant .fade, .instant .note { transition: none !important; }
 </style>
@@ -51,7 +48,6 @@
   <div class="safe">
     <div id="caption" class="fade is-hidden"></div>
   </div>
-  <div id="flash"></div>
 </div>
 
 <script src="shared/robot.js"></script>
@@ -221,7 +217,6 @@
   }
 
   var caption = document.getElementById('caption');
-  var flash = document.getElementById('flash');
 
   function setCaption(text) {
     caption.textContent = text;
@@ -275,7 +270,6 @@
 
       snap(function () {
         field.wipe({ off: true });
-        flash.style.opacity = 0;
         allNotes.forEach(function (n) { n.el.classList.add('is-hidden'); });
         setCaption('');
       });
@@ -286,11 +280,7 @@
         case 1:                                   // board #1: small, slow
           build(BOARDS[0], animate);
           break;
-        case 2:                                   // WIPE: black, one 80ms flash, stillness
-          if (animate) {
-            flash.style.opacity = 1;
-            later(function () { flash.style.opacity = 0; }, 80);
-          }
+        case 2:                                   // WIPE: the board simply cuts to black (the snap above); stillness
           break;
         case 3:                                   // board #2: bigger, faster
           build(BOARDS[1], animate);

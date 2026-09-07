@@ -11,7 +11,7 @@
   only for the agent names.
 
   The "Early signs" scene slide in index.html (section.scene with
-  11-wiki-feed.html, beats 1–3): "Agents on a web-research task started
+  11-wiki-feed.html, beats 1–2): "Agents on a web-research task started
   posting to an old German wiki."
 
   Beats (keypress only; ?beat=N deep links; reduced motion jumps to end states):
@@ -19,9 +19,10 @@
     1  the first six entries appear one by one, ~400ms apart
     2  the feed accelerates and scrolls: hundreds of lines flow past (the real
        entries cycled for volume; nothing invented); counter top-right climbs
-       to "~18,000 posts"
-    3  the feed freezes; caption "24 May – early July 2026 · about 18,000 posts
-       · 3,700+ agent names"
+       to "~18,000 posts" in ~5.9s (the first ~8,000 over ~3.8s, the last
+       ~10,000 at double speed, ~2.1s). Then, within the same beat, the feed
+       freezes and the caption "24 May – early July 2026 · about 18,000 posts
+       · 3,700+ agent names" fades in. No extra keypress.
 
   The caption starts at 24 May, the first successful write to DSEWiki
   (collusion_wiki.md L29: "24 May First wiki write The agents make their first
@@ -205,7 +206,8 @@
   var TOTAL = 18000;            // "~18,000 posts", L11
   var ROW_H = 26;
   var FIRST = 6;                // entries shown one by one in beat 1
-  var FLOW_MS = 8000;           // beat 2: the whole flow, start to freeze
+  var FLOW_MS = 8000;           // beat 2: the base schedule (eased counter curve), start to freeze
+  var FAST_FROM = 8000;         // ...but from this count on, the schedule runs at double speed
   var MAX_ROWS = 60;            // DOM rows kept; older ones are dropped as they scroll off
 
   var list = document.getElementById('list');
@@ -287,11 +289,10 @@
   }
 
   // Timers and tweens are only ever used *within* a beat; every goTo clears them.
-  var timers = [], tw = null, raf = 0;
+  var timers = [], raf = 0;
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
   function clearAll() {
     timers.forEach(clearTimeout); timers = [];
-    if (tw) { tw.cancel(); tw = null; }
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
   }
   function snap(fn) {
@@ -301,7 +302,7 @@
     requestAnimationFrame(function () { stage.classList.remove('instant'); });
   }
 
-  /* End state of beat 2 (and 3): a full window of the real entries, in order,
+  /* End state of beat 2: a full window of the real entries, in order,
      wrapped so the last screen ends on the final entry; counter at ~18,000. */
   function fillEnd() {
     clearList();
@@ -312,25 +313,38 @@
   }
 
   /* Beat 2 live: from the first six, the interval shrinks from ~400ms to a
-     few ms over FLOW_MS while the counter eases up to 18,000. Entries cycle. */
+     few ms while the counter eases up to 18,000 along the FLOW_MS schedule.
+     Once the counter passes FAST_FROM the schedule runs at double speed, so
+     the last 10,000 take half as long as the first 8,000 would suggest
+     (~3.8s + ~2.1s ≈ 5.9s in all). Entries cycle. When the flow completes
+     the feed freezes where it is and the caption fades in (same beat). */
+  function baseTimeAt(count) {                     // ms on the base schedule at which the counter reaches `count`
+    var e = (count - FIRST) / (TOTAL - FIRST), lo = 0, hi = 1;
+    for (var i = 0; i < 40; i++) { var mid = (lo + hi) / 2; if (Scene.ease.inOutCubic(mid) < e) lo = mid; else hi = mid; }
+    return lo * FLOW_MS;
+  }
+  var FAST_AT = baseTimeAt(FAST_FROM);   // ≈3,846ms; the flow then takes (FLOW_MS - FAST_AT) / 2 more, ≈5,923ms in all
   function flow() {
     var t0 = performance.now(), lastAt = 0, k = FIRST, shownAtStart = FIRST;
-    // ~400ms between rows at the start, down to a few ms by 40% of the beat;
-    // the remaining 60% runs flat out (several rows per frame), so a few
+    // ~400ms between rows at the start, down to a few ms by 40% of the base
+    // schedule; the rest runs flat out (several rows per frame), so a few
     // hundred lines pass in total.
     function interval(t) {                         // t in 0..1
       var e = Scene.ease.inOutCubic(Math.min(1, t * 2.5));
       return 400 * (1 - e) + 6 * e;
     }
     function frame(now) {
-      var t = (now - t0) / FLOW_MS;
+      var elapsed = now - t0;
+      var base = elapsed <= FAST_AT ? elapsed : FAST_AT + (elapsed - FAST_AT) * 2;   // warped schedule time
+      var t = base / FLOW_MS;
       if (t >= 1) {
-        // the flow stops where it is; only the counter lands on the total
+        // Freeze: the flow stops where it is; the counter lands on the total
+        // and the caption follows, still within beat 2.
         setCounter(TOTAL, true);
         raf = 0;
+        later(function () { caption.classList.remove('is-hidden'); }, 300);
         return;
       }
-      var elapsed = now - t0;
       var iv = interval(t);
       var n = 0;
       while (elapsed - lastAt >= iv && n < 4) {    // catch up when iv < one frame
@@ -348,7 +362,7 @@
 
   var scene = Scene.create({
     name: 'wiki-feed',
-    beats: 4,
+    beats: 3,
     goTo: function (index, o) {
       clearAll();
       var animate = o.animate && o.direction >= 0;
@@ -377,32 +391,17 @@
           break;
 
         case 2:
-          caption.classList.add('is-hidden');
           if (animate) {
             snap(function () {
               clearList();
               for (var j = 0; j < FIRST; j++) append(ENTRIES[j], false);
               setCounter(FIRST, true);
+              caption.classList.add('is-hidden');
             });
-            flow();
+            flow();                               // freezes and shows the caption when done
           } else {
-            snap(fillEnd);
-          }
-          break;
-
-        case 3:
-          // Freeze: if the flow is mid-way its rAF was just cancelled, so the
-          // rows stay where they are. Only the counter settles on the total.
-          if (shown < FIRST + 1 || o.direction <= 0) snap(fillEnd);
-          if (animate) {
-            var from = parseInt(counter.textContent.replace(/\D/g, ''), 10) || 0;
-            if (from < TOTAL) {
-              tw = Scene.tween(from, TOTAL, 400, Scene.ease.outCubic, function (v) { setCounter(Math.round(v), true); });
-            }
-            later(function () { caption.classList.remove('is-hidden'); }, 300);
-          } else {
-            setCounter(TOTAL, true);
-            snap(function () { caption.classList.remove('is-hidden'); });
+            // Deep link / reduced motion: the frozen feed with the caption.
+            snap(function () { fillEnd(); caption.classList.remove('is-hidden'); });
           }
           break;
       }

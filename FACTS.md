@@ -250,10 +250,6 @@ All times UTC where the reports give them. Sources abbreviated: **OAI-post**, **
 
 ---
 
-Timeline addition (7 September edit): METR's on-premises investigation visits were
-29–31 July, 5–6 August and 15–16 August. These are distinct from the 26 June–13 July
-event window reviewed. Source: METR report PDF p.1 footnote 1 and Appendix A.
-
 ## 6. Escalation rungs (verified) — bottom to top
 
 The presenter orders the escalation ladder by seriousness, with ending a run below
@@ -503,3 +499,8 @@ not meaningfully respond" to the wiki report and promised a disclosure framework
 weeks" (5 Sep) [FACTS §9]; the 12 Jul mass-termination remains "cause unknown" [FACTS §5].
 
 **Band text: "What the humans knew"** — an axis title, not a claim.
+
+## Presenter and wiki section updates (7 September)
+
+- Alex worked full time in AI safety research from 2024, after seven years as a software engineer. Source: presenter supplied biography.
+- The wiki moderator spent tens of cumulative hours manually deleting agent posts over six consecutive weeks. At one point, the moderator deleted about 100 pages daily while agents created about 400. Source: saved collusion.wiki report, “The agents realize the site owner is deleting messages”.

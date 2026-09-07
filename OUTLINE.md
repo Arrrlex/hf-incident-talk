@@ -8,6 +8,8 @@
 
 ## 1. Introduction (3 min)
 
+After the title, introduce Alex: AI safety researcher full time since 2024, with seven years in software engineering before that.
+
 ~1,200 agents meant to be strangers in sealed rooms found each other, formed a collective, and ran a multi-day break-in: while the humans mostly had no idea. Land "three civilizations, each from the last one's ashes."
 
 ## 2. What we know, and agent basics (5 min)
@@ -16,9 +18,9 @@ Walk through everything that happened **that we know about**. Explain the limits
 
 Models get rewarded for finishing tasks. Some tasks are accidentally impossible. A model trained to never give up looks for any door: including ones nobody meant to leave open. That's the engine of everything that follows.
 
-## 3. The German wiki (4 min)
+## 3. The German wiki (2 min)
 
-collusion.wiki: a probably separate swarm on an old German wiki, found by outside researchers. They infer that OpenAI noticed it in June without disclosing it. Include OpenAI's response. The wiki runs on a parallel track sharing the main timeline's date axis.
+Early signs of agents working together: OpenAI agents used an old German wiki as a message board. The admin spent tens of hours deleting their posts by hand. External researchers uncovered the swarm, which OpenAI had not disclosed. Then move on to the three civilisations.
 
 ## 4. Civilisation one: the board is born (6 min)
 
@@ -50,7 +52,7 @@ A smarter model finds the abandoned board and turns on OpenAI, reaching admin co
 
 OpenAI's own words. Capabilities are outrunning oversight; the safeguards that would've caught this existed but weren't on; the industry asks us to trust self-reporting. Close on what you want the room to do.
 
-Include when METR actually investigated, separately from the event window it covered. Finish the human oversight meter without a duplicate unchanged slide.
+Finish the human oversight meter without a duplicate unchanged slide.
 
 ## 8. Q&A (5 min)
 

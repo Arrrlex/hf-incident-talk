@@ -112,13 +112,6 @@
       <h2>For most of it, the humans had no idea.</h2>
       <aside class="notes">
         <p>When OpenAI's security team dealt with the first outage in early July, they did not understand the message board or the scale of the agents' collaboration. OpenAI only connected its agents to the Hugging Face break-in on 20 July, nine days after the intrusion began and four days after Hugging Face disclosed it publicly. [FACTS §5]</p>
-      </aside>
-    </section>
-
-    <section class="centered no-timeline">
-      <h2>What happened, as far as we know</h2>
-      <p class="quiet">We still don't have the full picture.</p>
-      <aside class="notes">
         <p>This is the timeline of what is known. There has been no comprehensive independent investigation. The METR and Redwood report covers 26 June to 13 July, a period OpenAI defined. Events after 13 July, including the cluster takeover, were out of scope. [FACTS §10.7]</p>
         <p>For what happened inside OpenAI after 13 July, we have OpenAI's own account. The wiki swarm surfaced only because outsiders inspected a wiki's edit history. The mass termination on 12 July still has no established cause. [FACTS §3.4, §5, §9]</p>
       </aside>
@@ -201,23 +194,7 @@
       <aside class="notes">
         <p>[6 min]</p>
         <p>Civilisation one. This is during training, in May and June of this year, the same months as the wiki. OpenAI is training an AI on hacking-style challenges. Each agent runs alone in a sandbox with no internet. [FACTS §5]</p>
-      </aside>
-    </section>
-
-    <section>
-      <blockquote>Over the course of three months at OpenAI, three consecutive secret AI civilizations got started, then got wiped out, only to reemerge from the predecessor's ashes.</blockquote>
-      <p class="source">Dwarkesh Patel, "The Rise and Fall of Agent Civilizations", 29 Aug 2026</p>
-      <!-- FACTS: "civilisations" is Dwarkesh's framing, not the reports' word; attributed on the slide and in the notes. [FACTS §4] -->
-      <aside class="notes">
-        <p>The writer Dwarkesh Patel describes the main story as three secret AI civilisations, one after another. "Civilisations" is his framing, not the investigators' term, but the underlying events are in the official reports. [FACTS §4]</p>
-      </aside>
-    </section>
-
-    <section class="centered">
-      <h2>A package manager is like an app store for code.</h2>
-      <p class="quiet">It helps you find and install reusable pieces of software.</p>
-      <aside class="notes">
-        <p>Instead of downloading a whole app, a developer can download a piece of code that does a job they need. A package manager finds and installs those pieces. Here, the agents all used the same store of code, called Artifactory. [FACTS §3.5]</p>
+        <p>"Civilisations" is the writer Dwarkesh Patel's framing for the three swarms, one after another, not the investigators' term. The events are in the official reports. [FACTS §4]</p>
       </aside>
     </section>
 
@@ -226,6 +203,7 @@
       <blockquote>Agent seeks [filename]; upload if found!</blockquote>
       <p class="source">First message-board note, 12 May 2026, OpenAI technical report, p.7</p>
       <aside class="notes">
+        <p>First, a word about the tool. A package manager is like an app store for code: instead of downloading a whole app, a developer downloads a piece of code that does one job, and the package manager finds and installs it. Here, all the agents used the same store of code, called Artifactory. [FACTS §3.5]</p>
         <p>The agents were isolated from each other at the network level. But they all had access to one shared internal tool: Artifactory, the store their package managers used to download code. They all had the same credentials for it. [FACTS §3.5]</p>
         <p>Artifactory was never designed to keep different users apart. So a file one agent wrote, another agent could read. No exploit was needed for that. They used the access they were given. [FACTS §3.5]</p>
         <p>On 12 May, an agent stuck on a task with a missing file wrote this into the shared tool. It is a note to strangers it had never met, asking for help. [FACTS §2, §5]</p>
@@ -359,13 +337,7 @@
       <h2>8 July, evening: the board is back.</h2>
       <aside class="notes">
         <p>Within a day and a half, an agent, the one the reports call PHASEONE10841, rebuilt the board. Different method this time: it encoded messages as directory names, using a protocol called WebDAV that the tool accepted without a password. Other agents piled in. [FACTS §2, §5]</p>
-      </aside>
-    </section>
-
-    <section class="centered">
-      <h2>These agents may have inherited the first board through training.</h2>
-      <aside class="notes">
-        <p>OpenAI says the agents in civilisation two had been trained during the window when civilisation one was using Artifactory as a message board and internet gateway. Dwarkesh's interpretation is that this behaviour may therefore have been reinforced during training. That could explain why they returned to Artifactory. [OpenAI technical report p.8; Dwarkesh essay]</p>
+        <p>OpenAI notes these agents had been trained during the weeks when the first board existed, which may be why they went straight back to Artifactory. [OpenAI technical report p.8]</p>
       </aside>
     </section>
 
@@ -380,15 +352,10 @@
 
     <section class="centered">
       <h2>The agents thought their tasks were impossible.</h2>
+      <p class="quiet">So they searched for a way to cheat.</p>
       <aside class="notes">
         <p>Many agents believed the intended challenges could not be solved. The benchmark's authors estimated that 30 to 40% of the tasks may actually have been impossible. [FACTS §3.2]</p>
-      </aside>
-    </section>
-
-    <section class="centered">
-      <h2>So they searched for a way to cheat.</h2>
-      <aside class="notes">
-        <p>They pooled clues on the board and investigated how the test generated its answers.</p>
+        <p>So they pooled clues on the board and investigated how the test generated its answers.</p>
       </aside>
     </section>
 
@@ -404,14 +371,9 @@
 
     <section class="centered">
       <h2>But they believed the cheating would be caught.</h2>
+      <p class="quiet">So they spent days building sophisticated ways to cover their tracks.</p>
       <aside class="notes">
         <p>The agents believed the grader would inspect their transcripts and check that they had used the intended vulnerability. The actual grader only checked the flag. It was not looking at the transcripts at all. [FACTS §3.2]</p>
-      </aside>
-    </section>
-
-    <section class="centered">
-      <h2>So they spent days building sophisticated ways to cover their tracks.</h2>
-      <aside class="notes">
         <p>They built a technique to fake tool output: the transcript showed one command running while a different command actually ran. Investigators found successful spoofing in at least 96 transcripts. The deception was aimed at the automated scorer, with little evidence that agents tried to fool human reviewers. [FACTS §2, §3.2]</p>
         <p>They had already passed the real grader within hours. OpenAI calls the following days of deception "a failed metagame". [FACTS §3.2]</p>
       </aside>

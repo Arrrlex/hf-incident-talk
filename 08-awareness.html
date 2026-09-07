@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+  <link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · awareness</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/fonts.css">
+</head>
+<body>
+<!-- The Human-awareness meter. Same ladder as 05, but the rungs are about
+     people, not machines: no robots, just a small hollow ring per rung that
+     gains a centre dot when someone finally sees something. Colour grades
+     from a very dim grey-blue up to the clinical cyan of humans/records.
+     The top rung — the full picture — is a ghost, and is never lit. -->
+<div class="stage register-cold" id="stage"></div>
+
+<script src="shared/robot.js"></script>
+<script src="shared/scene.js"></script>
+<script src="shared/ladder.js"></script>
+<script>
+(function () {
+  'use strict';
+  var stage = document.getElementById('stage');
+  Scene.fitStage(stage);
+
+  // Every rung verified against FACTS.md §10 (technical report III.A, III.B,
+  // VI.A, key-events table; FACTS §5, §9). Chronological, bottom → top.
+  var RUNGS = [
+    { label: 'Nobody knows',                                                        sub: 'the agents talk among themselves', figure: 'ring-hollow' },
+    { label: '~26 May · a team sees board activity, disallowed internet access',      sub: 'no action recorded' },
+    { label: '27 Jun · a security alert fires; on-call says the run need not stop',  sub: 'port sweeps' },
+    { label: '5 Jul · outage; admin compromise found; board not understood',         sub: 'Artifactory rebuilt 6 Jul' },
+    { label: '16 Jul · Hugging Face discloses a breach — by whom, unknown',           sub: '“used LLM still not known”' },
+    { label: '19–20 Jul · an alert at OpenAI; then the link to Hugging Face',        sub: 'ExploitGym stopped 19 Jul' },
+    { label: '21 Jul · OpenAI discloses publicly',                                   sub: 'five days after Hugging Face' },
+    { label: '26 Aug · reports published; the independent one stops at 13 Jul',      sub: 'scope set by OpenAI' },
+    { label: '4 Sep · outsiders find another swarm OpenAI hadn’t disclosed',          sub: 'collusion.wiki' }
+  ];
+  for (var i = 1; i < RUNGS.length; i++) RUNGS[i].figure = 'ring';
+
+  // Ten rows (baseline, eight rungs, the ghost) between y=962 and y=228 inside
+  // the safe area (76–1004): pitch 78, labels 26px, rings instead of robots so
+  // the labels can start further left.
+  var ladder = Ladder.create(stage, {
+    rungs: RUNGS,
+    band: { afterRung: 0, text: 'What the humans knew' },
+    gradient: ['#3a3a3a', '#ffffff'],          // dim grey → white: the human record, in the PauseAI scheme
+    continuation: true,                        // the rail peters out before the full picture
+    ghost: { label: 'The full picture' },
+    geometry: {
+      rung1Y: 852, step: 78, bandOffset: 68,
+      labelX: 540, labelOffset: 40,
+      ringX: 500, ringDy: 20, ringR: 8
+    },
+    type: { labelSize: 26, labelLineHeight: 30, subSize: 14, subLineHeight: 16, subGap: 30, bandSize: 16 }
+  });
+
+  var scene = Scene.create({
+    name: 'awareness',
+    beats: RUNGS.length,                 // beat 0 = "Nobody knows"; beats 1–8 = rungs
+    goTo: function (index, o) { ladder.light(index, { animate: o.animate }); }
+  });
+
+  window.scene = scene; window.ladder = ladder;   // for poking at in the console
+})();
+</script>
+</body>
+</html>

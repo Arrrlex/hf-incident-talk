@@ -2,14 +2,14 @@
 @import url("../shared/fonts.css");
 
 :root {
-  --r-background-color: #0a0a0f;
+  --r-background-color: #000000;
   --r-main-font: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
   --r-heading-font: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
-  --r-main-color: #e8e8ea;
-  --r-heading-color: #e8e8ea;
+  --r-main-color: #ffffff;
+  --r-heading-color: #ffffff;
   --r-heading-text-transform: none;
   --r-heading-font-weight: 300;
-  --r-link-color: #4fd6e0;
+  --r-link-color: #ff9416;
   --r-main-font-size: 44px;
 }
 
@@ -24,10 +24,11 @@
 .reveal .slides section.scene { height: 1080px; padding: 0; top: 0 !important; }
 .reveal .slides section.scene iframe {
   position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - var(--band-h));
-  border: 0; background: #0a0a0f;
+  border: 0; background: #000000;
 }
 #tl-band {
   position: fixed; left: 0; top: 0; width: 1920px; height: var(--band-h);
+  padding: 0 134px;                 /* the 7% safe margin, so the caption is not flush with the edge */
   --tl-height: var(--band-h);
   pointer-events: none; z-index: 20;
   transition: opacity 400ms ease-out;
@@ -36,17 +37,19 @@
 #tl-band .tl { height: 100%; }
 .reveal .progress { display: none; }
 .reveal .controls { display: none; }
-.reveal .slide-number { color: #4a4a52; font-size: 18px; background: transparent; }
-.quiet { color: #8a8a92; }
+.reveal .slide-number { color: #5a5a5a; font-size: 18px; background: transparent; }
+.quiet { color: #9a9a9a; }
 .crimson { color: #e0483f; }
-.cyan { color: #4fd6e0; }
-.amber { color: #f0b849; }
+.cyan { color: #ffc480; }   /* legacy class name; now PauseAI pale orange */
+.amber { color: #ff9416; }   /* PauseAI orange */
+.orange { color: #ff9416; }
+.pale { color: #ffc480; }
 .big { font-size: 2.2em; font-weight: 300; }
 .reveal blockquote {
-  background: transparent; box-shadow: none; border-left: 2px solid #4fd6e0;
+  background: transparent; box-shadow: none; border-left: 2px solid #ff9416;
   padding-left: 0.8em; font-style: normal; width: 90%;
 }
-.reveal .source { position: absolute; bottom: calc(var(--band-h) + 24px); left: 0; right: 0; font-size: 18px; color: #4a4a52; text-align: center; }
+.reveal .source { position: absolute; bottom: calc(var(--band-h) + 24px); left: 0; right: 0; font-size: 18px; color: #6a6a6a; text-align: center; }
 
 /* --- Deck build additions -------------------------------------------- */
 /* Section title slides: small grey label above a large thin heading. */

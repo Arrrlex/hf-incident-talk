@@ -24,8 +24,8 @@
 
   // Sprite/colour indices.
   var C_AMBER = 0, C_GOLD = 1, C_CRIMSON = 2, C_FALSE = 3, C_PULSE = 4;
-  var COLOURS = ['#c8933a', '#f0b849', '#e0483f', '#5fd8c8', '#c9f3f6'];
-  var LINE_COLOUR = '#4fd6e0';
+  var COLOURS = ['#b35f00', '#ff9416', '#e0483f', '#e6e6e6', '#ffc480']; // idle, active, adversarial, false hue, transmit — PauseAI orange scheme (assets/BRAND.md)
+  var LINE_COLOUR = '#ffffff';
 
   // Per-state look: colour index, base alpha, breathing amplitude (fraction
   // of alpha that swings), breathing period (s, before per-agent jitter),
@@ -674,7 +674,7 @@
     '.rb-figure .rb-dark{fill:var(--robot-shadow,#1c1d22)}',
     '.rb-figure .rb-line{stroke:var(--robot-shadow,#1c1d22);stroke-width:1.5;stroke-linecap:round}',
     '.rb-figure .rb-eye,.rb-figure .rb-glow,.rb-figure .rb-false{transform-box:fill-box;transform-origin:center;transition:fill 600ms cubic-bezier(.22,.61,.36,1)}',
-    '.rb-figure .rb-socket{fill:#0e0f13}'
+    '.rb-figure .rb-socket{fill:#0a0a0a}'
   ].join('\n');
   var figureStyleInjected = false;
   function injectFigureCss() {

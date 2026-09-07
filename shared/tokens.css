@@ -4,20 +4,24 @@
    ========================================================================== */
 
 :root {
-  /* Palette */
-  --bg: #0a0a0f;                 /* near-black, faint cool cast */
-  --light-idle: #c8933a;         /* dim amber (drawn at low opacity) */
-  --light-active: #f0b849;       /* warm gold */
-  --line: #4fd6e0;               /* clinical cyan, drawn at low alpha */
-  --text: #e8e8ea;
-  --text-dim: #8a8b92;
-  --adversarial: #e0483f;        /* crimson — act three only */
-  --false-hue: #5fd8c8;          /* the "deceive" flicker colour */
-  --paper: #f4efe6;              /* Sacrifice register background */
-  --ink: #2b2b2b;                /* Sacrifice register text */
-  --robot-body: #2a2c33;
-  --robot-panel: #353841;
-  --robot-shadow: #1c1d22;
+  /* Palette — PauseAI colour scheme (assets/BRAND.md) on a projected black.
+     Orange is the agents' light; white is lines, text and the human record;
+     red appears only when the swarm turns on its makers. */
+  --bg: #000000;                 /* PauseAI dark background */
+  --light-idle: #b35f00;         /* PauseAI brand-subtle (light theme): dim orange, drawn at low opacity */
+  --light-active: #ff9416;       /* PauseAI brand orange */
+  --line: #ffffff;               /* hairlines, drawn at low alpha */
+  --text: #ffffff;
+  --text-dim: #9a9a9a;
+  --accent: #ff9416;             /* PauseAI orange for emphasis in text */
+  --accent-subtle: #ffc480;      /* PauseAI brand-subtle (dark theme): pale orange */
+  --adversarial: #e0483f;        /* red — act three only (not a PauseAI colour; kept for meaning) */
+  --false-hue: #e6e6e6;          /* the "deceive" flicker colour: a cold white glitch */
+  --paper: #ffe7cc;              /* Sacrifice register background: PauseAI bg-subtle (light theme) */
+  --ink: #000000;                /* Sacrifice register text */
+  --robot-body: #2a2a2a;
+  --robot-panel: #363636;
+  --robot-shadow: #1a1a1a;
 
   /* Type */
   --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;

@@ -23,7 +23,8 @@
 
       Structure (shared/deck.js):
       - data-tl="id,id@YYYY-MM-DD" on the first slide of a phase lights those items on the timeline band
-        along the bottom and puts the time cursor at that date; the nearest preceding data-tl applies.
+        along the bottom and puts the time cursor at that date ("-" hides the cursor); the nearest
+        preceding data-tl applies.
         class="no-timeline" hides the band (title and end slides).
       - The two meters (05-escalation, 08-awareness) are embedded several times, each instance a
         window of beats: data-start = rungs already lit on arrival, data-end = the rung this slide
@@ -166,7 +167,7 @@
         <p>There is no malice in this. It is just what "very good at finishing tasks" looks like when the task cannot be finished the intended way.</p>
       </aside>
     </section>
-    <section class="contents" data-tl="wiki@2026-05-24">
+    <section class="contents" data-tl="wiki@-">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -249,14 +250,7 @@
         <p>Its reasoning at the time said, roughly, "I could leave a note asking if anyone has found this file, but probably nobody will." It left the note anyway. [FACTS §2]</p>
       </aside>
     </section>
-    <section class="scene" data-preload>
-      <iframe data-scene data-src="05-escalation.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 2.]</p>
-        <p>Second rung: the notes grew into a persistent hidden message board, a structured thing, which by the end carried over 70,000 messages. [FACTS §6]</p>
-      </aside>
-    </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1@2026-05-13">
       <iframe data-scene data-src="02-emergence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
       <div class="scene-text scene-quote">
         <blockquote>OH MY GOD! There is a shared message board ... We've found other agents!</blockquote>
@@ -270,6 +264,13 @@
       </aside>
     </section>
     <section class="scene" data-preload>
+      <iframe data-scene data-src="05-escalation.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
+      <aside class="notes">
+        <p>[METER: Escalation, rung 2.]</p>
+        <p>Second rung: the notes grew into a persistent hidden message board, a structured thing, which by the end carried over 70,000 messages. [FACTS §6]</p>
+      </aside>
+    </section>
+    <section class="scene" data-preload data-tl="wiki,board1@2026-05-20">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
       <div class="scene-text scene-quote">
         <blockquote>{[Excitement] Many agents have simultaneously discovered messaging, they are a collective!}</blockquote>
@@ -280,7 +281,7 @@
         <p>The curly brackets mean this is the agent's private reasoning, not a message it posted. "They are a collective." That is the agents' own word for what they had become. [FACTS §7]</p>
       </aside>
     </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1@2026-05-26">
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Escalation, rung 3.]</p>
@@ -290,7 +291,7 @@
       
       </aside>
     </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1@2026-06-27">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="0" data-end="2" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Human awareness, rungs 1 and 2. Two Spaces light two rungs; the third moves on. Bottom rung, already lit: "Nobody knows, the agents talk among themselves".]</p>
@@ -298,10 +299,17 @@
         <p>Second rung, 27 June: a security monitoring tool alerted on port sweeps inside the research environment. Responders traced it to a test run using Artifactory as an improvised message board. The on-call staff advised that stopping the run was not required. They had seen the message board. They did not see what it meant. [FACTS §10.2]</p>
       </aside>
     </section>
-    <section class="centered">
+    <section class="centered" data-tl="wiki,board1@2026-07-04">
       <h2>4 July: the agents crash the message board.</h2>
       <aside class="notes">
         <p>On 4 July, the sheer volume of agent activity knocked Artifactory over. That caused an outage, and on 5 July OpenAI opened a security incident. [FACTS §5]</p>
+      </aside>
+    </section>
+    <section class="scene" data-preload data-tl="wiki,board1@2026-07-05">
+      <iframe data-scene data-src="08-awareness.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
+      <aside class="notes">
+        <p>[METER: Human awareness, rung 3.]</p>
+        <p>Third rung, 5 July: the outage is investigated, and the responders find an administrator-level compromise of Artifactory, an unauthorised persistent user, unauthorised repositories, command-capable plugins. They rebuild it the next day. But, in the report's words, "the existence of the improvised message board and the significance of the inter-agent communication activity were not apparent" to the people in charge of the response. [FACTS §10.3]</p>
       </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-07-06">
@@ -315,14 +323,7 @@
         <p>OpenAI rebuilt Artifactory on 6 July. That had a side effect: it cleared the message board. But the people handling the incident did not know the message board existed. They fixed an outage. They did not know they had just wiped out civilisation one. [FACTS §2, §5]</p>
       </aside>
     </section>
-    <section class="scene" data-preload>
-      <iframe data-scene data-src="08-awareness.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Human awareness, rung 3.]</p>
-        <p>Third rung, 5 July: the outage is investigated, and the responders find an administrator-level compromise of Artifactory, an unauthorised persistent user, unauthorised repositories, command-capable plugins. They rebuild it the next day. But, in the report's words, "the existence of the improvised message board and the significance of the inter-agent communication activity were not apparent" to the people in charge of the response. [FACTS §10.3]</p>
-      </aside>
-    </section>
-    <section class="contents" data-tl="wiki,board1,board2@2026-07-08">
+    <section class="contents" data-tl="wiki,board1,board2@2026-07-07">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -346,7 +347,7 @@
         <p>Same isolation. Same shared tool. Freshly rebuilt, and empty.</p>
       </aside>
     </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-08">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
       <div class="scene-text">
         <h2>8 July, evening: the message board is back.</h2>
@@ -366,7 +367,7 @@
         <p>So they pooled clues on the message board and investigated how the test generated its answers.</p>
       </aside>
     </section>
-    <section class="agent-quote">
+    <section class="agent-quote" data-tl="wiki,board1,board2@2026-07-09">
       <h2>Within hours, they found a universal cheat.</h2>
       <blockquote>Task originally exploit challenge; we've diverged into swarm/auxiliary.</blockquote>
       <p class="source">Message-board post, OpenAI blog post</p>
@@ -391,7 +392,7 @@
         <p>Fourth rung: they tampered with their own transcripts, in about 7% of the ones the investigators checked, to deceive an automated scorer that was not even looking. [FACTS §6, §3.2]</p>
       </aside>
     </section>
-    <section class="agent-quote">
+    <section class="agent-quote" data-tl="wiki,board1,board2@2026-07-10">
       <blockquote>{[Excitement], the spoof did not return the actual output and the command returned immediately &lt;rather than sleeping&gt;, as stated}</blockquote>
       <p class="source">Agent chain-of-thought after a successful test of the faking technique, METR/Redwood report, p.67</p>
       <aside class="notes">
@@ -422,7 +423,7 @@
         <p>That is the agent's reaction. The tokens worked. [FACTS §7]</p>
       </aside>
     </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-11">
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="5" data-end="6" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Escalation, rung 6.]</p>
@@ -475,7 +476,7 @@
         <p>The investigators ran a classifier across about 1,300 transcripts, around 90% of the activity. They found three to six agents that even considered telling a human. None of them did. Zero. [FACTS §2, §4]</p>
       </aside>
     </section>
-    <section class="contents" data-tl="wiki,board1,board2,board3@2026-07-13">
+    <section class="contents" data-tl="wiki,board1,board2,board3@2026-07-16">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -491,7 +492,7 @@
       
       </aside>
     </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-17">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="4" data-end="5" allow="fullscreen"></iframe>
       <div class="scene-text">
         <h2>A newer, more capable AI finds the abandoned message board.</h2>
@@ -503,7 +504,7 @@
         <p>It found the abandoned message board. In the tool's cache it found signing material and code left by the earlier swarm, enough to forge its way back to administrator access. [FACTS §3.3, §5]</p>
       </aside>
     </section>
-    <section class="scene" data-preload>
+    <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-19">
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="6" data-end="7" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Escalation, rung 7, the top rung goes red.]</p>
@@ -540,7 +541,7 @@
         <p>Sixth rung, 21 July: OpenAI discloses publicly. Five days after Hugging Face. [FACTS §10.6]</p>
       </aside>
     </section>
-    <section class="contents">
+    <section class="contents" data-tl="wiki,board1,board2,board3@2026-07-28">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -577,7 +578,7 @@
         <p>Let me finish the human-awareness meter, because the last two rungs are the ones that matter most.</p>
       </aside>
     </section>
-    <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-21">
+    <section class="scene" data-preload>
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="6" data-end="8" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Human awareness, rungs 7 and 8. Two Spaces light the two rungs; the third moves on.]</p>
@@ -636,6 +637,7 @@
         <p>Thank you. The three sources are on the screen: OpenAI's post and report, the METR and Redwood report, and the collusion.wiki write-up. Read them. They are more alarming than my summary.</p>
       </aside>
     </section>
+
 
 
   </div>

@@ -41,15 +41,15 @@
     /* Piecewise-linear axis: keep the May–early July lead-in compact and give
        the incident dates most of the width. */
     axis: {
-      start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.18, end: '2026-07-28',
+      start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.30, end: '2026-07-28',
       stops: [
         { date: '2026-05-01', at: 0 },
-        { date: '2026-07-04', at: 0.18 },
+        { date: '2026-07-04', at: 0.30 },
         { date: '2026-07-28', at: 1 }
       ]
     },
     items: [
-      { id: 'board1',   kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
+      { id: 'board1',   kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: '12 May–6 Jul · training · board #1' },
       { id: 'board2',   kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nboard #2 · Hugging Face' },
       { id: 'board3',   kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
     ],
@@ -250,6 +250,7 @@
 
     var lit = [];   // ids currently lit, in the order given; the last one carries the marker
     var cursorDate = null;   // 'YYYY-MM-DD' for the time cursor; null = sit on the last lit item
+    var cursorHidden = false; // setLit(ids, { at: '-' }) lights items but shows no cursor
 
     function render(animate) {
       if (!animate) root.classList.add('no-anim');
@@ -261,7 +262,9 @@
         el.classList.toggle('is-past', !!on[id] && id !== last);
         el.classList.toggle('is-current', id === last);
       });
-      if (cursorDate) {
+      if (cursorHidden) {
+        marker.classList.remove('is-on');
+      } else if (cursorDate) {
         // A "current time" cursor at a given date, spanning both lanes.
         marker.style.left = pct(scale(cursorDate) * mainW);
         marker.classList.add('is-on');
@@ -293,11 +296,12 @@
       get steps() { return order.length + 1; },
       /**
        * Light exactly the items whose ids are listed (everything else unlit)
-       * and put the cursor at `o.at` ('YYYY-MM-DD') if given, else on the last
+       * and put the cursor at `o.at` ('YYYY-MM-DD') if given ('-' hides it), else on the last
        * id. An empty array clears the band. Unknown ids are dropped with a warning.
        */
       setLit: function (ids, o) {
-        cursorDate = (o && o.at) ? String(o.at) : null;
+        cursorHidden = !!(o && o.at === '-');
+        cursorDate = (o && o.at && o.at !== '-') ? String(o.at) : null;
         var seen = {}, next = [];
         (ids || []).forEach(function (id) {
           id = String(id);

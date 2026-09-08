@@ -160,18 +160,22 @@
     const i = all.indexOf(slide);
     for (let k = i; k >= 0; k--) {
       const v = all[k].dataset.tl;
-      if (v !== undefined) return v.split(',').map((s) => s.trim()).filter(Boolean);
+      if (v !== undefined) {
+        // "id,id@YYYY-MM-DD": the ids to light, and where the time cursor sits.
+        const [idPart, at] = v.split('@');
+        return { ids: idPart.split(',').map((s) => s.trim()).filter(Boolean), at: at ? at.trim() : null };
+      }
     }
-    return [];
+    return { ids: [], at: null };
   }
 
   function updateTimeline(slide) {
     if (!timeline) return;
-    const ids = timelineIdsFor(slide);
+    const want = timelineIdsFor(slide);
     const hidden = slide && slide.classList.contains('no-timeline');
     const band = document.getElementById('tl-band');
     if (band) band.classList.toggle('is-hidden', !!hidden);
-    if (typeof timeline.setLit === 'function') timeline.setLit(ids);
+    if (typeof timeline.setLit === 'function') timeline.setLit(want.ids, { at: want.at });
   }
 
   function placeBand() {

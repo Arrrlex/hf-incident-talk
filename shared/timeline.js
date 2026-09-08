@@ -50,14 +50,8 @@
     },
     items: [
       { id: 'board1',   kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: 'May–Jun · training · board #1' },
-      { id: 'wipe1',    kind: 'mark',  at: '2026-07-06', label: '6 Jul · wiped' },
       { id: 'board2',   kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nboard #2 · Hugging Face' },
-      { id: 'death',    kind: 'mark',  at: '2026-07-12', label: '12 Jul · mass death\n(cause unknown)' },
       { id: 'board3',   kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' },
-      { id: 'shutdown', kind: 'mark',  at: '2026-07-19', label: '19–25 Jul\nshutdown' },
-      /* How the humans found out (FACTS.md §5, "Discovery & disclosure"). */
-      { id: 'hf-disclose',  kind: 'mark', at: '2026-07-16', label: '16 Jul\nHF discloses', side: 'below' },
-      { id: 'oai-disclose', kind: 'mark', at: '2026-07-21', label: '21 Jul · OpenAI\ndiscloses', side: 'above' },
     ],
     /* Separate, probably-distinct swarm (FACTS.md §9). Its dates use the same
        axis as the main strand rather than a detached right-hand scale. */
@@ -68,20 +62,20 @@
   };
 
   var CSS = [
-    '.tl{position:relative;height:var(--tl-height,76px);font:13px/16px ui-monospace,"JetBrains Mono","SF Mono",Menlo,monospace;',
+    '.tl{position:relative;height:var(--tl-height,76px);font:400 15px/18px ui-monospace,"JetBrains Mono","SF Mono",Menlo,monospace;',
     '  color:var(--text-dim,#8a8b92);letter-spacing:.02em;white-space:nowrap;pointer-events:none}',
     '.tl *{box-sizing:border-box}',
     '.tl-strand{position:absolute;top:0;height:100%}',
     '.tl-line{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--text-dim,#8a8b92);opacity:.35}',
     '.tl-secondary{top:0;height:100%}',
     '.tl-secondary .tl-line{top:16%;opacity:.28}',
-    '.tl-phase{position:absolute;top:50%;height:3px;margin-top:-1px;background:var(--light-active,#ff9416);opacity:.22;',
+    '.tl-phase{position:absolute;top:50%;height:4px;margin-top:-2px;background:var(--light-active,#ff9416);opacity:.3;',
     '  transition:opacity 400ms cubic-bezier(.22,.61,.36,1)}',
     '.tl-phase.tone-adversarial{background:var(--adversarial,#e0483f)}',
-    '.tl-secondary .tl-phase{top:16%;margin-top:-1px;background:var(--light-active,#ff9416);opacity:.32}',
-    '.tl-mark{position:absolute;top:50%;width:1.5px;height:14px;margin:-7px 0 0 -.75px;background:var(--text,#e8e8ea);opacity:.3;',
+    '.tl-secondary .tl-phase{top:16%;margin-top:-2px;background:var(--light-active,#ff9416);opacity:.4}',
+    '.tl-mark{position:absolute;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--text,#e8e8ea);opacity:.3;',
     '  transition:opacity 400ms cubic-bezier(.22,.61,.36,1)}',
-    '.tl-label{position:absolute;opacity:.42;transition:color 400ms,opacity 400ms}',
+    '.tl-label{position:absolute;opacity:.6;transition:color 400ms,opacity 400ms}',
     '.tl-label.above{bottom:calc(50% + 8px)}',
     '.tl-label.below{top:calc(50% + 11px);transform:translateX(-50%);text-align:center}',
     '.tl-secondary .tl-label.above{top:calc(16% - 22px);bottom:auto}',
@@ -89,15 +83,15 @@
     '.tl-label div{display:block}',
     /* The "what is known" caption: quiet, far left, above the line. Sits at
        the top edge of a 76px band and 10px down in a 96px one. */
-    '.tl-caption{position:absolute;right:0;top:0;font-size:12px;line-height:12px;letter-spacing:.06em;opacity:.38}',
+    '.tl-caption{position:absolute;right:0;top:0;font-size:13px;line-height:13px;letter-spacing:.06em;opacity:.55}',
     /* Context lane notes stay quieter than the main event labels. */
-    '.tl-note{font-size:12px;line-height:14px;opacity:.3}',
-    '.is-past .tl-phase,.is-current .tl-phase{opacity:.85}',
+    '.tl-note{font-size:13px;line-height:15px;opacity:.45}',
+    '.is-past .tl-phase,.is-current .tl-phase{opacity:1}',
     '.is-past .tl-mark,.is-current .tl-mark{opacity:1}',
     '.is-past .tl-label{opacity:1}',
     '.is-current .tl-label{opacity:1;color:var(--text,#e8e8ea)}',
-    '.tl-marker{position:absolute;top:50%;width:7px;height:7px;margin:-3px 0 0 -3.5px;border-radius:50%;',
-    '  background:var(--text,#e8e8ea);opacity:0;transition:left 400ms cubic-bezier(.22,.61,.36,1),opacity 400ms}',
+    '.tl-marker{position:absolute;top:4%;height:92%;width:3px;margin-left:-1.5px;border-radius:1.5px;',
+    '  background:var(--text,#ffffff);box-shadow:0 0 8px rgba(255,148,22,.8);opacity:0;transition:left 400ms cubic-bezier(.22,.61,.36,1),opacity 400ms}',
     '.tl-marker.is-on{opacity:1}',
     '.tl.no-anim *{transition:none!important}',
     '@media (prefers-reduced-motion: reduce){.tl *{transition:none!important}}'
@@ -255,6 +249,7 @@
     var marker = div('tl-marker', root);
 
     var lit = [];   // ids currently lit, in the order given; the last one carries the marker
+    var cursorDate = null;   // 'YYYY-MM-DD' for the time cursor; null = sit on the last lit item
 
     function render(animate) {
       if (!animate) root.classList.add('no-anim');
@@ -266,9 +261,12 @@
         el.classList.toggle('is-past', !!on[id] && id !== last);
         el.classList.toggle('is-current', id === last);
       });
-      if (last !== null) {
+      if (cursorDate) {
+        // A "current time" cursor at a given date, spanning both lanes.
+        marker.style.left = pct(scale(cursorDate) * mainW);
+        marker.classList.add('is-on');
+      } else if (last !== null) {
         marker.style.left = pct(byId[last].anchor);
-        marker.style.top = byId[last].lane + '%';
         marker.classList.add('is-on');
       } else {
         marker.classList.remove('is-on');
@@ -295,10 +293,11 @@
       get steps() { return order.length + 1; },
       /**
        * Light exactly the items whose ids are listed (everything else unlit)
-       * and put the marker on the last id. An empty array clears the band.
-       * Unknown ids are dropped with a console warning.
+       * and put the cursor at `o.at` ('YYYY-MM-DD') if given, else on the last
+       * id. An empty array clears the band. Unknown ids are dropped with a warning.
        */
       setLit: function (ids, o) {
+        cursorDate = (o && o.at) ? String(o.at) : null;
         var seen = {}, next = [];
         (ids || []).forEach(function (id) {
           id = String(id);

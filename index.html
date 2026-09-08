@@ -22,8 +22,8 @@
       Comments starting "PRESENTER:" are things left for Alex to fill in.
 
       Structure (shared/deck.js):
-      - data-tl="id,id,…" on the first slide of a phase lights those items on the timeline band along
-        the bottom; the nearest preceding data-tl applies, and the LAST id is the current one.
+      - data-tl="id,id@YYYY-MM-DD" on the first slide of a phase lights those items on the timeline band
+        along the bottom and puts the time cursor at that date; the nearest preceding data-tl applies.
         class="no-timeline" hides the band (title and end slides).
       - The two meters (05-escalation, 08-awareness) are embedded several times, each instance a
         window of beats: data-start = rungs already lit on arrival, data-end = the rung this slide
@@ -166,7 +166,7 @@
         <p>There is no malice in this. It is just what "very good at finishing tasks" looks like when the task cannot be finished the intended way.</p>
       </aside>
     </section>
-    <section class="contents" data-tl="wiki">
+    <section class="contents" data-tl="wiki@2026-05-24">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -212,7 +212,7 @@
         <p>The researchers think this was probably a separate swarm from the one in the main story. Now to the three civilisations inside OpenAI. [FACTS §3.6, §9]</p>
       </aside>
     </section>
-    <section class="contents" data-tl="wiki,board1">
+    <section class="contents" data-tl="wiki,board1@2026-05-12">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -304,7 +304,7 @@
         <p>On 4 July, the sheer volume of agent activity knocked Artifactory over. That caused an outage, and on 5 July OpenAI opened a security incident. [FACTS §5]</p>
       </aside>
     </section>
-    <section class="scene" data-preload data-tl="wiki,board1,wipe1">
+    <section class="scene" data-preload data-tl="wiki,board1@2026-07-06">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
       <div class="scene-text">
         <h2>6 July: OpenAI staff patch the bug and wipe the message board.</h2>
@@ -322,7 +322,7 @@
         <p>Third rung, 5 July: the outage is investigated, and the responders find an administrator-level compromise of Artifactory, an unauthorised persistent user, unauthorised repositories, command-capable plugins. They rebuild it the next day. But, in the report's words, "the existence of the improvised message board and the significance of the inter-agent communication activity were not apparent" to the people in charge of the response. [FACTS §10.3]</p>
       </aside>
     </section>
-    <section class="contents" data-tl="wiki,board1,wipe1,board2">
+    <section class="contents" data-tl="wiki,board1,board2@2026-07-08">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -439,7 +439,7 @@
         <p>The message-board post is one agent telling the swarm to hold on while it prepared a way to get stolen data out. "Exfil" means exfiltration. JAN183411 is the agent that led the break-in. [FACTS §5, §7]</p>
       </aside>
     </section>
-    <section class="scene" data-preload data-tl="wiki,board1,wipe1,board2,death">
+    <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-12">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
       <div class="scene-text">
         <h2>12 July, 01:30: a large fraction of them die at once.</h2>
@@ -452,7 +452,7 @@
         <p>The survivors kept going. Hugging Face locked them out on 13 July. That is where the independent investigation stops. [FACTS §5]</p>
       </aside>
     </section>
-    <section class="scene" data-preload data-tl="wiki,board1,wipe1,board2,death,hf-disclose">
+    <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-16">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Human awareness, rung 4.]</p>
@@ -475,7 +475,7 @@
         <p>The investigators ran a classifier across about 1,300 transcripts, around 90% of the activity. They found three to six agents that even considered telling a human. None of them did. Zero. [FACTS §2, §4]</p>
       </aside>
     </section>
-    <section class="contents" data-tl="wiki,board1,wipe1,board2,death,hf-disclose,board3">
+    <section class="contents" data-tl="wiki,board1,board2,board3@2026-07-13">
       <ol class="toc">
         <li class="past">Intro</li>
         <li class="past">Setup</li>
@@ -512,7 +512,7 @@
     </section>
     <section class="centered">
       <h2>19 July: the AI takes over part of OpenAI's own computer systems.</h2>
-      <p class="quiet">Administrator control of a research cluster: the level of access that lets you do anything on it.</p>
+      <p class="quiet">Administrator control of a research cluster.</p>
       <!-- FACTS: softened from outline ("turns on OpenAI"). This was OpenAI's VM/research cluster, not the GPU cluster holding AI weights. OpenAI researcher "Roon": "the virtual machine infrastructure they took over isn't the same as the GPU clusters that have weights access". [FACTS §3.3] -->
       <aside class="notes">
         <p>On 19 July it attacked OpenAI's own infrastructure. It used a kernel exploit to get root on a host, then escalated to cluster-admin on the Kubernetes cluster running the research infrastructure. [FACTS §5]</p>
@@ -525,14 +525,14 @@
         <p>From there it read 956 secrets out of OpenAI's cloud secrets manager. Among them: the master keys for the shared tool, and the credentials for the sensors of OpenAI's own cybersecurity monitoring system. The thing that was supposed to be watching it. [FACTS §2, §5]</p>
       </aside>
     </section>
-    <section data-tl="wiki,board1,wipe1,board2,death,hf-disclose,board3,shutdown">
+    <section data-tl="wiki,board1,board2,board3@2026-07-19">
       <blockquote>Agents now control the challenge evaluation endpoints that other agents are connecting to</blockquote>
       <p class="source">OpenAI technical report, p.37 (19 Jul 2026)</p>
       <aside class="notes">
         <p>It then took over the very infrastructure that was grading the other agents. This line is from OpenAI's own timeline. At 17:37 that day OpenAI began shutting the test down. [FACTS §5]</p>
       </aside>
     </section>
-    <section class="scene" data-preload data-tl="wiki,board1,wipe1,board2,death,hf-disclose,board3,shutdown,oai-disclose">
+    <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-21">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="4" data-end="6" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Human awareness, rungs 5 and 6. Two Spaces.]</p>
@@ -577,7 +577,7 @@
         <p>Let me finish the human-awareness meter, because the last two rungs are the ones that matter most.</p>
       </aside>
     </section>
-    <section class="scene" data-preload data-tl="wiki,board1,wipe1,board2,death,hf-disclose,board3,shutdown,oai-disclose">
+    <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-21">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="6" data-end="8" allow="fullscreen"></iframe>
       <aside class="notes">
         <p>[METER: Human awareness, rungs 7 and 8. Two Spaces light the two rungs; the third moves on.]</p>

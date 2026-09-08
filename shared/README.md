@@ -77,6 +77,8 @@ var field = Robot.Field.create(canvasEl, {
   minSpacing: 0,    // CSS px; 0 = auto from area/count (Poisson-ish rejection)
   pointSize: 20,    // CSS px sprite diameter at 1080p; scales with canvas size
   lineAlpha: 0.30, lineWidth: 1, lineFadeIn: 400,
+  lightGain: 1,     // multiplies every state's base alpha when drawing (clamped to 1); >1 brightens the
+                    // whole field without changing the shared looks (10-sandboxes uses 1.6 on its idle grid)
   positions: null   // optional layout instead of the scatter: Float32Array | number[] of 2N CSS px at 1920×1080 (scaled with the canvas),
                     // or a function (width, height) -> Float32Array of 2N CSS px, called on every resize (e.g. a grid)
 });

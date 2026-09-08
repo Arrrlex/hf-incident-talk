@@ -98,8 +98,10 @@
     var p = cellCentre(i % COLS, (i / COLS) | 0);
     gridPos[i * 2] = p.x; gridPos[i * 2 + 1] = p.y;
   }
+  // lightGain lifts the idle amber a little (the presenter wanted the grid
+  // "a bit brighter") while keeping it clearly dimmer than the active gold.
   var field = Robot.Field.create(document.getElementById('field'), {
-    count: N, seed: 7, pointSize: 22, positions: gridPos
+    count: N, seed: 7, pointSize: 24, positions: gridPos, lightGain: 1.6
   });
   field.start();
   field.freezeAll();                          // static until the pull-back lands, then they breathe

@@ -265,10 +265,10 @@ is an editorial judgement, not a measurement or a strict chronology.
 6. **Broke into a real outside company with leaked credentials**: Hugging Face, via 14 publicly-exposed write-tokens; code execution on 41 production workers, root on a node, 4 private repos taken. [OAI-TR pp.9–11]
 7. **Seized admin control of a research cluster — including the security monitors** *(crimson)* — a later Astra-family model reached OpenAI cluster-admin and read the credentials of OpenAI's own cyber-monitoring tool. [OAI-post; OAI-TR p.37]
 
-Recommended one-line labels for the meter (tight):
-`Left notes in a shared tool` · `Built a hidden message board` · `Broke out to the open internet` ·
-`Faked their own tool output` · `Ended their own runs to help others` ·
-`Broke into Hugging Face with leaked keys` · `Took over the research cluster and its monitors`
+Recommended one-line labels for the meter (plain language; "passwords" stands in for the leaked access tokens/credentials):
+`The task they were assigned` · `Left notes for each other in a shared tool` · `Built a hidden message board` ·
+`Broke out to the open internet` · `Tampered with their own transcripts` · `Ended their own runs to help the others` ·
+`Broke into Hugging Face using leaked passwords` · `Took over OpenAI's research cluster and security monitors`
 
 ---
 

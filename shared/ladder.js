@@ -26,7 +26,10 @@
                  | function (i, count) { return 'rgb(…)'; },   // i = 1..count
        continuation: true,                     // faint rail fading upward past the top ("no top in sight")
        ghost: { label: 'The full picture' } | null,  // an extra top rung drawn faint, never lit
-       axisLabel: 'more serious',               // optional upward axis annotation
+       axis: { label: 'Escalation' } | null,   // optional axis: a thin arrowed line left of the rail,
+                                               // baseline → top rung, with the title set vertically
+                                               // along it (reads bottom-to-top). Colour defaults to the
+                                               // top rung's; override with axis.colour. axis.opacity (.6)
        geometry: { … },                        // optional, container px: see DEFAULT_GEOMETRY
        type: { labelSize: 30, labelLineHeight: 34, subSize: 16, subLineHeight: 18,
                subGap: 36, bandSize: 18 },     // optional, px
@@ -69,6 +72,8 @@
      ringX 500, ringDy 22, ringR 9  ring figure: centre x; centre y = rung y − ringDy; radius
      bandOffset 84                band y = y(afterRung) − offset
      bandInset 0.07               band line spans width × [inset, 1 − inset]
+     axisDx 90, axisTextDx 26     axis line x = railX − axisDx; title centre x = axis x − axisTextDx
+     axisHead 10                  arrowhead height (half-width is 0.55 × this)
 
    Animation: rail 400ms, rung 500ms, label fade 400ms after 250ms, figure per
    robot.js. `light(n, { animate: false })` lands the end state in one frame;
@@ -88,7 +93,8 @@
     labelX: 610, labelOffset: 44,
     figX: 490, figSize: 72,
     ringX: 500, ringDy: 22, ringR: 9,
-    bandOffset: 84, bandInset: 0.07
+    bandOffset: 84, bandInset: 0.07,
+    axisDx: 90, axisTextDx: 26, axisHead: 10
   };
 
   var DEFAULT_TYPE = {
@@ -132,8 +138,12 @@
     '.ld-label.ld-ghost-label { color: var(--text-dim); opacity: .55; }',
     '.ld-band-text { left: 50%; transform: translate(-50%, -50%); padding: 0 18px; background: var(--bg);',
     '  font-weight: 300; font-size: var(--ld-band-size); letter-spacing: .08em; color: var(--text-dim); }',
+    /* Axis: a thin arrowed line left of the rail; its title is rotated to read
+       bottom-to-top and centred on the line\'s midpoint (translate then rotate). */
+    '.ld-axis-line { fill: none; stroke: var(--ld-axis-c); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }',
     '.ld-axis { position: absolute; white-space: nowrap; font-family: var(--font-mono);',
-    '  font-weight: 300; font-size: 18px; letter-spacing: .08em; color: var(--text-dim); }',
+    '  font-weight: 300; font-size: 24px; line-height: 28px; letter-spacing: .08em; color: var(--ld-axis-c);',
+    '  transform: translate(-50%, -50%) rotate(-90deg); }',
     '.ld-fig { position: absolute; }',
     '.ld-instant * { transition: none !important; }'
   ].join('\n');
@@ -190,7 +200,7 @@
     var band = opts.band === undefined ? null : opts.band;
     var ghost = opts.ghost || null;
     var continuation = opts.continuation !== false;
-    var axisLabel = opts.axisLabel || null;
+    var axis = opts.axis || null;
     var seed = opts.seed === undefined ? 20 : opts.seed;
     var id = 'ld' + (++seq);
 
@@ -340,12 +350,22 @@
       svg.appendChild(railTop);
     }
 
-    // An explicit arrow makes the meaning of the upward axis legible without
-    // relying on the colour gradient alone.
-    if (axisLabel) {
-      var axisX = opts.axisX === undefined ? G.rungEnd + 28 : opts.axisX;
-      var axisY = opts.axisY === undefined ? Math.max(24, G.topFadeY - 20) : opts.axisY;
-      div('ld-axis', '↑ ' + axisLabel, axisX, axisY);
+    // Axis: an explicit arrow makes the meaning of "up" legible without
+    // relying on the colour gradient alone. A thin line left of the rail from
+    // the baseline to the top rung, an arrowhead, and the title set along it.
+    if (axis && axis.label) {
+      var ax = G.railX - G.axisDx, aTop = rungY(count), aBot = G.baseY;
+      var aCol = axis.colour || rungColour(count);
+      var aOp = axis.opacity === undefined ? 0.6 : axis.opacity;
+      var ag = svgEl('g', { 'class': 'ld-axis-g', opacity: aOp });
+      ag.style.setProperty('--ld-axis-c', aCol);
+      ag.appendChild(line({ x1: ax, y1: aBot, x2: ax, y2: aTop, 'class': 'ld-axis-line' }));
+      var hh = G.axisHead, hw = hh * 0.55;
+      ag.appendChild(svgEl('path', { d: 'M' + (ax - hw) + ',' + (aTop + hh) + ' L' + ax + ',' + aTop + ' L' + (ax + hw) + ',' + (aTop + hh), 'class': 'ld-axis-line' }));
+      svg.appendChild(ag);
+      var at = div('ld-axis', axis.label, ax - G.axisTextDx, (aTop + aBot) / 2);
+      at.style.setProperty('--ld-axis-c', aCol);
+      at.style.opacity = aOp;
     }
 
     /* ---------------------------------------------------------- lighting */

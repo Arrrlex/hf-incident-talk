@@ -139,3 +139,15 @@ html.reveal-print .reveal .slides section:not(.scene) {
 .reveal .slides section.scene .scene-text h2 { margin: 0; font-size: 44px; line-height: 1.25; }   /* one line, clear of the scene */
 .reveal .slides section.scene .scene-text .quiet { margin-top: 10px; font-size: 30px; }
 .reveal .slides section.scene .scene-text.long h2 { font-size: 40px; }   /* headings over ~60 characters */
+
+/* An agent quote laid over a scene: same look as the agent-quote slides, top of the frame. */
+.reveal .slides section.scene .scene-text.scene-quote { text-align: left; left: 200px; right: 200px; top: 80px; }
+.reveal .slides section.scene .scene-quote blockquote {
+  margin: 0; width: auto; font-size: 34px; line-height: 1.4; padding: 0.2em 0 0.2em 0.9em;
+  color: #ffc480; border-left: 3px dotted #ff9416; background: transparent; box-shadow: none; font-style: normal;
+}
+.reveal .slides section.scene .scene-quote blockquote::before {
+  content: "Agent transcript"; display: block; margin-bottom: 14px;
+  color: #ff9416; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.reveal .slides section.scene .scene-quote .source { position: static; margin: 14px 0 0 1.1em; font-size: 18px; color: #9a9a9a; text-align: left; max-width: none; }

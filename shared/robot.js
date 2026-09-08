@@ -133,6 +133,10 @@
     var lineWidth = opts.lineWidth || 1;              // CSS px
     var lineAlpha = opts.lineAlpha === undefined ? 0.30 : opts.lineAlpha;
     var lineFadeIn = opts.lineFadeIn === undefined ? 400 : opts.lineFadeIn;
+    // Multiplies every state's base alpha (clamped to 1) when drawing. 1 = the
+    // LOOK table as written; >1 brightens a whole field without touching the
+    // shared looks (10-sandboxes wants its idle grid a little brighter).
+    var lightGain = opts.lightGain === undefined ? 1 : +opts.lightGain;
     // Optional layout instead of the seeded scatter: 2N CSS px at the 1920×1080
     // design size (scaled with the canvas), or a function (width, height) that
     // returns 2N CSS px and is called on every resize.
@@ -389,7 +393,8 @@
           if (!frozen) { t += dt / twDur[i]; if (t > 1) t = 1; twT[i] = t; }
           e = easeOutCubic(t);
         } else e = 1;
-        a = fA[i] + (tA[i] - fA[i]) * e;
+        a = (fA[i] + (tA[i] - fA[i]) * e) * lightGain;
+        if (a > 1) a = 1;
         amp = fAmp[i] + (tAmp[i] - fAmp[i]) * e;
         per = fPer[i] + (tPer[i] - fPer[i]) * e;
         sc = fSc[i] + (tSc[i] - fSc[i]) * e;

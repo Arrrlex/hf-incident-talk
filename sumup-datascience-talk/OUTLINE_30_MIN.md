@@ -9,7 +9,7 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 | 0:00–1:00 | 1–2 | Introduce Alex and summarise the incident |
 | 1:00–2:00 | 3–4 | Setup: RLVR, parallel model copies, isolated sandboxes and the shared package server |
 | 2:00–2:40 | 5 | Reward hacking and specification gaming, with the animated Coast Runners example |
-| 2:40–6:40 | 6–10 | First swarm during training: missing files, discovery, internet access, crash and rebuild |
+| 2:40–6:40 | 6–10 | First board spans training and evaluation: missing files, discovery, internet access, administrator control of Artifactory, crash and rebuild |
 | 6:40–17:40 | 11–19 | Second swarm during evaluation: impossible tasks, imagined checker, cheating, Hugging Face intrusion and mass termination |
 | 17:40–20:10 | 20–24 | Third swarm builds on arrival, recovers signing material and takes over an OpenAI research cluster; then the zero reveal |
 | 20:10–25:55 | 25–31 | Astra’s alignment claim, imagined-checker callback, evaluation awareness and reduced chain-of-thought monitorability |
@@ -20,6 +20,8 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 The first contents slide follows the incident summary, so the talk still opens with what happened. Contents slides recur at each section transition, with the current section highlighted using the original deck’s design. These are brief signposts within the existing time budgets, not additional speaking time. The discovery quotation and connection animation share a single slide. Interpretability and the closing warning share one short final section.
 
 The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Let that reassuring claim land, then reveal the question: “Would our tests catch a model that only behaves well when we are watching?” The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds within the safety section.
+
+The first board began in training on 12 May, but agents also used it during evaluations. The Artifactory administrator compromise on 26 June happened in an ExploitGym evaluation (OpenAI technical report, pp.7–8). The reports do not establish the relative amount of training and evaluation activity, so avoid “mostly training”.
 
 ## Sources
 

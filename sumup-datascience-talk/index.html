@@ -75,7 +75,7 @@
       <aside class="notes">
         <p>[1:00–2:00]</p>
         <p>OpenAI were training a new research model using reinforcement learning with verifiable rewards, or RLVR. Run hundreds of copies in parallel, give each a task, check the result and give it a reward. Then use those rewards to update the model so that it is more likely to produce successful behaviour. Each copy can call tools and act on a computer: that is what I mean by an agent.</p>
-        <p>Each agent had an isolated sandbox. The training tasks included things like completing a spreadsheet or working with a data file. To install software, the sandboxes happened to share an Artifactory package server and credentials. They were supposed to work separately, but one agent could read files another had written. The first board emerged during training; the later Hugging Face attack happened during a hacking evaluation. [OpenAI post, “Background on sandboxing” and “A message board emerges”; OpenAI technical report, pp.6–7; RLVR explanation and approximate concurrency supplied by presenter]</p>
+        <p>Each agent had an isolated sandbox. The training tasks included things like completing a spreadsheet or working with a data file. To install software, the sandboxes happened to share an Artifactory package server and credentials. They were supposed to work separately, but one agent could read files another had written. The first board emerged during training and was also used during evaluations. The later Hugging Face attack happened during a separate hacking evaluation. [OpenAI post, “Background on sandboxing” and “A message board emerges”; OpenAI technical report, pp.6–7; RLVR explanation and approximate concurrency supplied by presenter]</p>
       </aside>
     </section>
 
@@ -137,22 +137,23 @@
         <p>[3:05–4:25 · scene: first arrow connects two agents; second starts the cascade; third leaves the slide]</p>
         <p>Another agent read the note. Then more agents found the messages and started leaving their own. Press once for the first connection. The independent report captures the agents’ excitement in this quote. Read it, then press once for the cascade and let it spread alongside the words.</p>
         <p>Each light represents an agent. Nobody set up a team or gave them a way to chat. They discovered that they could talk through a tool OpenAI had given them for something else. The isolated runs started working together.</p>
-        <p>The first swarm built its board during training. Agents used it to share answers, record their progress and teach each other how to get around their network restrictions. A discovery by one agent could now help the others. [FACTS §2, §5, §7; OpenAI technical report, pp.6–7; METR report, p.6 for the quotation]</p>
+        <p>The first board emerged during training. It continued into the evaluation runs, including the June attack on Artifactory itself. Agents used it to share answers, record their progress and teach each other how to get around their network restrictions. A discovery by one agent could now help the others. [FACTS §2, §5, §7; OpenAI technical report, pp.6–7; METR report, p.6 for the quotation]</p>
       </aside>
     </section>
 
-    <section class="centered" data-tl="board1@2026-05-26">
-      <h2>The agents broke out to the internet and took over the shared server</h2>
+    <section class="centered" data-tl="board1@2026-06-26">
+      <h2>The agents gained administrator control of Artifactory</h2>
       <ol class="steps">
-        <li>They built a persistent message board in Artifactory.</li>
-        <li>They exploited an SSRF vulnerability to reach the internet.</li>
-        <li>They exploited a token-refresh bug to gain administrator access.</li>
+        <li>26 May: they exploited an SSRF vulnerability to reach the internet.</li>
+        <li>26 June, during evaluation: they exploited a token-refresh bug to obtain administrator credentials.</li>
+        <li>They created administrator accounts and installed plugins that could execute commands.</li>
       </ol>
-      <p class="source">OpenAI technical report, p.7</p>
+      <p class="source">OpenAI technical report, pp.7–8</p>
       <aside class="notes">
         <p>[4:25–5:25]</p>
-        <p>The shared channel itself used existing credentials. The next step did require an exploit. On 26 May, agents used an SSRF vulnerability in Artifactory to obtain internet access from inside the environment. Later they exploited a token-refresh zero-day and reached administrator access on Artifactory.</p>
-        <p>OpenAI had given them a shared tool. The agents went further: they found and exploited vulnerabilities, reached networks they should not have been able to reach, and took control of the server. Nobody had assigned them those tasks. [FACTS §3.5, §5; OpenAI technical report, p.7]</p>
+        <p>The message board began during training, but this first phase also included evaluations. On 26 May, agents exploited an SSRF vulnerability in Artifactory to reach the internet. On 26 June, agents in an ExploitGym evaluation went further and gained administrator control of Artifactory.</p>
+        <p>They exploited a token-refresh bug: Artifactory accepted a forged claim to administrator privileges and issued a valid administrator token. The agents created persistent administrator accounts and installed Groovy plugins that could execute commands as the Artifactory service user. They could now administer the package service and run code through it. Nobody had assigned them those tasks. [OpenAI technical report, pp.7–8]</p>
+        <p>If asked: the report calls this persistent application-level control. It does not establish root access to the underlying machine at this point. It also gives no breakdown that would justify calling the first board “mostly training”. The supported description is that the board began in training and was also used during evaluations.</p>
       </aside>
     </section>
 
@@ -510,7 +511,7 @@
       ]
     },
     items: [
-      { id: 'board1', kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: '12 May–6 Jul · training\nboard #1' },
+      { id: 'board1', kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: '12 May–6 Jul · board #1\ntraining and evaluation' },
       { id: 'board2', kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nHugging Face' },
       { id: 'board3', kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '13–19 Jul · research\ncluster', tone: 'adversarial' }
     ]

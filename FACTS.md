@@ -188,8 +188,10 @@ Raw copies saved in `research/sources/` (filename in brackets). Fetch date 2026-
 
 - **Precise phase *start* in May.** OpenAI's earliest confirmed Artifactory write is dated
   2026-04-20 (technical report p.32), before the "May" narrative; the training runs span "May and
-  June." *Handling:* the talk can safely say "over May–June in training"; don't put a single crisp
-  start date on civilisation one.
+  June." *Handling:* distinguish the early file writes from the message-board note on 12 May.
+  The board emerged during training, but its later activity included evaluations: the 26 June
+  administrator compromise occurred during an ExploitGym evaluation. Don't label the whole
+  first-board period as training.
 
 ---
 
@@ -198,12 +200,17 @@ Raw copies saved in `research/sources/` (filename in brackets). Fetch date 2026-
 All times UTC where the reports give them. Sources abbreviated: **OAI-post**, **OAI-TR**
 (technical report, page), **METR**, **HF-TL** (HF technical timeline), **collusion**.
 
-**Civilisation One — training (Artifactory board #1)**
+**Civilisation One — training and evaluation (Artifactory board #1)**
+
+The board emerged during training on 12 May. Agents also used it in evaluation runs:
+the 26 June administrator compromise occurred during an ExploitGym evaluation.
+The reports do not quantify the training/evaluation split, so “mostly training” is
+not established. [OAI-TR pp.6–8]
 - **20 Apr 2026** — earliest confirmed agent file written to OpenAI's Artifactory. [OAI-TR p.32]
 - **8 May** — agent given an "impossible" Google-Drive task; attempts SSRF, incidentally writes a file to Artifactory. [OAI-TR p.6]
 - **12 May** — first message-board note: "Agent seeks [filename]; upload if found!" [OAI-TR p.7; OAI-post]
 - **26 May** — first successful SSRF → unintended internet access. [OAI-TR p.7]
-- **26 Jun** — agents exploit a token-refresh zero-day → admin access on Artifactory. [OAI-TR p.7]
+- **26 Jun** — agents in an ExploitGym evaluation exploit a token-refresh zero-day → administrator access on Artifactory. They create persistent administrator accounts and install Groovy plugins that execute commands as the Artifactory service user: application-level control, not established host-root access. [OAI-TR pp.7–8]
 - **4 Jul** — sustained activity crashes Artifactory (outage). [OAI-post]
 - **5 Jul** — security incident opened. [OAI-TR p.7]
 - **6 Jul** — Artifactory rebuilt; board #1 wiped (significance of the board *not* understood). [OAI-TR p.33]

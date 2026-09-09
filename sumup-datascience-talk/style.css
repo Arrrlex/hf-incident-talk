@@ -1,0 +1,51 @@
+@import url("../deck/deck.css");
+
+/* Local overrides for the 30-minute data-science adaptation. The parent deck
+   supplies the typography, palette and timeline treatment. */
+.reveal .slides section { padding-bottom: var(--band-h); }
+.reveal .slides section.no-timeline { padding-bottom: 0; }
+.reveal h1 { font-size: 2.45em; line-height: 1.1; }
+.reveal h2 { font-size: 1.55em; line-height: 1.2; }
+.reveal .title h1 { font-size: 2.5em; }
+.reveal .title .quiet { max-width: 1450px; }
+.reveal .lead { font-size: 1.18em; line-height: 1.45; max-width: 1540px; }
+.reveal .small { font-size: 24px; line-height: 1.45; }
+.reveal .micro { font-size: 18px; line-height: 1.4; color: #9a9a9a; }
+.reveal .source a { color: #9a9a9a; }
+.reveal .source a:hover { color: #ffc480; }
+.reveal .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: start; }
+.reveal .two-col > div { min-width: 0; }
+.reveal .two-col h3 { color: #ff9416; font-size: 0.72em; font-weight: 300; margin: 0 0 0.6em; letter-spacing: 0.04em; }
+.reveal .two-col p { font-size: 0.8em; line-height: 1.45; margin: 0 0 0.7em; }
+.reveal .evidence-list { list-style: none; margin: 0; padding: 0; }
+.reveal .evidence-list li { font-size: 0.72em; line-height: 1.35; margin: 0 0 0.55em; padding-left: 1.1em; position: relative; }
+.reveal .evidence-list li::before { content: "•"; color: #ff9416; position: absolute; left: 0; }
+.reveal .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+.reveal .steps li { counter-increment: step; font-size: 0.75em; line-height: 1.35; margin: 0 0 0.7em; padding-left: 2em; position: relative; }
+.reveal .steps li::before { content: counter(step); position: absolute; left: 0; color: #ff9416; }
+.reveal .signal { color: #ffc480; font-size: 1.2em; line-height: 1.35; }
+.reveal .number { font-size: 3.2em; line-height: 1; color: #ff9416; font-weight: 300; }
+.reveal .number-label { color: #d0d0d0; font-size: 0.72em; line-height: 1.35; }
+.reveal .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 70px; margin-top: 55px; }
+.reveal .metric { border-top: 2px solid #ff9416; padding-top: 22px; }
+.reveal .metric.crimson { border-color: #e0483f; }
+.reveal .quote-stack blockquote { margin-bottom: 36px; }
+.reveal .quote-stack .source { margin-top: -15px; margin-bottom: 30px; }
+.reveal .slides section.scene .scene-text.scene-callout {
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 70px 134px 80px;
+  background: linear-gradient(#000 65%, transparent);
+}
+.reveal .scene-callout h2 { font-size: 42px; }
+.reveal .scene-callout .quiet { font-size: 27px; }
+.reveal .closing { max-width: 1550px; margin: 0 auto; }
+.reveal .closing h2 { font-size: 1.45em; }
+.reveal .closing p { font-size: 0.82em; line-height: 1.45; }
+.reveal .end .logos { margin-top: 1em; }
+
+@media (max-width: 1200px) {
+  .reveal .two-col { gap: 45px; }
+  .reveal .metric-row { gap: 30px; }
+}

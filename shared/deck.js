@@ -17,6 +17,7 @@
  *                            beat >= N leaves the slide instead of stepping.
  *                            Together they let one scene (e.g. a meter) appear
  *                            several times, each instance showing one step.
+ *   data-animate-start="true" animate the entry beat when arriving forwards.
  * Arriving backwards shows data-end if set, else the last beat.
  *
  * TIMELINE BAND
@@ -128,9 +129,10 @@
 
   function sendStart(frame) {
     const want = frame.dataset.want;
-    if (want === 'last') post(frame, { type: 'scene:goTo', index: 'last' });
+    const animate = frame.dataset.wantAnimate === 'true';
+    if (want === 'last') post(frame, { type: 'scene:goTo', index: 'last', animate });
     else if (want === '0' || want === undefined) post(frame, { type: 'scene:reset' });
-    else post(frame, { type: 'scene:goTo', index: Number(want) });
+    else post(frame, { type: 'scene:goTo', index: Number(want), animate });
   }
 
   function onSlideChanged(event) {
@@ -148,6 +150,7 @@
       want = start === 'last' ? 'last' : String(start);
     }
     frame.dataset.want = want;
+    frame.dataset.wantAnimate = String(!goingBack && frame.dataset.animateStart === 'true');
     frame.dataset.beat = want === 'last' ? frame.dataset.beat : want;
     sendStart(frame);
   }

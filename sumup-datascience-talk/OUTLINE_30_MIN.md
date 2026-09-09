@@ -21,6 +21,8 @@ The first contents slide follows the incident summary, so the talk still opens w
 
 The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Let that reassuring claim land, then reveal the question: “Would our tests catch a model that only behaves well when we are watching?” The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds within the safety section.
 
+Slide 30 brings the three monitorability concerns together: broader capability without CoT, less informative CoT, and reduced detection when Astra knows a CoT monitor is watching. Keep the experiment’s conditions and the distinction between monitorability and readability in the speaker notes.
+
 The first board began in training on 12 May, but agents also used it during evaluations. The Artifactory administrator compromise on 26 June happened in an ExploitGym evaluation (OpenAI technical report, pp.7–8). The reports do not establish the relative amount of training and evaluation activity, so avoid “mostly training”.
 
 ## Sources

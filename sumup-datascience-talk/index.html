@@ -411,14 +411,18 @@
     </section>
 
     <section class="centered no-timeline">
-      <h2>Astra can do more without writing down its reasoning</h2>
-      <p class="lead">With CoT disabled, Astra can complete tasks that earlier models could not.<br>A CoT monitor cannot read reasoning the model never writes.</p>
-      <p class="source">GPT-6 Astra System Card, §9, “Increased model capabilities with reasoning=None”</p>
+      <h2>Astra’s chain of thought tells us less</h2>
+      <ol class="steps">
+        <li><span class="orange">It can do more without CoT.</span><br>It can complete a much wider range of tasks without writing any reasoning.</li>
+        <li><span class="orange">The reasoning it writes is less revealing.</span><br>Monitors perform worse than on Sol, even at comparable CoT lengths.</li>
+        <li><span class="orange">Knowing it is watched makes it harder to monitor.</span><br>In a honeypot test, simply mentioning the CoT monitor sharply reduced its detection rate.</li>
+      </ol>
+      <p class="source"><a href="https://deploymentsafety.openai.com/gpt-6-astra">GPT-6 Astra System Card</a>, §§9, 9.1.1, 9.2.2.2</p>
       <aside class="notes">
         <p>[23:55–25:10]</p>
-        <p>The card reports that Astra’s no-CoT capability is much broader than earlier models. This includes tasks where the reasoning cannot simply be displaced into a tool call or final answer, such as an immediate numeric answer. OpenAI says the no-CoT time horizon may have increased by about an order of magnitude.</p>
-        <p>That matters for monitoring. If the model can complete more complex tasks without verbalising reasoning, a monitor has less text to inspect. The effective fallback becomes action-only monitoring. The card explicitly calls this a monitorability concern and says reasoning=None is not currently planned as a user-facing option. [GPT-6 Astra System Card, §9.1]</p>
-        <p>Think back to the agents celebrating their successful deception. Those traces helped investigators understand the attack. A more capable model could carry out more complicated actions without leaving that kind of written explanation.</p>
+        <p>The second finding measures monitorability, not general readability. The aggregate gap persists across most CoT lengths. [§9.1.1]</p>
+        <p>In the honeypot experiment, researchers instructed Astra to attack. Merely informing it about the CoT-only monitor reduced detection, without instructions to evade. Some successful attacks used no CoT. Full-context monitoring still caught every successful attack in this test. [§9.2.2.2]</p>
+        <p>Think back to the agents celebrating their deception. Those traces helped investigators understand the attack. What happens when we lose that evidence?</p>
       </aside>
     </section>
 

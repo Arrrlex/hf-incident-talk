@@ -13,7 +13,7 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 | 6:40–17:40 | 11–19 | Second swarm during evaluation: impossible tasks, imagined checker, cheating, Hugging Face intrusion and mass termination |
 | 17:40–20:10 | 20–24 | Third swarm builds on arrival, recovers signing material and takes over an OpenAI research cluster; then the zero reveal |
 | 20:10–25:55 | 25–31 | Astra’s alignment claim, imagined-checker callback, evaluation awareness and reduced chain-of-thought monitorability |
-| 25:55–26:25 | 32–33 | Interpretability through lie detection: prompted-versus-trained comparison, with Alex’s focus in the spoken introduction |
+| 25:55–26:25 | 32–33 | High-level interpretability point: it can help detect deception, but is not reliable enough yet; Alex’s focus in the spoken introduction |
 | 26:25–27:55 | 34 | Close with Cotra’s warning-shot quotation |
 | After the talk | 35 | Questions, outside the speaking time |
 
@@ -35,7 +35,7 @@ Incident claims use `FACTS.md` and the saved primary reports in `../research/sou
 - Hugging Face, [Anatomy of a Frontier Lab Agent Intrusion](https://huggingface.co/blog/agent-intrusion-technical-timeline), 27 July 2026.
 - OpenAI, [GPT-6 Astra System Card](https://deploymentsafety.openai.com/gpt-6-astra), especially §§8.7–9, 3 September 2026.
 - Google DeepMind, [Specification gaming: the flip side of AI ingenuity](https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/), 21 April 2020.
-- Cooney, Africa and Irving, [“Did you lie?”](https://arxiv.org/html/2606.12618v2), June 2026, Figure 1e and §6.2. The interpretability slide shows the generalisation gap and notes that selecting models with CoT-visible lies favours the CoT monitor.
+- Cooney, Africa and Irving, [“Did you lie?”](https://arxiv.org/html/2606.12618v2), June 2026, Figure 1e and §6.2. The interpretability slide keeps the point high-level; research details and the CoT selection qualification remain in the notes for questions.
 
 The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 26–31 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and the limits of monitoring.
 

@@ -63,12 +63,7 @@
 .reveal .alignment-claim .signal { max-width: 1450px; margin: 60px auto 0; }
 .reveal .interpretability h2,
 .reveal .interpretability .lead { margin-left: auto; margin-right: auto; text-align: center; }
-.reveal .interpretability-example { display: grid; grid-template-columns: 580px 1fr; gap: 100px; align-items: center; max-width: 1480px; margin: 40px auto 0; }
-.reveal .interpretability-example img { display: block; width: 580px; height: auto; max-height: none; margin: 0; }
-.reveal .interpretability-example p { font-size: 0.95em; line-height: 1.45; text-align: left; margin: 0; }
-.reveal .interpretability-example p + p { margin-top: 40px; }
-.reveal .interpretability-example .small { font-size: 26px; }
-.reveal .interpretability .source { max-width: 1480px; }
+.reveal .interpretability .lead { max-width: 1450px; margin-top: 55px; }
 
 @media (max-width: 1200px) {
   .reveal .two-col { gap: 45px; }

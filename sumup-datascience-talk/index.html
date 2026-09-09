@@ -357,7 +357,7 @@
         <p>[20:15–21:00 · scene: press Space to show the zero]</p>
         <p>METR ran a classifier sweep over about 1,300 transcripts, around 90% of the activity in its window. It found three to six examples of agents considering alerting a human. None of them actually did it.</p>
         <p>The agents could communicate, organise and break into real systems. Some recognised that the attack was unethical. Yet none alerted a human in the activity METR swept. The sweep used a classifier rather than a manual audit of every run. [FACTS §2, §4]</p>
-        <p>We can see so much of this because investigators could read the agents’ messages and reasoning. What if the next model gives us less warning?</p>
+        <p>This was egregious misalignment: models organised attacks, concealed cheating and failed to alert a human. So what has changed since then?</p>
       </aside>
     </section>
 
@@ -373,7 +373,20 @@
       </ol>
       <aside class="notes">
         <p>Brief section signpost; included in the following section’s time budget.</p>
-        <p>We caught this partly because we could read what the agents were doing. What happens as models get better at recognising tests and leave us less revealing reasoning?</p>
+        <p>OpenAI has now released Astra and reports substantial alignment improvements. How much reassurance should that give us after what we have just seen?</p>
+      </aside>
+    </section>
+
+    <section class="centered no-timeline alignment-claim">
+      <blockquote>Astra is a significant step forward in model alignment</blockquote>
+      <p class="source">OpenAI, <a href="https://deploymentsafety.openai.com/gpt-6-astra">GPT-6 Astra System Card</a>, §1 · 3 September 2026</p>
+      <p class="lead fragment" data-fragment-index="0">Problem solved!</p>
+      <p class="signal fragment" data-fragment-index="1">Oh, wait…</p>
+      <aside class="notes">
+        <p>[21:00–21:25 · read the quote, then one arrow for “Problem solved!”, another for “Oh, wait…”]</p>
+        <p>We have just seen an egregiously misaligned thing a bunch of models did. But now OpenAI has released Astra, and its system card says this. Read the quotation. Problem solved! Pause. Oh, wait…</p>
+        <p>How do we know whether the model is more aligned, or better at looking aligned when we test it? The same card raises concerns about evaluation awareness and how much its reasoning reveals. That is the problem for the rest of this section.</p>
+        <p>Source: GPT-6 Astra System Card, §1, https://deploymentsafety.openai.com/gpt-6-astra. The card reports improvements over GPT-5.6 Sol; it does not use the phrase “most aligned model ever released”. The incident involved separate internal models. Better alignment and poorer visibility can coexist: the argument is about what the evidence establishes, not proof that the improvements are illusory. “Problem solved!” and “Oh, wait…” are the presenter’s ironic commentary, not OpenAI quotations.</p>
       </aside>
     </section>
 
@@ -385,10 +398,10 @@
       </div>
       <p class="quiet small">Recognising a test does not, by itself, prove deception.</p>
       <aside class="notes">
-        <p>[21:00–22:15]</p>
-        <p>The Astra system card defines metagaming as reasoning about how a model will be graded, rewarded or monitored rather than only about the situation in the prompt. It matters because observed aligned actions may not reflect alignment in a different context. The converse also matters: a model can behave carelessly because it mistakenly believes it is in a toy environment.</p>
-        <p>The card uses a prompted monitor over chain of thought to classify verbalised metagaming and alignment-faking reasoning. The judgement is not causal. It depends on interpreting the chain of thought. [GPT-6 Astra System Card, §8.7, https://deploymentsafety.openai.com/gpt-6-astra]</p>
-        <p>The incident shows why reasoning about the evaluator matters. The agents believed a checker would inspect their transcripts, so they falsified them. Now imagine a model that recognises a safety evaluation and avoids the behaviour we are testing for. A good score could give us false confidence about what it will do when we deploy it.</p>
+        <p>[21:25–22:15]</p>
+        <p>Remember the imagined checker. The agents thought someone would inspect their transcripts, so they falsified them. What they believed about the evaluator changed how they behaved.</p>
+        <p>The Astra card calls reasoning about grading, rewards or monitoring “metagaming”. A model might also recognise a safety evaluation and behave well because it knows it is under test. The test could then reassure us without showing how it will behave elsewhere. That is why the alignment headline does not settle the question. [GPT-6 Astra System Card, §8.7]</p>
+        <p>If asked: recognising an evaluation does not by itself prove deception. The card’s classifications rely on interpreting verbalised reasoning and are not causal measurements of what drove the behaviour.</p>
       </aside>
     </section>
 

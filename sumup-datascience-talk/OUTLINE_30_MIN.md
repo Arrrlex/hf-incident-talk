@@ -13,12 +13,14 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 | 3:00–7:00 | 7–12 | First swarm, during training: accidentally impossible tasks, missing-file message, contact, internet access, crash and rebuild |
 | 7:00–18:00 | 13–21 | Second swarm, during evaluation: impossible tasks, HMAC shortcut, imagined checker, transcript spoofing, Hugging Face intrusion and the mass termination around 01:30 on 12 July |
 | 18:00–21:00 | 22–27 | Third swarm: crimson cluster, recovered signing material, OpenAI research cluster takeover, then the question and zero reveal |
-| 21:00–28:00 | 28–34 | Evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
-| 28:00–28:30 | 35–36 | Interpretability as another source of evidence, Alex’s focus |
-| 28:30–30:00 | 37 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
-| After 30:00 | 38–39 | Questions, outside the speaking time |
+| 21:00–28:00 | 28–35 | Astra’s alignment claim, “Problem solved! / Oh, wait…” reveal, imagined-checker callback, evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
+| 28:00–28:30 | 36–37 | Interpretability as another source of evidence, Alex’s focus |
+| 28:30–30:00 | 38 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
+| After 30:00 | 39–40 | Questions, outside the speaking time |
 
 The first contents slide follows the incident summary and warning-shot quotation, so the talk still opens with what happened. Contents slides recur at each section transition, with the current section highlighted using the original deck’s design. These are brief signposts within the existing time budgets, not additional speaking time. Interpretability and the closing warning share one short final section.
+
+The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Reveal “Problem solved!” and then “Oh, wait…” on successive clicks. The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds from the existing seven-minute safety budget.
 
 ## Sources
 
@@ -32,6 +34,6 @@ Incident claims use `FACTS.md` and the saved primary reports in `../research/sou
 - Google DeepMind, [Specification gaming: the flip side of AI ingenuity](https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/), 21 April 2020.
 - Anthropic, [Tracing the thoughts of a language model](https://www.anthropic.com/research/tracing-thoughts-language-model), supporting material for the interpretability mention.
 
-The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 29–34 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and monitor evasion.
+The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 29–35 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and monitor evasion.
 
 The timestamps are a rehearsal budget, including pauses and animation beats. Rehearse aloud to confirm the delivery fits 30 minutes.

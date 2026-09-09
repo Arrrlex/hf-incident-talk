@@ -459,11 +459,18 @@
 
     <section class="centered no-timeline interpretability">
       <h2>Can we look inside the model to understand what it is doing?</h2>
-      <p class="lead">That is the aim of interpretability, and the focus of my work.<br>We are still a long way from reliably auditing a whole model.</p>
-      <p class="source">Supporting reading: <a href="https://www.anthropic.com/research/tracing-thoughts-language-model">Anthropic, Tracing the thoughts of a language model</a></p>
+      <div class="interpretability-example">
+        <img src="assets/interpretability-circuit.png" alt="Anthropic’s simplified circuit in Claude 3.5 Haiku: Dallas activates Texas; Texas and a capital-related feature contribute to the answer Austin.">
+        <div>
+          <p class="pale">“The capital of the state containing Dallas is …”</p>
+          <p>We are still a long way from reliably auditing a whole model.</p>
+        </div>
+      </div>
+      <p class="source">Simplified circuit in Claude 3.5 Haiku · <a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html#dives-tracing">Anthropic, On the Biology of a Large Language Model</a> (2025)</p>
       <aside class="notes">
         <p>[25:55–26:25]</p>
         <p>My work focuses on interpretability: looking inside models to understand how they make decisions. We can sometimes identify features and trace particular computations. But this field is still young. We cannot yet inspect a whole frontier model and reliably establish that it is safe. This is research we urgently need, not a solved fallback. [Anthropic, “Tracing the thoughts of a language model”, supporting reading; presenter’s assessment]</p>
+        <p>The figure shows Anthropic’s simplified circuit for the Dallas question. Researchers traced an intermediate representation of Texas contributing to the answer Austin, and tested it with interventions. This is a selected example in Claude 3.5 Haiku, not an audit of Astra. Figure reproduced from https://transformer-circuits.pub/2025/attribution-graphs/png/img_4e42fad1d7624d1e.png; study: https://transformer-circuits.pub/2025/attribution-graphs/biology.html#dives-tracing.</p>
       </aside>
     </section>
 

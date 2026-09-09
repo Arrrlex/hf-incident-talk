@@ -2,17 +2,20 @@
 
 This is the 30-minute adaptation of the main talk. The timings below cover speaking time and exclude questions.
 
+Keep the original talk’s urgency: this was an extraordinary failure of control and a warning shot for humanity. Start with what the agents did and why it matters, before explaining the setup. Use clear subjects and actions throughout. The safety section explains why future attacks may be harder to detect. Preserve qualifications that change a factual claim, without repeatedly interrupting the story to soften its significance.
+
 | Minutes | Slides | Purpose |
 |---|---:|---|
-| 0:00–0:30 | 1–2 | Hook: what happened and the question “How would we know?” |
-| 0:30–2:00 | 3–4 | Setup: agent loop, task incentives, shared Artifactory, intended sandbox boundaries |
+| 0:00–1:00 | 1–2 | Introduce Alex; summarise the collusion, Hugging Face break-in and later OpenAI cluster takeover |
+| 1:00–1:20 | 3 | OpenAI’s warning-shot assessment and why the incident matters |
+| 1:20–2:00 | 4 | Setup: individual agent tasks and the shared Artifactory server |
 | 2:00–3:00 | 5 | Reward hacking and specification gaming, with the Coast Runners example |
 | 3:00–7:00 | 6–9 | First civilisation: contact, board, internet access, wipe and return |
 | 7:00–18:00 | 10–17 | Second civilisation: HMAC shortcut, imagined checker, transcript spoofing, credentials and the Hugging Face intrusion |
 | 18:00–21:00 | 18–21 | Third civilisation: later model, OpenAI research cluster, what the investigation could establish |
 | 21:00–28:00 | 22–27 | Evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
 | 28:00–28:30 | 28 | Interpretability as another source of evidence, Alex’s focus |
-| 28:30–30:00 | 29 | Close: evidence needed to trust capable systems |
+| 28:30–30:00 | 29 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
 | After 30:00 | 30 | Questions, outside the speaking time |
 
 ## Sources

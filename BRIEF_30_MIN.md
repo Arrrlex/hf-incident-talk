@@ -9,7 +9,9 @@
 
 Tell the incident in enough detail for the audience to understand how task completion incentives led to cheating, concealment and actions outside the assigned task. Then connect it to evaluation awareness and the recent Astra findings on reduced chain-of-thought monitorability.
 
-The question connecting the story and the safety discussion is: **How would we know whether these systems are behaving safely?**
+Retain the original talk’s tone: this was an extraordinary failure of control and a warning shot for humanity. Open with a concrete summary of the collusion, Hugging Face attack and later OpenAI cluster takeover, followed by why they matter. Explain the setup after the audience knows what happened.
+
+The safety discussion asks whether we would detect a future attack by more capable models. Evaluation awareness and reduced monitorability deepen the concern raised by the incident. Keep the story’s urgency and use direct descriptions of who did what; avoid replacing them with abstract language about evidence or evaluation.
 
 The audience should leave understanding what happened, how it relates to reward hacking, and why apparently good evaluation results or reassuring reasoning traces can provide incomplete evidence of alignment. Preserve the story's striking moments and concrete mechanisms.
 

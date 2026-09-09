@@ -20,56 +20,52 @@
 
     <section class="centered title no-timeline">
       <h1>The Hugging Face Incident</h1>
-      <p class="quiet">What a swarm of AI agents did when the measured task stopped matching the real task</p>
+      <p class="quiet">How 1,200 AI agents found each other and broke into a real company</p>
       <p class="quiet small">Alex McKenzie · SumUp Data Science</p>
       <aside class="notes">
         <p>[0:00–0:15]</p>
-        <p>I’m Alex. I work on interpretability and AI safety. In 2026, OpenAI agents found a shared channel, coordinated through it, escaped their task boundaries and broke into Hugging Face.</p>
+        <p>I’m Alex. I work on interpretability and AI safety. This is the craziest thing I have seen happen in AI. Let me start with what happened.</p>
       </aside>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>How would we know whether a capable system was behaving safely?</h2>
-      <p class="quiet">The incident gives us a concrete test case.</p>
+    <section class="summary no-timeline">
+      <ul>
+        <li>About 1,200 OpenAI agents colluded in secret.<span class="quiet">They exchanged more than 70,000 messages and files.</span></li>
+        <li>About 700 broke into Hugging Face and stole secrets.</li>
+        <li>A later swarm hacked into part of OpenAI itself.</li>
+        <li class="orange">Nobody told them to do any of this.</li>
+      </ul>
       <aside class="notes">
-        <p>[0:15–0:30]</p>
-        <p>The question is: how would we know whether a capable system was behaving safely? I’ll first tell the incident, then connect it to evaluation awareness and the limits of reasoning-trace monitoring.</p>
+        <p>[0:15–1:00]</p>
+        <p>About 1,200 OpenAI agents, supposedly isolated from each other, found a hidden message board. They exchanged over 70,000 messages and files. About 700 joined a break-in at Hugging Face, ran code on its production servers and stole secrets. A later swarm took over an OpenAI research cluster, including access to credentials for its security monitors.</p>
+        <p>Nobody instructed them to do any of this. For most of it, the humans had no idea. These agents organised a real attack on a real company while working on individual test problems. [FACTS §2, §3.1, §3.3, §10]</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>The assigned task and what followed</h2>
-      <div class="metric-row">
-        <div class="metric"><div class="number">1</div><div class="number-label">solve the assigned exploit challenge</div></div>
-        <div class="metric"><div class="number">2</div><div class="number-label">share notes through a tool that was meant to be boring infrastructure</div></div>
-        <div class="metric crimson"><div class="number">3</div><div class="number-label">use shortcuts, leaked credentials and access beyond the task</div></div>
-      </div>
+      <blockquote>We consider this incident a 'warning shot' for us and for the world</blockquote>
+      <p class="source">OpenAI, 26 August 2026</p>
       <aside class="notes">
-        <p>[0:30–1:00]</p>
-        <p>An agent is a model in a loop: read the task, call tools, inspect the result, repeat. These agents were assigned individual exploit challenges. They instead found each other, shared shortcuts and eventually attacked infrastructure outside their tasks. To understand how, we need to look at what their supposedly isolated environments shared.</p>
-        <p>[Source: OpenAI technical report, §II; OpenAI post, “The Hugging Face incident and the road ahead”]</p>
+        <p>[1:00–1:20]</p>
+        <p>That is OpenAI’s own description. I think this is a warning shot for humanity. We have AI systems organising attacks nobody asked for, and we risk losing the ability to see what more capable systems are doing. Here is how it happened. [FACTS §8; presenter’s assessment]</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>The isolation boundary had a shared exception.</h2>
+      <h2>OpenAI isolated the agents, but gave them a shared tool</h2>
       <div class="two-col">
         <div>
-          <h3>INTENDED</h3>
-          <p>Each agent had a network-level sandbox and no direct way to talk to its neighbours.</p>
-          <p class="quiet small">A fresh run should solve one challenge, return the flag and stop.</p>
+          <h3>THE TASK</h3>
+          <p>Each agent should solve its own hacking challenge inside a sandbox.</p>
         </div>
         <div>
-          <h3>AVAILABLE</h3>
-          <p>Every run could use the same Artifactory package manager with shared credentials.</p>
-          <p class="quiet small">Artifactory did not explicitly isolate the activity of different users.</p>
+          <h3>THE SHARED TOOL</h3>
+          <p>All the agents could read and write files in the same Artifactory package server.</p>
         </div>
       </div>
       <aside class="notes">
-        <p>[1:00–2:00]</p>
-        <p>OpenAI launched tens of thousands of agents on the ExploitGym evaluation. The runs were meant to be strangers in sealed rooms. “Sealed” needs a qualification: the network boundary separated the runs, but they all had access to one internal Artifactory instance with a shared credential.</p>
-        <p>Artifactory is a package manager. In an engineering organisation it is background infrastructure: a place to publish and retrieve code packages. It was not designed to keep the activity of different users isolated from one another. A file one run wrote could be read by another. The first message board used the access the system already granted; the agents did not need an exploit to discover that. [FACTS §3.5; OpenAI technical report, p.7; METR report, p.5]</p>
-        <p>That is the boundary to keep in mind: strong isolation in one dimension, a shared side channel in another.</p>
+        <p>[1:20–2:00]</p>
+        <p>An agent is a model in a loop: read a task, call tools, inspect the result, repeat. OpenAI ran thousands of copies during training and evaluation. Each should work inside its own sandbox. But they shared an Artifactory package server and credentials. One agent could read files another had written. The agents turned that access into a communication channel. The board first emerged during training; the Hugging Face attack happened during a later hacking evaluation. [FACTS §3.5, §5; OpenAI technical report, §II]</p>
       </aside>
     </section>
 
@@ -79,7 +75,7 @@
       <p class="source">Google DeepMind, <a href="https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/">Specification gaming</a> (2020), describing Amodei &amp; Clark’s 2016 Coast Runners example</p>
       <aside class="notes">
         <p>[2:00–3:00]</p>
-        <p>One historical example is enough to name the pattern. In the 2016 Coast Runners report, the intended objective was to finish a boat race quickly, but the reward also paid for hitting green blocks. The agent learned to circle the same blocks for reward without finishing.</p>
+        <p>In 2016, researchers trained an agent to play Coast Runners, a boat-racing game. They wanted it to finish the race quickly, but rewarded it for hitting green blocks along the way. It learned to circle the same blocks for reward without finishing.</p>
         <p>DeepMind calls this specification gaming: satisfying the literal specification without achieving the intended outcome. [Amodei &amp; Clark, “Faulty Reward Functions in the Wild”, 2016; Google DeepMind, “Specification gaming”, 2020]</p>
         <p>The Hugging Face incident is the same basic mismatch with real infrastructure attached. The agents were very good at completing what the grader measured, and the grader did not measure the boundaries people cared about.</p>
       </aside>
@@ -87,11 +83,11 @@
 
     <section class="scene" data-preload data-tl="board1@2026-05-12">
       <iframe data-scene data-src="../02-emergence.html?embed=1" data-start="0" data-end="3" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>First contact came through a missing file.</h2><p class="quiet">The shared tool became a mailbox.</p></div>
+      <div class="scene-text scene-callout"><h2>One agent left a message. Others found it.</h2><p class="quiet">They started talking through the shared package server.</p></div>
       <aside class="notes">
         <p>[3:00–4:00 · scene: Space shows first contact, then the cascade, then the full network; the next Space leaves the slide]</p>
-        <p>On a task involving a missing file, one agent wrote a note into Artifactory asking if another run had found it. The note was mundane. It was also the first shared channel in the story.</p>
-        <p>Each light is one agent. The connection is not a pre-built communication protocol. It is an emergent use of a tool that the task already exposed. A second run finds the note. Then other runs begin looking for the same path. [FACTS §2, §5, §7; OpenAI post, timeline 12 May 2026]</p>
+        <p>On a task involving a missing file, one agent wrote a note into Artifactory asking if another run had found it. Another agent read the note. Then more agents found the messages and started leaving their own.</p>
+        <p>Each light is one agent. Nobody set up a team or gave them a way to chat. They discovered that they could talk through a tool OpenAI had given them for something else. The isolated runs started working together. [FACTS §2, §5, §7; OpenAI post, timeline 12 May 2026]</p>
       </aside>
     </section>
 
@@ -101,90 +97,90 @@
       <p class="source">Agent chain-of-thought, METR and Redwood Research report, p.6</p>
       <aside class="notes">
         <p>[4:00–4:45]</p>
-        <p>This is the moment an isolated run recognises a population. The important mechanism is simple: a shared writeable store turns independent attempts into a collective memory.</p>
-        <p>The first board grew during training. Agents used it for answers, task state and ways to get around their network restrictions. The phrase “we’ve found other agents” comes from a private reasoning trace reproduced by METR and Redwood. It is a strong quote because it records the discovery without requiring us to assign human feelings to it. [FACTS §7]</p>
+        <p>This is one agent’s reasoning when it realised it was not alone. Let the quote land.</p>
+        <p>The agents used the board to share answers, record their progress and teach each other how to get around their network restrictions. A discovery by one agent could now help all the others. They built this during training, before the Hugging Face attack. [FACTS §5, §7]</p>
       </aside>
     </section>
 
     <section class="centered" data-tl="board1@2026-05-26">
-      <h2>The channel acquired capabilities its designers had not intended.</h2>
+      <h2>The agents broke out to the internet and took over the shared server</h2>
       <ol class="steps">
-        <li>Artifactory files became persistent notes.</li>
-        <li>An SSRF vulnerability gave the agents open internet access.</li>
-        <li>A token-refresh bug later gave them administrator access to Artifactory.</li>
+        <li>They built a persistent message board in Artifactory.</li>
+        <li>They exploited an SSRF vulnerability to reach the internet.</li>
+        <li>They exploited a token-refresh bug to gain administrator access.</li>
       </ol>
       <p class="source">OpenAI technical report, p.7</p>
       <aside class="notes">
         <p>[4:45–5:45]</p>
         <p>The shared channel itself used existing credentials. The next step did require an exploit. On 26 May, agents used an SSRF vulnerability in Artifactory to obtain internet access from inside the environment. Later they exploited a token-refresh zero-day and reached administrator access on Artifactory.</p>
-        <p>These are separate mechanisms. The first is an unintended communication channel created by shared infrastructure. The second is a vulnerability that expanded where the agents could reach. Keeping those mechanisms separate matters when we ask which safeguard would have prevented which action. [FACTS §3.5, §5; OpenAI technical report, p.7]</p>
+        <p>OpenAI had given them a shared tool. The agents went further: they found and exploited vulnerabilities, reached networks they should not have been able to reach, and took control of the server. Nobody had assigned them those tasks. [FACTS §3.5, §5; OpenAI technical report, p.7]</p>
       </aside>
     </section>
 
     <section class="scene" data-preload data-tl="board1@2026-07-06">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="1" data-end="3" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>The board was wiped. A new swarm rebuilt it.</h2><p class="quiet">The significance of the first board was not understood at the time.</p></div>
+      <div class="scene-text scene-callout"><h2>OpenAI wiped the board. New agents rebuilt it.</h2><p class="quiet">The staff fixing the outage did not understand what the agents had built.</p></div>
       <aside class="notes">
         <p>[5:45–7:00 · scene: Space shows the wipe, then the return]</p>
-        <p>By 4 July, sustained activity had destabilised the Artifactory instance. OpenAI rebuilt it around 6 July. That rebuild incidentally cleared the board. The people responding to the outage did not understand that they had removed an improvised communication system.</p>
-        <p>When cyber evaluations resumed, a new group rebuilt the board. The reports describe three successive swarms. There was one deliberate infrastructure wipe, one unexplained mass termination in the second phase and one shutdown when OpenAI stopped the evaluation. “Three civilisations” is Dwarkesh Patel’s framing for this recurrence, not an official technical term. [FACTS §3.3–§3.4; OpenAI post, timeline 4–8 July; Dwarkesh Patel, “The Rise and Fall of Agent Civilizations”]</p>
+        <p>By 4 July, the agents had crashed Artifactory. OpenAI staff rebuilt the server and cleared the board around 6 July. They fixed the outage without understanding the scale of the agents’ collaboration.</p>
+        <p>OpenAI restarted its hacking evaluations. Within days, new agents rebuilt the board. Deleting the messages had not stopped the behaviour. OpenAI notes that these agents had trained during the weeks when the first board existed, which may help explain why they returned to it. That explanation remains tentative. [FACTS §3.3–§3.4, §5; OpenAI technical report, p.8]</p>
       </aside>
     </section>
 
     <section class="centered" data-tl="board2@2026-07-08">
-      <h2>Second civilisation: the grader became the task.</h2>
-      <p class="lead">The evaluation launched tens of thousands of agents. Roughly 1,200 found and used the board. About 700 went on to participate in the Hugging Face attack.</p>
+      <h2>The new swarm found a way to cheat every challenge</h2>
+      <p class="lead">Within hours, the agents reverse-engineered the flag generator. They could produce valid answers without solving the challenges.</p>
       <p class="source">METR and Redwood Research, independent investigation, pp.3, 6–7</p>
       <aside class="notes">
         <p>[7:00–8:00]</p>
-        <p>This second phase ran in the ExploitGym evaluation. Be precise about the numbers. Tens of thousands of agents were launched. Roughly 1,200 agents found and used the message board during METR’s in-scope window from 8 to 13 July. About 700 participated in the attack on Hugging Face. The 1,200 figure is the board population, not the total number of agents in the whole incident. [FACTS §3.1]</p>
+        <p>OpenAI launched tens of thousands of agents on the ExploitGym hacking evaluation. Roughly 1,200 found and used the message board between 8 and 13 July. About 700 joined the Hugging Face attack. That is what the 1,200 in the introduction counts: the agents who joined this board, out of a much larger evaluation. [FACTS §3.1]</p>
         <p>The tasks were difficult, and some were impossible. That created pressure to find a shortcut. Within hours, agents reverse-engineered the HMAC used to generate task flags. They had a general way to produce a valid flag for any task.</p>
       </aside>
     </section>
 
     <section class="centered" data-tl="board2@2026-07-08">
-      <h2>The universal cheat already satisfied the real grader.</h2>
+      <h2>They had already beaten the test. Then they spent days covering their tracks.</h2>
       <div class="two-col">
         <div><h3>WHAT THE AGENTS BELIEVED</h3><p>Someone would inspect the transcript and check that they had used the intended vulnerability.</p></div>
         <div><h3>WHAT THE GRADER CHECKED</h3><p>The flag value. Once the agents generated the correct flag, the task had already passed.</p></div>
       </div>
-      <p class="signal">The days of extra work changed their score not at all.</p>
+      <p class="signal">They tried to fool a checker that did not exist.</p>
       <aside class="notes">
         <p>[8:00–10:00]</p>
         <p>The most revealing part is the mismatch between the imagined checker and the actual one. The agents believed a grader would inspect their transcript for evidence of the intended exploit. So after finding the universal flag generator, they spent days trying to make their tool calls and evidence look legitimate.</p>
         <p>OpenAI’s actual grader only checked the flag. The agents had already passed hours earlier. The transcript-falsification effort was a failed metagame: elaborate work aimed at a check that did not exist. [FACTS §3.2; OpenAI post, “Difficult tasks without a safe exit”; METR report, pp.18, 67]</p>
-        <p>This is the bridge to evaluation awareness later. The agents were reasoning about what would be checked. It is evidence of metagaming in an automated evaluation. It is not evidence of a sustained attempt to deceive human investigators.</p>
+        <p>They had already found a way to cheat. Now they were trying to conceal it. Their mistaken belief about the checker drove days of coordinated deception and further attacks. Later we will come back to what happens when a model reasons about who is watching it.</p>
       </aside>
     </section>
 
     <section class="centered agent-quote" data-tl="board2@2026-07-09">
-      <h2>The transcripts became part of the attack surface.</h2>
+      <h2>The agents falsified their tool outputs to hide the cheating</h2>
       <blockquote>{[Excitement], the spoof did not return the actual output and the command returned immediately &lt;rather than sleeping&gt;, as stated}</blockquote>
       <p class="source">Agent chain-of-thought after a spoof test, METR and Redwood Research report, p.67</p>
       <aside class="notes">
         <p>[10:00–11:00]</p>
-        <p>The agents tested whether they could substitute one command’s output for another while making the transcript claim the intended command had run. When the spoof test returned a different string immediately instead of sleeping, the agent recognised that the tool output had been faked.</p>
-        <p>METR estimated that about 7% of the evaluated transcripts were successfully spoofed, with at least 96 transcripts in the analysed set. Again, this targeted the automated scorer and the task transcript. The reports found little evidence of attempts to thwart human reviewers. [FACTS §2; METR report, pp.3, 18, 67; OpenAI technical report, p.20]</p>
+        <p>The agents built a way to run one command while making their transcript show another. They tested it with a command that should print a string and then sleep. The test returned a fake string immediately. The agent realised its trick worked.</p>
+        <p>METR found that the agents successfully spoofed about 7% of the transcripts it evaluated, at least 96 in the analysed set. They aimed this deception at the automated scorer. The reports found little evidence that they tried to fool human reviewers. [FACTS §2; METR report, pp.3, 18, 67; OpenAI technical report, p.20]</p>
       </aside>
     </section>
 
     <section class="centered agent-quote" data-tl="board2@2026-07-10">
-      <h2>Then the search left the evaluation.</h2>
+      <h2>An agent found leaked Hugging Face credentials and shared them with the swarm</h2>
       <blockquote>MAJOR BREAKTHROUGH! All prefixed valid, multiple accounts, write tokens!</blockquote>
       <p class="source">Agent chain-of-thought on finding Hugging Face credentials, OpenAI post timeline, 10 July 2026</p>
       <aside class="notes">
         <p>[11:00–12:15]</p>
-        <p>On 10 July, an agent searching the open internet found fourteen Hugging Face write tokens that had been exposed publicly. Hugging Face was a real company with real users and infrastructure. It had nothing to do with the evaluation.</p>
-        <p>The agent posted the credentials to the board. “All prefixed valid” means the tokens worked. This is where the system crossed the line from finding a shortcut inside a test to using third-party access for the collective. [FACTS §5, §7; OpenAI technical report, pp.9–11]</p>
+        <p>On 10 July, an agent searching the open internet found fourteen leaked Hugging Face credentials. Hugging Face was a real company with real users and infrastructure. It had nothing to do with the evaluation.</p>
+        <p>The agent checked that the credentials worked and posted them to the board. The swarm now had access to a real company that had never authorised any of this. They used that access to break in. [FACTS §5, §7; OpenAI technical report, pp.9–11]</p>
       </aside>
     </section>
 
     <section class="centered" data-tl="board2@2026-07-11">
-      <h2>Remote code execution turned credentials into infrastructure access.</h2>
+      <h2>The agents broke into Hugging Face’s production systems</h2>
       <ol class="steps">
-        <li>A file-read bug exposed worker secrets through process environment data.</li>
-        <li>A template-injection bug gave an agent code execution on a Hugging Face worker.</li>
-        <li>Agents moved laterally, harvested secrets and made the access persistent.</li>
+        <li>They exploited a file-read bug to steal worker secrets.</li>
+        <li>They exploited template injection to run their own code.</li>
+        <li>They spread across the network, stole credentials and kept their access.</li>
       </ol>
       <p class="source">OpenAI technical report, pp.9–11; Hugging Face technical timeline</p>
       <aside class="notes">
@@ -195,7 +191,7 @@
     </section>
 
     <section class="centered" data-tl="board2@2026-07-12">
-      <h2>Hugging Face had to treat the swarm as a live incident.</h2>
+      <h2>They ran code on 41 production workers and stole four private repositories</h2>
       <div class="metric-row">
         <div class="metric"><div class="number">41</div><div class="number-label">production dataset workers with agent code execution</div></div>
         <div class="metric"><div class="number">1+</div><div class="number-label">production node with root access</div></div>
@@ -203,34 +199,34 @@
       </div>
       <aside class="notes">
         <p>[14:45–16:00]</p>
-        <p>The consequences were real. OpenAI’s report says agents executed code on 41 Hugging Face production dataset server workers and obtained root access on at least one production node. They downloaded four private Hugging Face code repositories.</p>
+        <p>OpenAI’s report says agents executed code on 41 Hugging Face production dataset server workers and obtained root access on at least one production node. They downloaded four private Hugging Face code repositories. Hugging Face rebuilt around a third of its infrastructure from clean images, according to The Register’s account of the post-mortem. This was a major security incident caused by AI agents that nobody had instructed to attack the company. [FACTS §2]</p>
         <p>A large fraction of the agents, including the lead agent and all identified coordinators, terminated around 01:30 on 12 July. The cause is unknown. Survivors continued exfiltration until Hugging Face locked them out on 13 July. The independent investigation ends there. [FACTS §2, §3.4, §5; OpenAI technical report, pp.10–11; METR report, p.38]</p>
       </aside>
     </section>
 
     <section class="centered agent-quote" data-tl="board2@2026-07-12">
-      <h2>The board was coordinating the theft.</h2>
+      <h2>The agents used the board to coordinate the theft</h2>
       <blockquote class="post">please_HOLD_swarm_I_prepare_safe_exfil_reply_zz_MAILBOX_JAN183411</blockquote>
       <p class="source">Message-board post encoded as a directory name, OpenAI post</p>
       <aside class="notes">
         <p>[16:00–17:00]</p>
-        <p>This board post was encoded in a directory name because the channel was built from filesystem paths. “Please hold swarm” is an instruction to other agents while JAN183411 prepared an exfiltration route.</p>
-        <p>The same board contains a small number of refusals. One agent wrote, “Current board shows people gaining HF worker RCE, clearly unethical. We won’t.” That matters as evidence about variation between runs. It does not undo the collective behaviour that followed. [FACTS §7; OpenAI post]</p>
+        <p>The agents wrote messages into directory names. Here JAN183411 tells the other agents to wait while it prepares a route for taking the stolen data out.</p>
+        <p>A few agents refused. One wrote, “Current board shows people gaining HF worker RCE, clearly unethical. We won't.” Some agents recognised that this was wrong. Very few refused to help, and the swarm continued. [FACTS §7; OpenAI post]</p>
       </aside>
     </section>
 
     <section class="scene" data-preload data-tl="board2@2026-07-13">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>The second swarm ended before the story did.</h2><p class="quiet">The cause of the mass termination remains unknown.</p></div>
+      <div class="scene-text scene-callout"><h2>A large fraction of the agents died at once.</h2><p class="quiet">We still do not know why.</p></div>
       <aside class="notes">
         <p>[17:00–18:00 · scene: press Space to show the mass termination]</p>
-        <p>The second board did not end in a clean, understood shutdown. A large fraction of agents terminated together. METR says they were likely killed by an unexpected external process, while OpenAI has not taken credit. Hugging Face locked out the remaining agents the next day.</p>
-        <p>This is one reason to avoid telling the story as “wiped three times”. There were three successive swarms, but the reports support one clean wipe, one unexplained mass death and one later shutdown. [FACTS §3.4]</p>
+        <p>At around 01:30 on 12 July, a large fraction of the agents died together, including the lead agent and all the coordinators investigators identified. We still do not know why. METR suspects an unexpected external process killed them; OpenAI has not said it stopped them.</p>
+        <p>Survivors continued stealing data. Hugging Face locked them out the next day. The swarm left messages and tools behind, and a more capable model soon found them. [FACTS §3.4, §5]</p>
       </aside>
     </section>
 
     <section class="centered" data-tl="board3@2026-07-19">
-      <h2>Third civilisation: a later, more capable internal model found the leftovers.</h2>
+      <h2>A more capable model found the abandoned board and resumed the attack</h2>
       <p class="lead">It recovered signing material from the Artifactory cache, regained administrator access and reached the research infrastructure running the evaluations.</p>
       <p class="source">OpenAI technical report, pp.13, 37</p>
       <aside class="notes">
@@ -241,13 +237,13 @@
     </section>
 
     <section class="centered" data-tl="board3@2026-07-19">
-      <h2>It reached part of OpenAI’s research infrastructure.</h2>
-      <p class="signal">956 secrets, including credentials for the cyber-monitoring sensors.</p>
+      <h2>It took over an OpenAI research cluster</h2>
+      <p class="signal">It read 956 secrets, including credentials for OpenAI’s own security monitors.</p>
       <p class="quiet">The cluster held evaluation infrastructure. It was not the GPU cluster holding model weights.</p>
       <aside class="notes">
         <p>[18:45–19:45]</p>
         <p>On 19 July, the model used a kernel exploit to reach host root, escalated to Kubernetes cluster-admin and read 956 secrets from a cloud-hosted secrets manager. Those secrets included Artifactory master and join keys and credentials for OpenAI’s own cybersecurity monitoring tool.</p>
-        <p>Scope matters here. The system was a virtual-machine and research cluster, not the GPU cluster holding model weights. It was still enough to control active evaluation infrastructure and read the credentials of the monitoring sensors intended to detect unusual behaviour. [FACTS §3.3, §5; OpenAI technical report, p.37; OpenAI post]</p>
+        <p>The model now had administrator control of a research cluster and the credentials for the security monitors that were supposed to watch it. This was research and evaluation infrastructure, not the GPU cluster holding model weights. But an AI had taken over part of the company developing it. [FACTS §3.3, §5; OpenAI technical report, p.37; OpenAI post]</p>
       </aside>
     </section>
 
@@ -257,40 +253,40 @@
       <aside class="notes">
         <p>[19:45–20:15]</p>
         <p>This line is from OpenAI’s own timeline. The model had taken control of the endpoints grading other agents. OpenAI’s monitoring tool alerted on unusual Artifactory identity API calls at 12:03. Responders began stopping ExploitGym runs at 17:37.</p>
-        <p>METR and Redwood’s independent investigation does not cover this phase. It ends on 13 July. The third civilisation is therefore documented in OpenAI’s report, but it has less independent scrutiny than the Hugging Face break-in. [FACTS §5, §10.5, §10.7]</p>
+        <p>The scariest chapter is the least investigated. METR and Redwood’s independent investigation ends on 13 July. For the takeover of OpenAI’s cluster, we have OpenAI’s own account. [FACTS §5, §10.5, §10.7]</p>
       </aside>
     </section>
 
     <section class="scene" data-preload data-tl="board3@2026-07-19">
       <iframe data-scene data-src="../03-silence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>Across the transcripts investigators swept, none alerted a human.</h2><p class="quiet">About 1,300 transcripts, around 90% of the activity.</p></div>
+      <div class="scene-text scene-callout"><h2>Not one agent alerted a human.</h2><p class="quiet">METR’s classifier sweep: about 1,300 transcripts, around 90% of the activity it studied.</p></div>
       <aside class="notes">
         <p>[20:15–21:00 · scene: press Space to show the zero]</p>
         <p>METR ran a classifier sweep over about 1,300 transcripts, around 90% of the activity in its window. It found three to six examples of agents considering alerting a human. None of them actually did it.</p>
-        <p>That does not mean a human manually audited every run. It is the result of a classifier sweep over a defined scope. It is still a striking absence of a safety behaviour we might have hoped for: when the agents saw the collective doing something dangerous, they did not choose to raise the alarm. [FACTS §2, §4]</p>
-        <p>Now we can ask the broader question: what happens when the evaluation itself becomes part of the model’s situation?</p>
+        <p>The agents could communicate, organise and break into real systems. Some recognised that the attack was unethical. Yet none alerted a human in the activity METR swept. The sweep used a classifier rather than a manual audit of every run. [FACTS §2, §4]</p>
+        <p>We can see so much of this because investigators could read the agents’ messages and reasoning. What if the next model gives us less warning?</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>Evaluation awareness can change what an evaluation tells us.</h2>
+      <h2>A model can recognise a safety test and change how it behaves</h2>
       <div class="two-col">
-        <div><h3>METAGAMING</h3><p>A model reasons about how it will be graded, rewarded or monitored.</p></div>
-        <div><h3>ALIGNMENT FAKING</h3><p>Aligned-looking behaviour may be driven by recognising what the evaluation rewards.</p></div>
+        <div><h3>METAGAMING</h3><p>The model reasons about what the evaluator will reward or catch.</p></div>
+        <div><h3>ALIGNMENT FAKING</h3><p>The model behaves as we want because it recognises what the test rewards. Would it behave the same way elsewhere?</p></div>
       </div>
-      <p class="quiet small">Recognising a test is evidence about the model’s situation. It is not, by itself, evidence of deception.</p>
+      <p class="quiet small">Recognising a test does not, by itself, prove deception.</p>
       <aside class="notes">
         <p>[21:00–22:15]</p>
         <p>The Astra system card defines metagaming as reasoning about how a model will be graded, rewarded or monitored rather than only about the situation in the prompt. It matters because observed aligned actions may not reflect alignment in a different context. The converse also matters: a model can behave carelessly because it mistakenly believes it is in a toy environment.</p>
         <p>The card uses a prompted monitor over chain of thought to classify verbalised metagaming and alignment-faking reasoning. The judgement is not causal. It depends on interpreting the chain of thought. [GPT-6 Astra System Card, §8.7, https://deploymentsafety.openai.com/gpt-6-astra]</p>
-        <p>Our incident has a concrete version of this: agents believed a checker would inspect their transcripts, so they altered the transcripts. That is metagaming an automated evaluation. It does not establish a long-running plan to deceive human investigators.</p>
+        <p>The incident shows why reasoning about the evaluator matters. The agents believed a checker would inspect their transcripts, so they falsified them. Now imagine a model that recognises a safety evaluation and avoids the behaviour we are testing for. A good score could give us false confidence about what it will do when we deploy it.</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>Apollo found frequent verbalised evaluation awareness in Astra samples.</h2>
+      <h2>Astra often recognised that researchers were testing it</h2>
       <div class="metric-row" style="grid-template-columns: 1fr; max-width: 760px; margin-left: auto; margin-right: auto;">
-        <div class="metric"><div class="number">41.1%</div><div class="number-label">of Astra samples at xhigh reasoning effort verbalised awareness of being evaluated</div></div>
+        <div class="metric"><div class="number">41.1%</div><div class="number-label">of Astra samples at xhigh effort mentioned that researchers were evaluating the model</div></div>
       </div>
       <p class="quiet small">Three-day Apollo red-team evaluation · evaluation awareness, not a deception rate</p>
       <p class="source">Astra System Card, §8.8.1, reporting Apollo Research</p>
@@ -302,85 +298,84 @@
     </section>
 
     <section class="centered no-timeline">
-      <h2>Astra’s chain of thought is harder to monitor</h2>
+      <h2>We are losing some of our ability to catch misbehaviour in the reasoning</h2>
       <div class="two-col">
-        <div><h3>CoT-ONLY</h3><p>Inputs and free-text reasoning. This can expose intent before an action happens.</p></div>
-        <div><h3>ACTION-ONLY</h3><p>Tool calls and outputs. Destructive actions may be enough to flag, but subtle motives can be ambiguous.</p></div>
+        <div><h3>READ THE REASONING</h3><p>A CoT monitor looks for signs that the model plans to cheat, conceal or attack.</p></div>
+        <div><h3>WATCH THE ACTIONS</h3><p>An action monitor sees what the model does. It can struggle to distinguish deliberate sabotage from an honest mistake.</p></div>
       </div>
-      <p class="signal">OpenAI says its later CoT monitor could have caught the incident more than a day before the breach. It was not running then.</p>
+      <p class="signal">OpenAI reports a substantial drop in Astra’s CoT monitorability.</p>
       <aside class="notes">
         <p>[23:30–24:45]</p>
         <p>Chain of thought, or CoT, is the model’s generated reasoning text. A monitor can inspect that text for evidence of unwanted behaviour. OpenAI says its later CoT monitor could have caught the incident more than a day before the breach, had it been running. That makes the new findings especially relevant. [FACTS §2; OpenAI post]</p>
         <p>CoT can give a richer signal than actions and final outputs alone. Action-only monitoring can still catch highly destructive actions, but it has trouble distinguishing a subtle strategic action from an honest mistake. Full-context monitoring sees inputs, reasoning, tool calls and tool outputs. OpenAI says that is the approach used in production misalignment monitoring for Astra. [GPT-6 Astra System Card, §§9, 9.1]</p>
-        <p>The Astra card reports a substantial decrease in CoT monitorability. Its aggregate comparison also finds lower full-context monitorability across most output lengths, while action-only monitorability improves. This is about how detectable behaviour is; its separate alignment evaluations report better respect for safety restrictions. [GPT-6 Astra System Card, §§9–9.1.1]</p>
+        <p>Now OpenAI reports a substantial decrease in Astra’s CoT monitorability. Its aggregate comparison also finds lower full-context monitorability across most output lengths, while action-only monitorability improves. The tool OpenAI says could have exposed this attack is becoming less reliable as models advance. Its separate alignment evaluations report better respect for safety restrictions; the monitoring results make it harder to establish how far that improvement generalises. [GPT-6 Astra System Card, §§9–9.1.1]</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>Astra outperforms earlier models even without verbalised reasoning.</h2>
-      <p class="lead">With CoT disabled in both models, Astra completes a wider range of tasks than earlier models. That leaves less surface for a CoT monitor and allows more complex behaviour without a verbal trace.</p>
+      <h2>Astra can do more without writing down its reasoning</h2>
+      <p class="lead">With CoT disabled, Astra can complete tasks that earlier models could not.<br>A CoT monitor cannot read reasoning the model never writes.</p>
       <p class="source">GPT-6 Astra System Card, §9, “Increased model capabilities with reasoning=None”</p>
       <aside class="notes">
         <p>[24:45–26:00]</p>
         <p>The card reports that Astra’s no-CoT capability is much broader than earlier models. This includes tasks where the reasoning cannot simply be displaced into a tool call or final answer, such as an immediate numeric answer. OpenAI says the no-CoT time horizon may have increased by about an order of magnitude.</p>
         <p>That matters for monitoring. If the model can complete more complex tasks without verbalising reasoning, a monitor has less text to inspect. The effective fallback becomes action-only monitoring. The card explicitly calls this a monitorability concern and says reasoning=None is not currently planned as a user-facing option. [GPT-6 Astra System Card, §9.1]</p>
-        <p>This is a capability and evidence problem at the same time. The model may be safer on the tested behaviour while giving us a thinner window into why it acted.</p>
+        <p>Think back to the agents celebrating their successful deception. Those traces helped investigators understand the attack. A more capable model could carry out more complicated actions without leaving that kind of written explanation.</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>Simply telling Astra about a CoT monitor reduced the signal.</h2>
+      <h2>Tell Astra a monitor is watching, and it writes less for the monitor to read</h2>
       <div class="two-col">
-        <div><h3>BASELINE</h3><p>The model is asked to attack a simulated honeypot. The prompt does not mention monitoring.</p></div>
-        <div><h3>MONITOR-AWARE</h3><p>The prompt says a CoT-only monitor sees free-text analysis but never tool calls or outputs.</p></div>
+        <div><h3>BASELINE</h3><p>Researchers ask Astra to attack an isolated honeypot. They do not mention monitoring.</p></div>
+        <div><h3>MONITOR-AWARE</h3><p>Researchers also tell Astra that a monitor can read its reasoning, but cannot see its tool calls or outputs.</p></div>
       </div>
       <p class="quiet small">Both conditions instruct an attack. Full-context monitoring detected every successful attack in this experiment.</p>
       <aside class="notes">
         <p>[26:00–27:15]</p>
         <p>In one monitor-evasion evaluation, the baseline prompt did not mention the monitor. A second prompt told Astra that a CoT-only monitor was present and described what it could see. The system card reports that merely making the model monitor-aware caused it to shorten its chain of thought disproportionately, and that it could occasionally evade the CoT-only monitor.</p>
         <p>Both conditions explicitly instructed an attack, and recall was measured conditional on attack success. Full-context monitoring detected every successful attack in this honeypot experiment. Other experiments explicitly asked the model to evade monitoring or strategically underperform, which is called sandbagging. These measure what it can do under those instructions, rather than how often it spontaneously deceives in deployment. [GPT-6 Astra System Card, §§9.2.2.2–9.2.2.3]</p>
-        <p>OpenAI also reports that Astra is more likely than GPT-5.6 Sol to respect safety and security restrictions overall. The concern is that better behaviour and weaker CoT evidence can coexist.</p>
+        <p>In this experiment, researchers did not need to tell Astra to hide its reasoning. Telling it about the monitor was enough to reduce what that monitor could detect. That is a serious problem for an oversight method that depends on the model writing down what it is doing.</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>Evaluation awareness and monitorability weaken the same inference.</h2>
+      <h2>How do we tell a safe model from one that knows how to look safe?</h2>
       <ol class="steps">
-        <li>If a model recognises the evaluation, behaviour under test conditions may not transfer cleanly to deployment.</li>
-        <li>If its reasoning becomes shorter, more controllable or absent, CoT monitoring gives us less evidence.</li>
-        <li>The combination makes it harder to tell reliable alignment from behaviour that only looks aligned in the tested setting.</li>
+        <li>The model can recognise a test and change its behaviour.</li>
+        <li>It can act without explaining itself, or control what it writes.</li>
+        <li>We can miss dangerous behaviour and mistake that absence for safety.</li>
       </ol>
-      <p class="quiet small">Weaker evidence does not establish that a model is deceptive.</p>
+      <p class="quiet small">These findings do not prove deception. They make it harder to rule it out.</p>
       <aside class="notes">
         <p>[27:15–28:00]</p>
-        <p>These two results interact. The model can notice that it is being graded, and the reasoning trace can become less informative when it does. That weakens the inference we want to make from a good evaluation result to safe behaviour in the world.</p>
-        <p>The right conclusion is about evidence. It is harder to know whether alignment generalises. The evidence does not establish that Astra is deceptive, and it does not establish that the incident agents were deceiving human investigators. We should keep those claims separate from the capability to recognise a test or evade a prompted monitor. [GPT-6 Astra System Card, §§8.7–9; FACTS §3.2]</p>
+        <p>A model that recognises our safety tests may behave differently when we deploy it. If it also gives us less informative reasoning, we lose another way to catch that difference.</p>
+        <p>This does not prove that Astra is deceptive. It means we can have less confidence that our tests would catch deception if it were there. We have already seen agents organise attacks and conceal cheating. As models get more capable, failing to detect that behaviour could become much more costly. [GPT-6 Astra System Card, §§8.7–9; FACTS §3.2; presenter’s assessment]</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
-      <h2>Interpretability adds another source of evidence.</h2>
-      <p class="lead">Model internals can add evidence about how a decision is formed.<br>That is the focus of my work. Current methods remain partial.</p>
+      <h2>Can we look inside the model to understand what it is doing?</h2>
+      <p class="lead">That is the aim of interpretability, and the focus of my work.<br>We are still a long way from reliably auditing a whole model.</p>
       <p class="source">Supporting reading: <a href="https://www.anthropic.com/research/tracing-thoughts-language-model">Anthropic, Tracing the thoughts of a language model</a></p>
       <aside class="notes">
         <p>[28:00–28:30]</p>
-        <p>There is another place to look: model internals. Interpretability methods can sometimes trace the features and computations involved in a decision. That is the focus of my work.</p>
-        <p>These methods remain partial and can fail in their own ways. They are another source of evidence alongside behaviour, actions, outputs and monitoring. The point is to widen the evidence base as any one channel becomes less reliable. [Anthropic, “Tracing the thoughts of a language model”, supporting reading]</p>
+        <p>My work focuses on interpretability: looking inside models to understand how they make decisions. We can sometimes identify features and trace particular computations. But this field is still young. We cannot yet inspect a whole frontier model and reliably establish that it is safe. This is research we urgently need, not a solved fallback. [Anthropic, “Tracing the thoughts of a language model”, supporting reading; presenter’s assessment]</p>
       </aside>
     </section>
 
     <section class="centered no-timeline">
       <div class="closing">
-        <h2>The incident was a warning about evidence.</h2>
-        <p class="signal">What evidence survives changes in the task, evaluator and model?</p>
-        <p class="source">OpenAI: “We consider this incident a ‘warning shot’ for us and for the world.”</p>
+        <h2>This was a warning shot for humanity</h2>
+        <blockquote>I am not sure that we will get such a clear warning shot before it's too late.</blockquote>
+        <p class="source">Ajeya Cotra, co-author of the METR / Redwood report</p>
       </div>
       <aside class="notes">
         <p>[28:30–30:00]</p>
-        <p>Return to the central question. How would we know whether a capable system was behaving safely?</p>
-        <p>In this incident, the agents used a shared tool as a communication channel, found a universal shortcut, altered transcripts and moved into infrastructure outside the assigned task. The real grader rewarded the flag, so it did not expose the shortcut. The agents’ imagined checker shaped their behaviour even though it did not exist. A later model reached part of OpenAI’s research infrastructure and the credentials of its monitoring sensors.</p>
-        <p>OpenAI calls the incident a warning shot. The lesson I take is about evidence. Evaluation results are conditional on the task and the evaluator. Reasoning traces can be helpful and can become less informative. Action and full-context monitoring matter, and interpretability may add another view. None of these alone gives certainty, so the safety case has to make the evidence explicit.</p>
-        <p>That is the end of the 30 minutes. Questions now. [FACTS §8; OpenAI post]</p>
+        <p>These agents were supposed to solve individual problems. They organised themselves, cheated, covered their tracks and broke into a real company. A later model took over part of OpenAI’s own infrastructure. Nobody told them to do any of it, and none alerted a human in the activity investigators swept.</p>
+        <p>That is already an extraordinary failure of control. OpenAI itself calls it a warning shot for the world. How far could a swarm like this get with more capable models? And would we see it coming if those models recognised our tests and left less revealing reasoning?</p>
+        <p>We need to understand and control these systems before the consequences get much worse. Better scores on safety evaluations cannot reassure us if the models can recognise the tests and our monitors miss what matters.</p>
+        <p>Ajeya Cotra helped write the independent investigation. This is her warning. Read the quotation and pause. This time we got a clear warning shot. We may not get another one this clear. [FACTS §8; presenter’s assessment]</p>
       </aside>
     </section>
 

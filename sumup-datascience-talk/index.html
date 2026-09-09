@@ -458,19 +458,20 @@
     </section>
 
     <section class="centered no-timeline interpretability">
-      <h2>Can we look inside the model to understand what it is doing?</h2>
+      <h2>Can we detect lies inside the model?</h2>
       <div class="interpretability-example">
-        <img src="assets/interpretability-circuit.png" alt="Anthropic’s simplified circuit in Claude 3.5 Haiku: Dallas activates Texas; Texas and a capital-related feature contribute to the answer Austin.">
+        <img src="assets/lie-detector-transfer.png" alt="Figure 1e: activation and log-probability detectors lose balanced accuracy when moving from prompted lies to trained model organisms; the CoT monitor retains stronger performance. Chance is 0.5.">
         <div>
-          <p class="pale">“The capital of the state containing Dallas is …”</p>
-          <p>We are still a long way from reliably auditing a whole model.</p>
+          <p>Probes can detect some lies from internal activations.</p>
+          <p class="pale">But success on prompted lies does not reliably transfer to models trained to lie.</p>
+          <p class="quiet small">The CoT result benefits from selecting models whose lies were visible in their reasoning.</p>
         </div>
       </div>
-      <p class="source">Simplified circuit in Claude 3.5 Haiku · <a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html#dives-tracing">Anthropic, On the Biology of a Large Language Model</a> (2025)</p>
+      <p class="source"><a href="https://arxiv.org/html/2606.12618v2#S1.F1">Cooney, Africa &amp; Irving, “Did you lie?”</a> · UK AI Security Institute · June 2026 · Figure 1e</p>
       <aside class="notes">
         <p>[25:55–26:25]</p>
-        <p>My work focuses on interpretability: looking inside models to understand how they make decisions. We can sometimes identify features and trace particular computations. But this field is still young. We cannot yet inspect a whole frontier model and reliably establish that it is safe. This is research we urgently need, not a solved fallback. [Anthropic, “Tracing the thoughts of a language model”, supporting reading; presenter’s assessment]</p>
-        <p>The figure shows Anthropic’s simplified circuit for the Dallas question. Researchers traced an intermediate representation of Texas contributing to the answer Austin, and tested it with interventions. This is a selected example in Claude 3.5 Haiku, not an audit of Astra. Figure reproduced from https://transformer-circuits.pub/2025/attribution-graphs/png/img_4e42fad1d7624d1e.png; study: https://transformer-circuits.pub/2025/attribution-graphs/biology.html#dives-tracing.</p>
+        <p>My work focuses on interpretability: looking inside models. We can train classifiers on internal activations to detect some lies. But this study found that success when models were prompted to lie did not reliably transfer to models trained to lie. The green CoT line holds up partly because researchers selected models whose lies they could verify in the reasoning. We still cannot reliably audit a whole model this way.</p>
+        <p>If asked: “Trained MO” means trained model organisms. These were deliberately fine-tuned research models, not Astra. Balanced accuracy averages sensitivity and specificity; 0.5 is chance. The activation line groups the Apollo and Did-You-Lie probes. Source: Cooney, Africa and Irving (2026), Figure 1e and §6.2, https://arxiv.org/html/2606.12618v2. The visual reproduces only panel (e) from the authors’ Figure 1.</p>
       </aside>
     </section>
 

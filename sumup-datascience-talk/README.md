@@ -23,6 +23,6 @@ The generated notes file is `sumup-datascience-talk/dist/sumup-datascience-talk-
 
 The standalone HTML in `dist/` includes the shared assets and animations and can be copied to another computer. The PDF is a static fallback: it shows the selected end state of each animation and omits the live timeline band. The dark mass-termination scene is intentional. Exports are generated files and are ignored by Git.
 
-Speaker-note timestamps allocate 30 minutes, excluding questions. They include time for pauses and animation beats; confirm the pace with an aloud rehearsal.
+Speaker-note timestamps allocate 27 minutes 55 seconds, leaving 2 minutes 5 seconds of breathing room in the 30-minute slot, excluding questions. They include pauses and animation beats; confirm the pace with an aloud rehearsal.
 
 The root deck and its assets remain the source material and are intentionally left unchanged. The subdeck links to `../vendor`, `../shared`, `../assets`, and the existing root scene pages rather than copying those files.

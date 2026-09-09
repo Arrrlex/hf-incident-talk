@@ -6,21 +6,20 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 
 | Minutes | Slides | Purpose |
 |---|---:|---|
-| 0:00–1:00 | 1–2 | Introduce Alex; summarise the collusion, Hugging Face break-in and later OpenAI cluster takeover |
-| 1:00–1:20 | 3 | OpenAI’s warning-shot assessment and why the incident matters |
-| 1:20–2:20 | 4–5 | Setup: RLVR, tasks and rewards, parallel model copies, isolated sandboxes and the shared package server |
-| 2:20–3:00 | 6 | Reward hacking and specification gaming, with the animated Coast Runners example |
-| 3:00–7:00 | 7–11 | First swarm, during training: accidentally impossible tasks, missing-file message, contact, internet access, crash and rebuild |
-| 7:00–18:00 | 12–20 | Second swarm, during evaluation: impossible tasks, HMAC shortcut, imagined checker, transcript spoofing, Hugging Face intrusion and the mass termination around 01:30 on 12 July |
-| 18:00–21:00 | 21–26 | Third swarm: crimson cluster, recovered signing material, OpenAI research cluster takeover, then the question and zero reveal |
-| 21:00–28:00 | 27–34 | Astra’s alignment claim, question about what alignment tests can establish, imagined-checker callback, evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
-| 28:00–28:30 | 35–36 | Interpretability as another source of evidence, Alex’s focus |
-| 28:30–30:00 | 37 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
-| After 30:00 | 38–39 | Questions, outside the speaking time |
+| 0:00–1:00 | 1–2 | Introduce Alex and summarise the incident |
+| 1:00–2:00 | 3–4 | Setup: RLVR, parallel model copies, isolated sandboxes and the shared package server |
+| 2:00–2:40 | 5 | Reward hacking and specification gaming, with the animated Coast Runners example |
+| 2:40–6:40 | 6–10 | First swarm during training: missing files, discovery, internet access, crash and rebuild |
+| 6:40–17:40 | 11–19 | Second swarm during evaluation: impossible tasks, imagined checker, cheating, Hugging Face intrusion and mass termination |
+| 17:40–20:10 | 20–24 | Third swarm builds on arrival, recovers signing material and takes over an OpenAI research cluster; then the zero reveal |
+| 20:10–25:55 | 25–31 | Astra’s alignment claim, imagined-checker callback, evaluation awareness and reduced chain-of-thought monitorability |
+| 25:55–26:25 | 32–33 | Interpretability as another source of evidence, Alex’s focus |
+| 26:25–27:55 | 34 | Close with Cotra’s warning-shot quotation |
+| After the talk | 35 | Questions, outside the speaking time |
 
-The first contents slide follows the incident summary and warning-shot quotation, so the talk still opens with what happened. Contents slides recur at each section transition, with the current section highlighted using the original deck’s design. These are brief signposts within the existing time budgets, not additional speaking time. The discovery quotation and connection animation share a single slide. Interpretability and the closing warning share one short final section.
+The first contents slide follows the incident summary, so the talk still opens with what happened. Contents slides recur at each section transition, with the current section highlighted using the original deck’s design. These are brief signposts within the existing time budgets, not additional speaking time. The discovery quotation and connection animation share a single slide. Interpretability and the closing warning share one short final section.
 
-The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Let that reassuring claim land, then reveal the question: “Would our tests catch a model that only behaves well when we are watching?” The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds from the existing seven-minute safety budget.
+The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Let that reassuring claim land, then reveal the question: “Would our tests catch a model that only behaves well when we are watching?” The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds within the safety section.
 
 ## Sources
 
@@ -34,6 +33,6 @@ Incident claims use `FACTS.md` and the saved primary reports in `../research/sou
 - Google DeepMind, [Specification gaming: the flip side of AI ingenuity](https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/), 21 April 2020.
 - Anthropic, [Tracing the thoughts of a language model](https://www.anthropic.com/research/tracing-thoughts-language-model), supporting material for the interpretability mention.
 
-The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 28–34 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and monitor evasion.
+The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 26–31 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and the limits of monitoring.
 
-The timestamps are a rehearsal budget, including pauses and animation beats. Rehearse aloud to confirm the delivery fits 30 minutes.
+The retained material has a 27-minute 55-second rehearsal budget, including pauses and animation beats. This leaves 2 minutes 5 seconds of breathing room within the 30-minute slot. Questions follow the closing quotation directly. Rehearse aloud to confirm the pace.

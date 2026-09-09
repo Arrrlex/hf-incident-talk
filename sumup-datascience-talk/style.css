@@ -41,7 +41,6 @@
 .reveal .scene-callout h2 { font-size: 42px; }
 .reveal .scene-callout .quiet { font-size: 27px; }
 .reveal .closing { max-width: 1550px; margin: 0 auto; }
-.reveal .closing h2 { font-size: 1.45em; }
 .reveal .closing p { font-size: 0.82em; line-height: 1.45; }
 .reveal .end .logos { margin-top: 1em; }
 .reveal .training-setup .two-col { margin-top: 45px; }
@@ -50,8 +49,11 @@
 .reveal .reward-demo p { font-size: 0.85em; line-height: 1.4; text-align: left; }
 .reveal .discovery .discovery-visual {
   position: absolute; left: 970px; right: 100px; top: 100px; bottom: 280px;
+  overflow: hidden;
 }
 .reveal .slides section.discovery .discovery-visual iframe { height: 100%; }
+.reveal .discovery-visual > iframe,
+.reveal .discovery-visual > img { transform: scale(1.65); transform-origin: 40% 52%; }
 .reveal .discovery .discovery-copy {
   position: absolute; left: 134px; top: 450px; width: 770px;
   transform: translateY(-50%); text-align: left;
@@ -59,6 +61,8 @@
 .reveal .discovery-copy blockquote { box-sizing: border-box; width: 100%; font-size: 50px; margin: 0; }
 .reveal .discovery-copy .source { max-width: none; margin: 30px 0 0 45px; }
 .reveal .alignment-claim .signal { max-width: 1450px; margin: 60px auto 0; }
+.reveal .interpretability h2,
+.reveal .interpretability .lead { margin-left: auto; margin-right: auto; text-align: center; }
 
 @media (max-width: 1200px) {
   .reveal .two-col { gap: 45px; }

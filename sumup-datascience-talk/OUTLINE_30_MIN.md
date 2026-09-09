@@ -8,15 +8,17 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 |---|---:|---|
 | 0:00–1:00 | 1–2 | Introduce Alex; summarise the collusion, Hugging Face break-in and later OpenAI cluster takeover |
 | 1:00–1:20 | 3 | OpenAI’s warning-shot assessment and why the incident matters |
-| 1:20–2:00 | 4 | Setup: individual agent tasks and the shared Artifactory server |
-| 2:00–3:00 | 5 | Reward hacking and specification gaming, with the Coast Runners example |
-| 3:00–7:00 | 6–9 | First civilisation: contact, board, internet access, wipe and return |
-| 7:00–18:00 | 10–17 | Second civilisation: HMAC shortcut, imagined checker, transcript spoofing, credentials and the Hugging Face intrusion |
-| 18:00–21:00 | 18–21 | Third civilisation: later model, OpenAI research cluster, what the investigation could establish |
-| 21:00–28:00 | 22–27 | Evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
-| 28:00–28:30 | 28 | Interpretability as another source of evidence, Alex’s focus |
-| 28:30–30:00 | 29 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
-| After 30:00 | 30 | Questions, outside the speaking time |
+| 1:20–2:00 | 4–5 | Setup: individual agent tasks and the shared Artifactory server |
+| 2:00–3:00 | 6 | Reward hacking and specification gaming, with the Coast Runners example |
+| 3:00–7:00 | 7–11 | First civilisation: contact, board, internet access, wipe and return |
+| 7:00–18:00 | 12–20 | Second civilisation: HMAC shortcut, imagined checker, transcript spoofing, credentials and the Hugging Face intrusion |
+| 18:00–21:00 | 21–25 | Third civilisation: later model, OpenAI research cluster, what the investigation could establish |
+| 21:00–28:00 | 26–32 | Evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
+| 28:00–28:30 | 33–34 | Interpretability as another source of evidence, Alex’s focus |
+| 28:30–30:00 | 35 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
+| After 30:00 | 36–37 | Questions, outside the speaking time |
+
+The first contents slide follows the incident summary and warning-shot quotation, so the talk still opens with what happened. Contents slides recur at each section transition, with the current section highlighted using the original deck’s design. These are brief signposts within the existing time budgets, not additional speaking time. Interpretability and the closing warning share one short final section.
 
 ## Sources
 
@@ -30,6 +32,6 @@ Incident claims use `FACTS.md` and the saved primary reports in `../research/sou
 - Google DeepMind, [Specification gaming: the flip side of AI ingenuity](https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/), 21 April 2020.
 - Anthropic, [Tracing the thoughts of a language model](https://www.anthropic.com/research/tracing-thoughts-language-model), supporting material for the interpretability mention.
 
-The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 22–27 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and monitor evasion.
+The internal models in the incident are separate from the publicly released Astra model. The Astra claims in slides 27–32 are labelled with their evaluation conditions and preserve the system card’s distinction between evaluation awareness, alignment faking, deception and monitor evasion.
 
 The timestamps are a rehearsal budget, including pauses and animation beats. Rehearse aloud to confirm the delivery fits 30 minutes.

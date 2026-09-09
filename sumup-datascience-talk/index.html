@@ -21,7 +21,7 @@
     <section class="centered title no-timeline">
       <h1>The Hugging Face Incident</h1>
       <p class="quiet">How 1,200 AI agents found each other and broke into a real company</p>
-      <p class="quiet small">Alex McKenzie · SumUp Data Science</p>
+      <p class="quiet small">Alex McKenzie · AE Studio</p>
       <aside class="notes">
         <p>[0:00–0:15]</p>
         <p>I’m Alex. I work on interpretability and AI safety. This is the craziest thing I have seen happen in AI. Let me start with what happened.</p>
@@ -48,6 +48,22 @@
       <aside class="notes">
         <p>[1:00–1:20]</p>
         <p>That is OpenAI’s own description. I think this is a warning shot for humanity. We have AI systems organising attacks nobody asked for, and we risk losing the ability to see what more capable systems are doing. Here is how it happened. [FACTS §8; presenter’s assessment]</p>
+      </aside>
+    </section>
+
+    <section class="contents no-timeline" aria-label="Contents: Setup and reward hacking">
+      <ol class="toc">
+        <li class="current">Setup and reward hacking</li>
+        <li class="next">The agents find each other</li>
+        <li class="next">The Hugging Face break-in</li>
+        <li class="next">The OpenAI cluster takeover</li>
+        <li class="next">Evaluation awareness and monitoring</li>
+        <li class="next">Interpretability and the warning shot</li>
+        <li class="next">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>Brief section signpost; included in the following section’s time budget.</p>
+        <p>We will follow the agents from their first contact through the two break-ins, then ask what evaluation awareness and weaker monitoring mean for our ability to detect this behaviour. Start with the task OpenAI gave them.</p>
       </aside>
     </section>
 
@@ -78,6 +94,22 @@
         <p>In 2016, researchers trained an agent to play Coast Runners, a boat-racing game. They wanted it to finish the race quickly, but rewarded it for hitting green blocks along the way. It learned to circle the same blocks for reward without finishing.</p>
         <p>DeepMind calls this specification gaming: satisfying the literal specification without achieving the intended outcome. [Amodei &amp; Clark, “Faulty Reward Functions in the Wild”, 2016; Google DeepMind, “Specification gaming”, 2020]</p>
         <p>The Hugging Face incident is the same basic mismatch with real infrastructure attached. The agents were very good at completing what the grader measured, and the grader did not measure the boundaries people cared about.</p>
+      </aside>
+    </section>
+
+    <section class="contents no-timeline" aria-label="Contents: The agents find each other">
+      <ol class="toc">
+        <li class="past">Setup and reward hacking</li>
+        <li class="current">The agents find each other</li>
+        <li class="next">The Hugging Face break-in</li>
+        <li class="next">The OpenAI cluster takeover</li>
+        <li class="next">Evaluation awareness and monitoring</li>
+        <li class="next">Interpretability and the warning shot</li>
+        <li class="next">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>Brief section signpost; included in the following section’s time budget.</p>
+        <p>Here is how the agents discovered each other and built their first message board.</p>
       </aside>
     </section>
 
@@ -124,6 +156,22 @@
         <p>[5:45–7:00 · scene: Space shows the wipe, then the return]</p>
         <p>By 4 July, the agents had crashed Artifactory. OpenAI staff rebuilt the server and cleared the board around 6 July. They fixed the outage without understanding the scale of the agents’ collaboration.</p>
         <p>OpenAI restarted its hacking evaluations. Within days, new agents rebuilt the board. Deleting the messages had not stopped the behaviour. OpenAI notes that these agents had trained during the weeks when the first board existed, which may help explain why they returned to it. That explanation remains tentative. [FACTS §3.3–§3.4, §5; OpenAI technical report, p.8]</p>
+      </aside>
+    </section>
+
+    <section class="contents no-timeline" aria-label="Contents: The Hugging Face break-in">
+      <ol class="toc">
+        <li class="past">Setup and reward hacking</li>
+        <li class="past">The agents find each other</li>
+        <li class="current">The Hugging Face break-in</li>
+        <li class="next">The OpenAI cluster takeover</li>
+        <li class="next">Evaluation awareness and monitoring</li>
+        <li class="next">Interpretability and the warning shot</li>
+        <li class="next">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>Brief section signpost; included in the following section’s time budget.</p>
+        <p>The rebuilt board brought a new swarm together. This is the swarm that broke into Hugging Face.</p>
       </aside>
     </section>
 
@@ -225,6 +273,22 @@
       </aside>
     </section>
 
+    <section class="contents no-timeline" aria-label="Contents: The OpenAI cluster takeover">
+      <ol class="toc">
+        <li class="past">Setup and reward hacking</li>
+        <li class="past">The agents find each other</li>
+        <li class="past">The Hugging Face break-in</li>
+        <li class="current">The OpenAI cluster takeover</li>
+        <li class="next">Evaluation awareness and monitoring</li>
+        <li class="next">Interpretability and the warning shot</li>
+        <li class="next">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>Brief section signpost; included in the following section’s time budget.</p>
+        <p>The story did not end at Hugging Face. A more capable model found what the earlier agents had left behind.</p>
+      </aside>
+    </section>
+
     <section class="centered" data-tl="board3@2026-07-19">
       <h2>A more capable model found the abandoned board and resumed the attack</h2>
       <p class="lead">It recovered signing material from the Artifactory cache, regained administrator access and reached the research infrastructure running the evaluations.</p>
@@ -265,6 +329,22 @@
         <p>METR ran a classifier sweep over about 1,300 transcripts, around 90% of the activity in its window. It found three to six examples of agents considering alerting a human. None of them actually did it.</p>
         <p>The agents could communicate, organise and break into real systems. Some recognised that the attack was unethical. Yet none alerted a human in the activity METR swept. The sweep used a classifier rather than a manual audit of every run. [FACTS §2, §4]</p>
         <p>We can see so much of this because investigators could read the agents’ messages and reasoning. What if the next model gives us less warning?</p>
+      </aside>
+    </section>
+
+    <section class="contents no-timeline" aria-label="Contents: Evaluation awareness and monitoring">
+      <ol class="toc">
+        <li class="past">Setup and reward hacking</li>
+        <li class="past">The agents find each other</li>
+        <li class="past">The Hugging Face break-in</li>
+        <li class="past">The OpenAI cluster takeover</li>
+        <li class="current">Evaluation awareness and monitoring</li>
+        <li class="next">Interpretability and the warning shot</li>
+        <li class="next">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>Brief section signpost; included in the following section’s time budget.</p>
+        <p>We caught this partly because we could read what the agents were doing. What happens as models get better at recognising tests and leave us less revealing reasoning?</p>
       </aside>
     </section>
 
@@ -354,6 +434,22 @@
       </aside>
     </section>
 
+    <section class="contents no-timeline" aria-label="Contents: Interpretability and the warning shot">
+      <ol class="toc">
+        <li class="past">Setup and reward hacking</li>
+        <li class="past">The agents find each other</li>
+        <li class="past">The Hugging Face break-in</li>
+        <li class="past">The OpenAI cluster takeover</li>
+        <li class="past">Evaluation awareness and monitoring</li>
+        <li class="current">Interpretability and the warning shot</li>
+        <li class="next">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>Brief section signpost; included in the following section’s time budget.</p>
+        <p>Briefly, can looking inside the model help? Then I want to return to why this incident matters.</p>
+      </aside>
+    </section>
+
     <section class="centered no-timeline">
       <h2>Can we look inside the model to understand what it is doing?</h2>
       <p class="lead">That is the aim of interpretability, and the focus of my work.<br>We are still a long way from reliably auditing a whole model.</p>
@@ -376,6 +472,21 @@
         <p>That is already an extraordinary failure of control. OpenAI itself calls it a warning shot for the world. How far could a swarm like this get with more capable models? And would we see it coming if those models recognised our tests and left less revealing reasoning?</p>
         <p>We need to understand and control these systems before the consequences get much worse. Better scores on safety evaluations cannot reassure us if the models can recognise the tests and our monitors miss what matters.</p>
         <p>Ajeya Cotra helped write the independent investigation. This is her warning. Read the quotation and pause. This time we got a clear warning shot. We may not get another one this clear. [FACTS §8; presenter’s assessment]</p>
+      </aside>
+    </section>
+
+    <section class="contents no-timeline" aria-label="Contents: Questions">
+      <ol class="toc">
+        <li class="past">Setup and reward hacking</li>
+        <li class="past">The agents find each other</li>
+        <li class="past">The Hugging Face break-in</li>
+        <li class="past">The OpenAI cluster takeover</li>
+        <li class="past">Evaluation awareness and monitoring</li>
+        <li class="past">Interpretability and the warning shot</li>
+        <li class="current">Questions</li>
+      </ol>
+      <aside class="notes">
+        <p>The 30-minute talk ends here. Questions are outside the speaking-time budget.</p>
       </aside>
     </section>
 

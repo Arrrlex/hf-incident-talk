@@ -8,7 +8,7 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 |---|---:|---|
 | 0:00–1:00 | 1–2 | Introduce Alex and summarise the incident |
 | 1:00–2:00 | 3–4 | Setup: RLVR, parallel model copies, isolated sandboxes and the shared package server |
-| 2:00–2:40 | 5 | Reward hacking and specification gaming, with the animated Coast Runners example |
+| 2:00–2:40 | 5 | Reward hacking, with the animated Coast Runners example |
 | 2:40–6:40 | 6–10 | First board spans training and evaluation: missing files, discovery, internet access, administrator control of Artifactory, crash and rebuild |
 | 6:40–17:40 | 11–19 | Second swarm during evaluation: impossible tasks, imagined checker, cheating, Hugging Face intrusion and mass termination |
 | 17:40–20:10 | 20–24 | Third swarm builds on arrival, recovers signing material and takes over an OpenAI research cluster; then the zero reveal |

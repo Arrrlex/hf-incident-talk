@@ -48,6 +48,16 @@
 .reveal .reward-demo { display: grid; grid-template-columns: 760px 1fr; gap: 70px; align-items: center; }
 .reveal .reward-demo img { display: block; width: 760px; max-height: 575px; object-fit: contain; margin: 0; }
 .reveal .reward-demo p { font-size: 0.85em; line-height: 1.4; text-align: left; }
+.reveal .discovery .discovery-visual {
+  position: absolute; left: 970px; right: 100px; top: 100px; bottom: 280px;
+}
+.reveal .slides section.discovery .discovery-visual iframe { height: 100%; }
+.reveal .discovery .discovery-copy {
+  position: absolute; left: 134px; top: 450px; width: 770px;
+  transform: translateY(-50%); text-align: left;
+}
+.reveal .discovery-copy blockquote { box-sizing: border-box; width: 100%; font-size: 50px; margin: 0; }
+.reveal .discovery-copy .source { max-width: none; margin: 30px 0 0 45px; }
 
 @media (max-width: 1200px) {
   .reveal .two-col { gap: 45px; }

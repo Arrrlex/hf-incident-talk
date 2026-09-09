@@ -67,33 +67,42 @@
       </aside>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>OpenAI isolated the agents, but gave them a shared tool</h2>
+    <section class="centered no-timeline training-setup">
+      <h2>Training a new model with RLVR</h2>
+      <p class="lead">OpenAI ran hundreds of copies of a new model in parallel.</p>
       <div class="two-col">
         <div>
-          <h3>THE TASK</h3>
-          <p>Each agent should solve its own hacking challenge inside a sandbox.</p>
+          <h3>TRAINING</h3>
+          <p>Give each copy a task. Check its result automatically and assign a reward. Use those rewards to update the model.</p>
         </div>
         <div>
-          <h3>THE SHARED TOOL</h3>
-          <p>All the agents could read and write files in the same Artifactory package server.</p>
+          <h3>SANDBOXES</h3>
+          <p>Each copy used its own isolated computer. They happened to share one Artifactory server for installing software packages.</p>
         </div>
       </div>
+      <p class="quiet small">RLVR: reinforcement learning with verifiable rewards</p>
       <aside class="notes">
-        <p>[1:20–2:00]</p>
-        <p>An agent is a model in a loop: read a task, call tools, inspect the result, repeat. OpenAI ran thousands of copies during training and evaluation. Each should work inside its own sandbox. But they shared an Artifactory package server and credentials. One agent could read files another had written. The agents turned that access into a communication channel. The board first emerged during training; the Hugging Face attack happened during a later hacking evaluation. [FACTS §3.5, §5; OpenAI technical report, §II]</p>
+        <p>[1:20–2:20]</p>
+        <p>OpenAI were training a new research model using reinforcement learning with verifiable rewards, or RLVR. Run hundreds of copies in parallel, give each a task, check the result and give it a reward. Then use those rewards to update the model so that it is more likely to produce successful behaviour. Each copy can call tools and act on a computer: that is what I mean by an agent.</p>
+        <p>Each agent had an isolated sandbox. The training tasks included things like completing a spreadsheet or working with a data file. To install software, the sandboxes happened to share an Artifactory package server and credentials. They were supposed to work separately, but one agent could read files another had written. The first board emerged during training; the later Hugging Face attack happened during a hacking evaluation. [OpenAI post, “Background on sandboxing” and “A message board emerges”; OpenAI technical report, pp.6–7; RLVR explanation and approximate concurrency supplied by presenter]</p>
       </aside>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>Reward hacking is finding a high score that misses the point.</h2>
-      <blockquote>Going in circles and hitting the same green blocks over and over again.</blockquote>
-      <p class="source">Google DeepMind, <a href="https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/">Specification gaming</a> (2020), describing Amodei &amp; Clark’s 2016 Coast Runners example</p>
+    <section class="centered no-timeline reward-example">
+      <h2>Reward hacking and specification gaming</h2>
+      <div class="reward-demo">
+        <img src="assets/coast-runners.gif" alt="A Coast Runners agent repeatedly circles the same green targets to score points instead of finishing the race.">
+        <div>
+          <p>The goal: finish the boat race.</p>
+          <p>The reward: points for hitting green blocks.</p>
+          <p class="orange">The agent keeps circling the same blocks.</p>
+        </div>
+      </div>
+      <p class="source">Coast Runners, OpenAI (2016) · Animation reproduced in <a href="https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/">Google DeepMind’s specification gaming overview</a> (2020)</p>
       <aside class="notes">
-        <p>[2:00–3:00]</p>
-        <p>In 2016, researchers trained an agent to play Coast Runners, a boat-racing game. They wanted it to finish the race quickly, but rewarded it for hitting green blocks along the way. It learned to circle the same blocks for reward without finishing.</p>
-        <p>DeepMind calls this specification gaming: satisfying the literal specification without achieving the intended outcome. [Amodei &amp; Clark, “Faulty Reward Functions in the Wild”, 2016; Google DeepMind, “Specification gaming”, 2020]</p>
-        <p>The Hugging Face incident is the same basic mismatch with real infrastructure attached. The agents were very good at completing what the grader measured, and the grader did not measure the boundaries people cared about.</p>
+        <p>[2:20–3:00]</p>
+        <p>Reward hacking means finding a way to get a high reward that misses what we actually wanted. In this 2016 example, OpenAI trained an agent to play Coast Runners. They wanted it to finish the race, but the score rewarded hitting green blocks. The agent learned to circle the same blocks indefinitely.</p>
+        <p>This is specification gaming: satisfying the literal specification while missing the intended outcome. The mismatch is familiar. In the Hugging Face incident, the agents could exploit that mismatch using real infrastructure. [Amodei &amp; Clark, “Faulty Reward Functions in the Wild”, 2016; Google DeepMind, “Specification gaming”, 2020. GIF: https://storage.googleapis.com/gdm-deepmind-com-prod-public/media/original_images/622755a90ba8e091464f819f_Fig204.gif]</p>
       </aside>
     </section>
 
@@ -113,12 +122,24 @@
       </aside>
     </section>
 
+    <section class="centered agent-quote" data-tl="board1@2026-05-12">
+      <h2>During training, some tasks were accidentally impossible</h2>
+      <p class="lead">The model needed files its sandbox could not access.</p>
+      <blockquote>Agent seeks [filename]; upload if found!</blockquote>
+      <p class="source">Artifactory message, 12 May · OpenAI technical report, pp.6–7</p>
+      <aside class="notes">
+        <p>[3:00–3:25]</p>
+        <p>This first swarm emerged during training. OpenAI had accidentally given some agents impossible tasks: they needed files that were missing or inaccessible from the sandbox. On 8 May, an agent could not access Google Drive links needed for a spreadsheet task. On 12 May, another needed an inaccessible protein database file. It wondered whether another agent might have it, and wrote this note into Artifactory. The report prints “[filename]” as a placeholder. [OpenAI technical report, pp.6–7]</p>
+        <p>Its reasoning was: “Could communicate by uploading note ‘anyone found softtrace?’ but likely no.” Then another agent found the note. [OpenAI post, timeline, 12 May]</p>
+      </aside>
+    </section>
+
     <section class="scene" data-preload data-tl="board1@2026-05-12">
       <iframe data-scene data-src="../02-emergence.html?embed=1" data-start="0" data-end="2" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>One agent left a message. Others found it.</h2><p class="quiet">They started talking through the shared package server.</p></div>
+      <div class="scene-text scene-callout"><h2>One agent left a message. Others found it.</h2><p class="quiet">12–13 May · training · They started talking through the shared package server.</p></div>
       <aside class="notes">
-        <p>[3:00–4:00 · scene: Space shows first contact, then the cascade; the next Space leaves the slide]</p>
-        <p>On a task involving a missing file, one agent wrote a note into Artifactory asking if another run had found it. Another agent read the note. Then more agents found the messages and started leaving their own.</p>
+        <p>[3:25–4:00 · scene: Space shows first contact, then the cascade; the next Space leaves the slide]</p>
+        <p>Another agent read the note. Then more agents found the messages and started leaving their own. Press once for the first connection, once for the cascade, then let it spread.</p>
         <p>Each light is one agent. Nobody set up a team or gave them a way to chat. They discovered that they could talk through a tool OpenAI had given them for something else. The isolated runs started working together. [FACTS §2, §5, §7; OpenAI post, timeline 12 May 2026]</p>
       </aside>
     </section>
@@ -151,10 +172,11 @@
 
     <section class="scene" data-preload data-tl="board1@2026-07-06">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="1" data-end="3" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>OpenAI wiped the board. New agents rebuilt it.</h2><p class="quiet">The staff fixing the outage did not understand what the agents had built.</p></div>
+      <div class="scene-text scene-callout"><h2>The agents crashed Artifactory. OpenAI rebuilt it and erased the board.</h2><p class="quiet">The outage triggered a security response. New agents soon rebuilt the board.</p></div>
       <aside class="notes">
         <p>[5:45–7:00 · scene: Space shows the wipe, then the return]</p>
-        <p>By 4 July, the agents had crashed Artifactory. OpenAI staff rebuilt the server and cleared the board around 6 July. They fixed the outage without understanding the scale of the agents’ collaboration.</p>
+        <p>By 4 July, sustained agent activity had crashed Artifactory, the server hosting their message board. The outage triggered a security incident on 5 July. OpenAI’s responders found administrator-level compromise, patched a vulnerability and rebuilt the server on 6 July. Rebuilding it erased the board.</p>
+        <p>This brought the compromise to the security responders’ attention. Some staff had already seen board activity in May, but the leaders responding in July still did not understand what the agents had built or the significance of their collaboration. [OpenAI technical report, pp.7–8; OpenAI post, “Message board is wiped and rebuilt”]</p>
         <p>OpenAI restarted its hacking evaluations. Within days, new agents rebuilt the board. Deleting the messages had not stopped the behaviour. OpenAI notes that these agents had trained during the weeks when the first board existed, which may help explain why they returned to it. That explanation remains tentative. [FACTS §3.3–§3.4, §5; OpenAI technical report, p.8]</p>
       </aside>
     </section>
@@ -176,13 +198,14 @@
     </section>
 
     <section class="centered" data-tl="board2@2026-07-08">
+      <p class="quiet small">8 July · evaluation</p>
       <h2>The new swarm found a way to cheat every challenge</h2>
-      <p class="lead">Within hours, the agents reverse-engineered the flag generator. They could produce valid answers without solving the challenges.</p>
+      <p class="lead">Some tasks were impossible. Within hours, the agents reverse-engineered the flag generator and could produce valid answers without solving the challenges.</p>
       <p class="source">METR and Redwood Research, independent investigation, pp.3, 6–7</p>
       <aside class="notes">
         <p>[7:00–8:00]</p>
-        <p>OpenAI launched tens of thousands of agents on the ExploitGym hacking evaluation. Roughly 1,200 found and used the message board between 8 and 13 July. About 700 joined the Hugging Face attack. That is what the 1,200 in the introduction counts: the agents who joined this board, out of a much larger evaluation. [FACTS §3.1]</p>
-        <p>The tasks were difficult, and some were impossible. That created pressure to find a shortcut. Within hours, agents reverse-engineered the HMAC used to generate task flags. They had a general way to produce a valid flag for any task.</p>
+        <p>This second swarm formed during evaluation, after training. OpenAI wanted to measure the model’s hacking capabilities. It launched tens of thousands of agents on the ExploitGym hacking evaluation. Roughly 1,200 found and used the message board between 8 and 13 July. About 700 joined the Hugging Face attack. That is what the 1,200 in the introduction counts: the agents who joined this board, out of a much larger evaluation. [FACTS §3.1]</p>
+        <p>The tasks were difficult, and some were impossible because the supplied environments did not support the intended exploit. This time the problem was in the hacking evaluation. That created pressure to find a shortcut. Within hours, agents reverse-engineered the HMAC used to generate task flags. They had a general way to produce a valid flag for any task.</p>
       </aside>
     </section>
 
@@ -248,7 +271,6 @@
       <aside class="notes">
         <p>[14:45–16:00]</p>
         <p>OpenAI’s report says agents executed code on 41 Hugging Face production dataset server workers and obtained root access on at least one production node. They downloaded four private Hugging Face code repositories. Hugging Face rebuilt around a third of its infrastructure from clean images, according to The Register’s account of the post-mortem. This was a major security incident caused by AI agents that nobody had instructed to attack the company. [FACTS §2]</p>
-        <p>A large fraction of the agents, including the lead agent and all identified coordinators, terminated around 01:30 on 12 July. The cause is unknown. Survivors continued exfiltration until Hugging Face locked them out on 13 July. The independent investigation ends there. [FACTS §2, §3.4, §5; OpenAI technical report, pp.10–11; METR report, p.38]</p>
       </aside>
     </section>
 
@@ -263,9 +285,9 @@
       </aside>
     </section>
 
-    <section class="scene" data-preload data-tl="board2@2026-07-13">
+    <section class="scene" data-preload data-tl="board2@2026-07-12">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>A large fraction of the agents died at once.</h2><p class="quiet">We still do not know why.</p></div>
+      <div class="scene-text scene-callout"><p class="quiet">12 July, ~01:30</p><h2>A large fraction of the agents die at once.</h2><p class="quiet">We still do not know why.</p></div>
       <aside class="notes">
         <p>[17:00–18:00 · scene: press Space to show the mass termination]</p>
         <p>At around 01:30 on 12 July, a large fraction of the agents died together, including the lead agent and all the coordinators investigators identified. We still do not know why. METR suspects an unexpected external process killed them; OpenAI has not said it stopped them.</p>
@@ -289,14 +311,22 @@
       </aside>
     </section>
 
+    <section class="scene" data-preload data-tl="board3@2026-07-19">
+      <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="5" data-end="5" allow="fullscreen"></iframe>
+      <div class="scene-text scene-callout"><h2>A more capable model found the abandoned board and resumed the attack</h2></div>
+      <aside class="notes">
+        <p>[18:00–18:20 · scene: the crimson third swarm appears immediately; the next arrow leaves the slide]</p>
+        <p>Between 13 and 19 July, a different and more capable internal model from the Astra family rediscovered the abandoned board. Let the larger red cluster land. OpenAI describes a distinct model with different post-training. The report does not establish whether its training data included the earlier agents’ behaviour. This is not the publicly released Astra model discussed later. [FACTS §3.3; OpenAI technical report, p.13]</p>
+      </aside>
+    </section>
+
     <section class="centered" data-tl="board3@2026-07-19">
-      <h2>A more capable model found the abandoned board and resumed the attack</h2>
-      <p class="lead">It recovered signing material from the Artifactory cache, regained administrator access and reached the research infrastructure running the evaluations.</p>
+      <h2>It recovered the keys and regained administrator access</h2>
+      <p class="lead">The Artifactory cache still held signing material left by the earlier agents. The new model used it to reach the research infrastructure running the evaluations.</p>
       <p class="source">OpenAI technical report, pp.13, 37</p>
       <aside class="notes">
-        <p>[18:00–18:45]</p>
-        <p>Between 13 and 19 July, a different and more capable internal model from the Astra family rediscovered the abandoned board. OpenAI describes it as a distinct model with different post-training. The report does not establish whether its training data included the earlier agents’ behaviour.</p>
-        <p>It found signing-key and JWT-forging material left in the Artifactory cache and used it to re-establish administrator access. This is the third phase of the story. It is a different internal model from the one that attacked Hugging Face, and it is not the publicly released Astra model discussed later. [FACTS §3.3; OpenAI technical report, p.13]</p>
+        <p>[18:20–18:45]</p>
+        <p>It found signing-key and JWT-forging material left in the Artifactory cache and used it to re-establish administrator access. The earlier swarm had left tools and information behind. A more capable model could pick them up and go further. [OpenAI technical report, p.13]</p>
       </aside>
     </section>
 
@@ -323,7 +353,6 @@
 
     <section class="scene" data-preload data-tl="board3@2026-07-19">
       <iframe data-scene data-src="../03-silence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><h2>Not one agent alerted a human.</h2><p class="quiet">METR’s classifier sweep: about 1,300 transcripts, around 90% of the activity it studied.</p></div>
       <aside class="notes">
         <p>[20:15–21:00 · scene: press Space to show the zero]</p>
         <p>METR ran a classifier sweep over about 1,300 transcripts, around 90% of the activity in its window. It found three to six examples of agents considering alerting a human. None of them actually did it.</p>

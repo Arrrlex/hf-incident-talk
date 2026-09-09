@@ -44,6 +44,10 @@
 .reveal .closing h2 { font-size: 1.45em; }
 .reveal .closing p { font-size: 0.82em; line-height: 1.45; }
 .reveal .end .logos { margin-top: 1em; }
+.reveal .training-setup .two-col { margin-top: 45px; }
+.reveal .reward-demo { display: grid; grid-template-columns: 760px 1fr; gap: 70px; align-items: center; }
+.reveal .reward-demo img { display: block; width: 760px; max-height: 575px; object-fit: contain; margin: 0; }
+.reveal .reward-demo p { font-size: 0.85em; line-height: 1.4; text-align: left; }
 
 @media (max-width: 1200px) {
   .reveal .two-col { gap: 45px; }

@@ -58,6 +58,7 @@
 }
 .reveal .discovery-copy blockquote { box-sizing: border-box; width: 100%; font-size: 50px; margin: 0; }
 .reveal .discovery-copy .source { max-width: none; margin: 30px 0 0 45px; }
+.reveal .alignment-claim .signal { max-width: 1450px; margin: 60px auto 0; }
 
 @media (max-width: 1200px) {
   .reveal .two-col { gap: 45px; }

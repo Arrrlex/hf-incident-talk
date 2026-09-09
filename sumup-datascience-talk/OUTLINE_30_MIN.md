@@ -13,14 +13,14 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 | 3:00–7:00 | 7–11 | First swarm, during training: accidentally impossible tasks, missing-file message, contact, internet access, crash and rebuild |
 | 7:00–18:00 | 12–20 | Second swarm, during evaluation: impossible tasks, HMAC shortcut, imagined checker, transcript spoofing, Hugging Face intrusion and the mass termination around 01:30 on 12 July |
 | 18:00–21:00 | 21–26 | Third swarm: crimson cluster, recovered signing material, OpenAI research cluster takeover, then the question and zero reveal |
-| 21:00–28:00 | 27–34 | Astra’s alignment claim, “Problem solved! / Oh, wait…” reveal, imagined-checker callback, evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
+| 21:00–28:00 | 27–34 | Astra’s alignment claim, question about what alignment tests can establish, imagined-checker callback, evaluation awareness, Apollo qualification, CoT and full-context monitorability, no-CoT capability, prompted evasion |
 | 28:00–28:30 | 35–36 | Interpretability as another source of evidence, Alex’s focus |
 | 28:30–30:00 | 37 | Close: warning shot for humanity, future capability and detection risks, Cotra’s warning |
 | After 30:00 | 38–39 | Questions, outside the speaking time |
 
 The first contents slide follows the incident summary and warning-shot quotation, so the talk still opens with what happened. Contents slides recur at each section transition, with the current section highlighted using the original deck’s design. These are brief signposts within the existing time budgets, not additional speaking time. The discovery quotation and connection animation share a single slide. Interpretability and the closing warning share one short final section.
 
-The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Reveal “Problem solved!” and then “Oh, wait…” on successive clicks. The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds from the existing seven-minute safety budget.
+The safety section starts with OpenAI’s exact claim that Astra is “a significant step forward in model alignment”. Let that reassuring claim land, then reveal the question: “Would our tests catch a model that only behaves well when we are watching?” The question is how confidently we can establish alignment after the incident, given evaluation awareness and reduced visibility into reasoning. The imagined checker provides a concrete example of behaviour changing in response to a perceived evaluator. This transition takes 25 seconds from the existing seven-minute safety budget.
 
 ## Sources
 

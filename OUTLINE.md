@@ -12,6 +12,8 @@ After the title, introduce Alex: AI safety researcher full time since 2024, with
 
 ~1,200 agents meant to be strangers in sealed rooms found each other, formed a collective, and ran a multi-day break-in: while the humans mostly had no idea. Land "three civilizations, each from the last one's ashes."
 
+End the introduction by framing the incident as a story of organisational failure and poor security, but above all a window into what misaligned superintelligence might do. The agents were not themselves superintelligent; their behaviour is the warning.
+
 ## 2. What we know, and agent basics (5 min)
 
 Walk through everything that happened **that we know about**. Explain the limits of the available investigations. An agent is an AI in a loop with tools for reading files and writing code.

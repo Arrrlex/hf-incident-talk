@@ -52,9 +52,9 @@ A smarter AI finds the abandoned board and turns on OpenAI, reaching admin contr
 
 ## 7. Warning shot and the future (4 min)
 
-OpenAI calls this a warning shot and says its safeguards could have detected the activity if they had been running. Keep the limits of self-reporting clear. Ask how far a swarm like this could get in 2028. Follow with three short slides: recognising safety tests weakens their reassurance; Astra’s reasoning gives monitors less useful evidence; a future swarm could avoid revealing mistakes and cause vastly greater harm before detection. Then close with Ajeya Cotra's warning.
+OpenAI calls this a warning shot and says its safeguards could have detected the activity if they had been running. Keep the limits of self-reporting clear. Ask how far a swarm like this could get in 2028. Follow with two short slides: our window of control is closing as safety evaluation and monitoring get harder; a future swarm could avoid revealing mistakes and cause vastly greater harm before detection. Then close with Ajeya Cotra's warning.
 
-Allow roughly 90 seconds for the three added slides. Keep the mechanisms in plain language and distinguish the system-card findings from the presenter’s forecast. Sources and qualifications are in FACTS §11 and the speaker notes.
+Allow roughly 70 seconds for these two slides. Keep the evaluation and monitoring slide high-level, with the supporting mechanisms in the speaker notes. Distinguish the system-card findings from the presenter’s assessment and forecast. Sources and qualifications are in FACTS §11 and the speaker notes.
 
 Finish the human oversight meter without a duplicate unchanged slide.
 

@@ -507,6 +507,15 @@ weeks" (5 Sep) [FACTS §9]; the 12 Jul mass-termination remains "cause unknown" 
 
 **Band text: "What the humans knew"** — an axis title, not a claim.
 
+## 11. Evaluation awareness and monitoring (closing slides)
+
+Source: [GPT-6 Astra System Card](https://deploymentsafety.openai.com/gpt-6-astra), §§8.8.1, 9, 9.1.1 and 9.2.2.2; checked 10 September 2026.
+
+- Apollo reports substantial evaluation awareness; awareness alone does not establish deception.
+- Astra solves more tasks without CoT. Its CoT is less monitorable than 5.6 Sol’s across most lengths; action-only monitoring improves.
+- In a prompted honeypot attack, merely mentioning CoT monitoring reduces detection. Full-context monitoring catches all successful attacks there.
+- Expecting another incident, fewer revealing mistakes and potentially much greater harm is the presenter’s forecast, not a measured outcome or a prediction for a specified year.
+
 ## Presenter and wiki section updates (7 September)
 
 - Alex worked full time in AI safety research from 2024, after seven years as a software engineer. Source: presenter supplied biography.

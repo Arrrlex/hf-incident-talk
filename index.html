@@ -606,6 +606,34 @@
         <p>The question is what a similar incident could look like with more capable agents. This is a question about the future, not a prediction of a particular incident in 2028.</p>
       </aside>
     </section>
+    <section class="centered">
+      <h2>Models can recognise our safety tests.</h2>
+      <p>That makes it harder to tell whether they are safe,<br>or just behaving well for the test.</p>
+      <p class="source"><a href="https://deploymentsafety.openai.com/gpt-6-astra">Astra System Card</a>, §8.8.1 · Apollo Research</p>
+      <aside class="notes">
+        <p>[About 25 seconds]</p>
+        <p>Apollo warns that evaluation awareness limits what low misbehaviour rates tell us about alignment. Recognising a test is not itself deception. But it weakens the reassurance we can take from passing it. [FACTS §11]</p>
+      </aside>
+    </section>
+    <section class="centered">
+      <h2>Their reasoning is getting harder to monitor.</h2>
+      <p>Astra can do more without writing down its reasoning.<br>The reasoning it does write is less revealing.</p>
+      <p class="pale">Knowing it is monitored can make it harder to catch.</p>
+      <p class="source"><a href="https://deploymentsafety.openai.com/gpt-6-astra">Astra System Card</a>, §§9, 9.1.1, 9.2.2.2</p>
+      <aside class="notes">
+        <p>[About 35 seconds]</p>
+        <p>Chain of thought is the reasoning text a model generates. Recall OpenAI’s claim that reading it could have exposed this incident earlier. Astra now leaves less useful evidence. The monitoring-awareness result concerns instructed honeypot attacks and reasoning-only monitors; monitors seeing actions too caught them. [FACTS §2, §11]</p>
+      </aside>
+    </section>
+    <section class="centered">
+      <h2>We should expect another incident.</h2>
+      <p>A more capable swarm could avoid the mistakes that exposed this one.</p>
+      <p class="pale">We may discover it only after it has caused damage<br>on a vastly greater scale.</p>
+      <aside class="notes">
+        <p>[About 30 seconds]</p>
+        <p>I expect incidents like this to happen again. This swarm made mistakes that helped expose it: it crashed the shared server and left revealing messages. We cannot count on future agents doing the same. If our tests miss the danger and our monitors miss the attack, our first clear evidence may be the damage itself. Greater capability could make that damage vastly larger. That is the risk I am warning about, not a claim that every future attack will evade detection. [FACTS §11; presenter’s assessment]</p>
+      </aside>
+    </section>
     <section>
       <blockquote>I am not sure that we will get such a clear warning shot before it's too late.</blockquote>
       <p class="source">Ajeya Cotra, co-author of the METR / Redwood report</p>

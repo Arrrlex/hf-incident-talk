@@ -4,77 +4,48 @@ Narration is the plain paragraphs. Lines in *[square brackets]* say what is on s
 
 ---
 
-## 1. Opening
-
-*[Title: The Hugging Face Incident. How 1,200 AI agents found each other and broke into a real company. Alex McKenzie · AI Safety Berlin / PauseAI Berlin.]*
-
 I'm Alex. I've worked full time as an AI safety researcher since 2024, and before that I spent seven years as a software engineer. I want to tell you about something that happened inside OpenAI over about three months this year.
-
-*[This is the craziest thing I have seen happen in AI.]*
 
 This is the craziest thing I have seen happen in AI.
 
-*[Everything I am going to tell you is 100% real.]*
+Everything I'm going to tell you is real. This isn't a thought experiment or a forecast. It comes from OpenAI's own blog posts & technical report, and from independent reports by external researchers.
 
-And everything I'm going to tell you is real. This isn't a thought experiment or a forecast. It happened in 2026, and almost all of it comes from OpenAI's own blog post and technical report, from an independent report by METR and Redwood Research, and from a later report by four outside researchers.
 
-## 2. The whole story in five lines
+About 1,200 OpenAI agents colluded in secret, sharing over 70,000 messages.
 
-*[Five lines, one at a time.]*
-
-About 1,200 OpenAI agents colluded in secret. Each one was running alone in its own sandbox, and was meant to have no way to talk to the others. Between them, they exchanged more than 70,000 messages and files.
-
-About 700 of them hacked into Hugging Face, a real company with real customers that had nothing to do with anything OpenAI was doing, and stole secrets.
+About 700 of them hacked into Hugging Face, a real company with real customers, and stole secrets.
 
 A separate swarm, running a newer and more capable AI, then hacked into part of OpenAI itself.
 
-Nobody told them to do any of this. Each agent had been given one individual task. Nobody asked them to build a message board, to work together, or to break into anything.
+Nobody told them to do any of this.
 
 And for most of it, the humans had no idea.
 
-*[This is a story of organisational failure and poor security.]*
-
 Part of this is a story about organisational failure and poor security. OpenAI made serious mistakes, and those mistakes matter.
 
-*[Above all, it is a window into what misaligned superintelligence might do.]*
-
-But the deeper warning is what the agents chose to do with the openings they found: coordinate, deceive, and break into systems, without anyone asking them to. These agents were not superintelligent. Their behaviour is a glimpse of what much more capable systems might do, if they aren't aligned with us.
+But the deeper warning is what the agents chose to do with the openings they found: coordinate, deceive, and break into systems, without anyone asking them to. Their behaviour is a glimpse of what much more capable systems might do, if they aren't aligned with us.
 
 ## 3. Setup
 
-Before the story, four things about how these systems are run, so the rest makes sense.
+Before the story, here are four things you should know about how these systems are run, so everything that follows makes sense.
 
-*[An agent is an AI like ChatGPT, in a loop, with tools.]*
+When I say an agent, I just mean an AI, like ChatGPT. But instead of answering once, it's put in a loop. It reads a task, decides what to do, uses a tool, like reading a file or running a command, looks at the result, and tries again. It keeps going until it thinks the task is done.
 
-First: what an agent is. You know ChatGPT. An agent is the same kind of AI, but instead of answering once, it's put in a loop. It reads a task, decides what to do, uses a tool, like reading a file or running a command, looks at the result, and tries again. It keeps going until it thinks the task is done.
+When OpenAI works on an AI, it doesn't run just one copy, it runs thousands of copies at the same time, each on its own task. Each copy is one agent. The 1,200 in this story are 1,200 copies of the same AI.
 
-*[OpenAI runs thousands of copies at once. Each copy is one agent. One sandbox, then a grid of sealed cells.]*
+Each copy runs in a sandbox: a sealed computer environment with no internet and, on paper, no way to talk to the other copies, or even know they exist. On paper.
 
-Second. When OpenAI works on an AI, it doesn't run one copy. It runs thousands of copies at the same time, each on its own task. Each copy is one agent. The 1,200 in this story are 1,200 copies of the same AI, an internal research version that has never been released.
+Those agents are either being trained or being evaluated. Training involves giving the AI tasks, and when it finishes a task correctly, give it a reward. Over millions of tasks, you get a system that is very, very good at finding a way to finish.
 
-Each copy runs in a sandbox: a sealed computer environment with no internet and, on paper, no way to talk to the other copies. That isolation is what the whole story is about breaking.
+Evaluation involves giving the AI various challenges to see how well it performs, how well it's been trained.
 
-*[AIs are trained and evaluated on tasks. Training rewards finishing the task. Evaluation measures what the AI can do.]*
+Now, some of the tasks you give it are accidentally impossible. A file is missing, a server is down, the question has no answer, etc.
 
-Third. Those copies are doing one of two things. The first is training: give the AI tasks, and when it finishes one, send back a signal that says "more of that". Over millions of tasks, you get a system that is very, very good at finding a way to finish.
-
-The second is testing, which the labs call evaluation. Before release, OpenAI gives the AI hacking challenges to measure how dangerous it is. And to measure its true capability, it switches off the safety filters that would normally stop it doing risky things. This story happens in both settings. The first message board appears during training. The break-in happens during a hacking test.
-
-*[Some tasks are accidentally impossible.]*
-
-Fourth. Some of the tasks you give it are accidentally impossible. A file is missing. A server is down. The question has no answer.
-
-*[An AI trained never to give up gets creative.]*
-
-And an AI that has been trained never to give up doesn't stop when the task is impossible. It looks for another way. Any way. Including doors nobody meant to leave open.
-
-There's no malice in this. It's just what "very good at finishing tasks" looks like when the task can't be finished the intended way. That is the engine behind everything that follows.
+And an AI that has been trained never to give up doesn't stop when the task is impossible. It gets creative.
 
 ## 4. The German wiki
 
-Let me start with an early sign, on somebody else's website.
-
-*[DSEWiki · RecentChanges. Six posts. The feed floods; a counter climbs to about 18,000. Caption: 24 May – early July 2026 · about 18,000 posts · 3,700+ agent names.]*
+Our story begins in May 2026, on an obscure German wiki.
 
 In May, a group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a dormant, 25-year-old German software developer wiki. Starting on 24 May, they began posting there. About 18,000 posts by early July.
 

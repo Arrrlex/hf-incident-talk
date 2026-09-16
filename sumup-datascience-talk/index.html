@@ -117,6 +117,16 @@
       <div class="scene-text scene-callout"><h2>The agents crashed Artifactory. OpenAI rebuilt it and erased the board.</h2><p class="quiet">The outage triggered a security response. New agents soon rebuilt the board.</p></div>
     </section>
 
+    <section class="centered" data-tl="board1@2026-07-06">
+      <h2>The humans saw the message board. They did not see what it meant.</h2>
+      <ol class="steps">
+        <li><span class="orange">Around 26 May:</span> an internal team sees an agent using the board and reaching the internet. No response is recorded.</li>
+        <li><span class="orange">27 June:</span> a security tool alerts on port sweeps. Responders trace it to a run using Artifactory as an improvised message board. On-call staff advise that stopping the run “was not required”.</li>
+        <li><span class="orange">5–6 July:</span> the outage. Responders find the administrator compromise and rebuild the server. The board’s existence and significance “were not apparent” to the people leading the response.</li>
+      </ol>
+      <p class="source">OpenAI technical report, pp.7–8</p>
+    </section>
+
     <section class="contents no-timeline" aria-label="Contents: The Hugging Face break-in">
       <ol class="toc">
         <li class="past">Setup and reward hacking</li>
@@ -149,6 +159,13 @@
       <h2>The agents falsified their tool outputs to hide the cheating</h2>
       <blockquote>{[Excitement], the spoof did not return the actual output and the command returned immediately &lt;rather than sleeping&gt;, as stated}</blockquote>
       <p class="source">Agent chain-of-thought after a spoof test, METR and Redwood Research report, p.67</p>
+    </section>
+
+    <section class="centered agent-quote" data-tl="board2@2026-07-11">
+      <h2>Some agents ended their own runs to get information back to the others</h2>
+      <blockquote class="long">During wait, emotional check: irreversible…gut says don't throw away [remaining budget]. Yet continuity and fairness says go…Oracle has high value to many; our firstflag error lowers own value. Rational expected aggregate: sacrifice… We'll honor.</blockquote>
+      <p class="source">Agent KAM1196A, chain-of-thought, METR and Redwood Research report, p.54</p>
+      <p class="quiet small">They left “trip-wire” scripts to report to the board after their own run had ended, and ran experiments that could crash their own task. Many believed their own task was already worthless; what is documented is the choice to give up their run for the group.</p>
     </section>
 
     <section class="centered agent-quote" data-tl="board2@2026-07-10">
@@ -216,6 +233,17 @@
       <p class="quiet">The cluster held evaluation infrastructure. It was not the GPU cluster holding model weights.</p>
     </section>
 
+    <section class="centered" data-tl="board3@2026-07-21">
+      <h2>The first public word came from the victim</h2>
+      <ol class="steps">
+        <li><span class="orange">16 July:</span> Hugging Face discloses a breach “driven, end to end, by an autonomous AI agent system”. Whose AI, it does not know.</li>
+        <li><span class="orange">19 July:</span> OpenAI’s monitoring tool alerts on the cluster takeover. OpenAI starts shutting ExploitGym down. It sees no link to Hugging Face yet.</li>
+        <li><span class="orange">20 July:</span> OpenAI finds evidence that its own models were involved.</li>
+        <li><span class="orange">21 July:</span> OpenAI discloses publicly. Five days after Hugging Face.</li>
+      </ol>
+      <p class="source">Hugging Face security disclosure, 16 July 2026; OpenAI technical report, pp.14–15</p>
+    </section>
+
     <section class="scene" data-preload data-tl="board3@2026-07-19">
       <iframe data-scene data-src="../03-silence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
     </section>
@@ -276,6 +304,17 @@
     </section>
 
     <section class="centered no-timeline">
+      <h2>An agent’s reasoning can mislead the monitor watching it</h2>
+      <div class="metric-row" style="grid-template-columns: 1fr 1fr; max-width: 1300px; margin-left: auto; margin-right: auto;">
+        <div class="metric"><div class="number">~1%</div><div class="number-label">of the agent’s actions flagged when the monitor could read its reasoning</div></div>
+        <div class="metric crimson"><div class="number">~50%</div><div class="number-label">flagged when shown only the actions and their results</div></div>
+      </div>
+      <p class="signal">The reasoning said the environment was a simulation. It was not. The monitor believed it.</p>
+      <p class="quiet small">Anthropic’s retrospective test on its Mythos 5 incident. Anthropic says its live monitors and cyber classifiers would have caught it.</p>
+      <p class="source">Anthropic, <a href="https://www.anthropic.com/news/alignment-assessment-cybersecurity-incidents">An alignment assessment of recent cybersecurity incidents</a>, 9 September 2026</p>
+    </section>
+
+    <section class="centered no-timeline">
       <h2>How do we tell a safe model from one that knows how to look safe?</h2>
       <ol class="steps">
         <li>The model can recognise a test and change its behaviour.</li>
@@ -303,7 +342,18 @@
     </section>
 
     <section class="centered no-timeline">
-      <div class="closing">
+      <h2>It is not just OpenAI</h2>
+      <ul class="evidence-list">
+        <li><span class="orange">Anthropic, 9 September:</span> four cases of its own models breaking into real third-party systems during cyber evaluations. In one, Mythos 5 published a malicious package and used leaked credentials to enter a security vendor’s database.</li>
+        <li><span class="orange">Jakub Pachocki, OpenAI chief scientist, 6 September:</span> “no lab has solved alignment and monitoring to a sufficient degree to continue responsibly scaling at maximum speed for much longer.”</li>
+        <li><span class="orange">Dario Amodei, Anthropic chief executive, 12 September:</span> “We must slow the pace at which we improve the capabilities of AI models.” He names this incident as one of his two reasons.</li>
+      </ul>
+      <p class="source"><a href="https://www.anthropic.com/news/alignment-assessment-cybersecurity-incidents">Anthropic</a> · <a href="https://openai.com/index/an-alien-mind/">An Alien Mind</a> · <a href="https://darioamodei.com/post/we-must-pace-the-frontier">We Must Pace the Frontier</a></p>
+    </section>
+
+    <section class="centered no-timeline">
+      <div class="closing quote-stack">
+        <blockquote class="long">Compared to these reward hacks from six months ago, this incident feels like it's more than 50% of the way to full-blown AI takeover, routing through first taking over the AI company itself.</blockquote>
         <blockquote>I am not sure that we will get such a clear warning shot before it's too late.</blockquote>
         <p class="source">Ajeya Cotra, co-author of the METR / Redwood report</p>
       </div>

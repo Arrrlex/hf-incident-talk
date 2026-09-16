@@ -339,6 +339,14 @@ I expect incidents like this to happen again. This swarm made mistakes that help
 
 This isn't only my view. On 6 September, OpenAI's chief scientist Jakub Pachocki argued that alignment and monitoring were not good enough to keep scaling at full speed for much longer. On 12 September, Anthropic's chief executive Dario Amodei called for slower capability development, and pointed to the Hugging Face incident when he did. Anthropic has committed to bringing in outside evaluators, with ongoing access inside the company and the right to publish what they find. That is a promise. It isn't happening yet.
 
+*[It's not just OpenAI.]*
+
+And I don't want to give Anthropic a pass here. Its chief executive is calling for a slower pace. Anthropic hasn't slowed down. Its own agents broke into real systems this year, and it is still shipping more capable models. [CHECK: pick the one or two facts to hang this on, e.g. Mythos 5 release date relative to the four incidents.]
+
+*[A wall of tweets from the past few days. FILL: Alex to choose them.]*
+
+This is what people inside the labs have been saying, just in the past few days. [Adjust once the tweets are chosen: one line saying who these people are, then let them sit on screen.]
+
 *[Slower development. Independent scrutiny. Verifiable safety commitments.]*
 
 That is what we should be asking for. Slower development. Independent scrutiny. And safety commitments that outsiders can actually check.
@@ -351,6 +359,26 @@ Ajeya Cotra, one of the authors of the independent report, wrote this. She also 
 
 This time, we got a clear warning shot. We may not get another one this clear.
 
-*[End card: The Hugging Face Incident. Sources: OpenAI's post and technical report; the METR / Redwood report; collusion.wiki.]*
+## 10. What you can do
+
+So what can you actually do? Four things.
+
+*[Join a protest. PauseAI · Fairness Jetzt. FILL: links.]*
+
+Go to a protest. PauseAI and Fairness Jetzt both organise them, in Berlin and in other cities. Turning up matters more than you'd think.
+
+*[Write to your politician. ControlAI template. FILL: link.]*
+
+Write to your local politician. ControlAI has a template. It takes five minutes.
+
+*[Other organisations: Stop the Race · StopAI · Evitable. FILL: links.]*
+
+If neither of those is you, there are other groups working on this. Stop the Race, StopAI, Evitable. Have a look at what they do.
+
+*[80,000 Hours. FILL: link.]*
+
+And if you'd rather understand the problem properly first, and work out where you could help, start at 80,000 Hours.
+
+*[End card: The Hugging Face Incident. Sources: OpenAI's post and technical report; the METR / Redwood report; collusion.wiki. Plus the links above.]*
 
 The sources are on screen. Read them. They are more alarming than my summary.

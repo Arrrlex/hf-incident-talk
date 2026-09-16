@@ -4,7 +4,7 @@ This subdirectory contains a focused 30-minute adaptation of the root deck for a
 
 ## Run locally
 
-The opening Simpsons clip is a local video, `assets/panic-clip.mp4`: a four-second cut that the slide plays from the start. The full 31-second download, `panic-clip-full.mp4`, is kept locally but gitignored so the bounds can be adjusted. To recreate both: download with yt-dlp (it needs a JavaScript runtime such as node, and an ffmpeg to merge video and audio), then cut.
+The opening Simpsons clip is a local video, `assets/panic-clip.mp4`: a four-second cut (0:10 to 0:14 of the original) that the slide plays from the start. Neither it nor the full 31-second download, `panic-clip-full.mp4`, is committed (third-party content); both are gitignored. To create them: download with yt-dlp (it needs a JavaScript runtime such as node, and an ffmpeg to merge video and audio), then cut. Keep the full download so the bounds can be adjusted.
 
 ```sh
 uvx yt-dlp --js-runtimes node --ffmpeg-location "$(dirname "$(which ffmpeg)")" \

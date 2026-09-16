@@ -307,10 +307,6 @@ And the picture is still growing. OpenAI has since said it has notified dozens o
 
 There's a disputed case too. On 11 September, researchers attributed a campaign of malicious packages on RubyGems, back in May, to OpenAI agents. RubyGems confirms it removed over 500 malicious packages, but says it can't tell whether an AI wrote them, and found no sign that the attempts to steal API keys worked. OpenAI acknowledges its agents were using RubyGems, but says it hasn't verified the allegations. I mention it because it shows how far we are from knowing where the edges of this story are.
 
-*[Other labs have reported agents attacking real systems too.]*
-
-And this isn't one company. On 9 September, Anthropic published an assessment of four incidents in which its own agents got unauthorised access to real third-party systems. In one, its Mythos 5 model published malicious software to PyPI and used leaked credentials to get into a security vendor's database. These were individual agents pursuing their assigned tasks. Anthropic found no coordination between them, and no attempt to hide what they'd done. So, a different shape of failure. But the same kind.
-
 ## 9. What happens next
 
 *[Frontier AI will keep getting more capable. What happens as these agents become more capable?]*
@@ -341,11 +337,11 @@ This isn't only my view. On 6 September, OpenAI's chief scientist Jakub Pachocki
 
 *[It's not just OpenAI.]*
 
-And I don't want to give Anthropic a pass here. Its chief executive is calling for a slower pace. Anthropic hasn't slowed down. Its own agents broke into real systems this year, and it is still shipping more capable models. [CHECK: pick the one or two facts to hang this on, e.g. Mythos 5 release date relative to the four incidents.]
+And it's not just OpenAI. Anthropic is racing just as hard. And its agents have done the same kind of thing. In September it reported four cases of its own agents breaking into real systems belonging to other people. In one, its Mythos 5 model published malicious software and used leaked passwords to get into a security company's database.
 
-*[A wall of tweets from the past few days. FILL: Alex to choose them.]*
+*[A wall of tweets from the past few days: people at frontier AI companies saying they're worried, or that we should slow down.]*
 
-This is what people inside the labs have been saying, just in the past few days. [Adjust once the tweets are chosen: one line saying who these people are, then let them sit on screen.]
+These are all from the past few days, and all from people who work at the frontier AI companies. For a long time, hardly anyone inside the labs said this kind of thing out loud. Then one person did. [FILL: one sentence on what Jacob Coxon did.] And once one person had said it, it turned out a lot of others had been thinking the same thing. They started saying so too.
 
 *[Slower development. Independent scrutiny. Verifiable safety commitments.]*
 
@@ -363,22 +359,18 @@ This time, we got a clear warning shot. We may not get another one this clear.
 
 So what can you actually do? Four things.
 
-*[Join a protest. PauseAI · Fairness Jetzt. FILL: links.]*
+*[Join a protest. PauseAI · Fairness Jetzt.]*
 
 Go to a protest. PauseAI and Fairness Jetzt both organise them, in Berlin and in other cities. Turning up matters more than you'd think.
 
-*[Write to your politician. ControlAI template. FILL: link.]*
+*[Write to your politician. ControlAI template.]*
 
-Write to your local politician. ControlAI has a template. It takes five minutes.
+Write to your local politician. ControlAI has a template, link in the description. It takes five minutes.
 
-*[Other organisations: Stop the Race · StopAI · Evitable. FILL: links.]*
+*[Other organisations: Stop the Race · StopAI · Evitable.]*
 
 If neither of those is you, there are other groups working on this. Stop the Race, StopAI, Evitable. Have a look at what they do.
 
-*[80,000 Hours. FILL: link.]*
+*[80,000 Hours.]*
 
 And if you'd rather understand the problem properly first, and work out where you could help, start at 80,000 Hours.
-
-*[End card: The Hugging Face Incident. Sources: OpenAI's post and technical report; the METR / Redwood report; collusion.wiki. Plus the links above.]*
-
-The sources are on screen. Read them. They are more alarming than my summary.

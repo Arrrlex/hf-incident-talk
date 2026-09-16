@@ -71,3 +71,9 @@
 }
 .reveal .monitor-chart svg { display: block; width: 1500px; max-width: 100%; height: auto; margin: 30px auto 10px; }
 .reveal .monitor-chart .chart-title { margin-top: 40px; margin-bottom: 0; }
+.reveal .sources-qr { display: flex; align-items: center; justify-content: center; gap: 80px; margin-top: 50px; text-align: left; }
+.reveal .sources-qr img { width: 440px; height: 440px; margin: 0; background: #fff; border-radius: 12px; }
+.reveal .sources-qr p { margin: 0 0 0.5em; }
+.reveal .sources-qr .url { font-size: 1.1em; }
+.reveal .sources-qr .url a { color: #ff9416; text-decoration: none; }
+.reveal .sources-qr .quiet.small { max-width: 720px; }

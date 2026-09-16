@@ -303,14 +303,23 @@
       <p class="source"><a href="https://deploymentsafety.openai.com/gpt-6-astra">GPT-6 Astra System Card</a>, §§9, 9.1.1, 9.2.2.2</p>
     </section>
 
-    <section class="centered no-timeline">
-      <h2>An agent’s reasoning can mislead the monitor watching it</h2>
-      <div class="metric-row" style="grid-template-columns: 1fr 1fr; max-width: 1300px; margin-left: auto; margin-right: auto;">
-        <div class="metric"><div class="number">~1%</div><div class="number-label">of the agent’s actions flagged when the monitor could read its reasoning</div></div>
-        <div class="metric crimson"><div class="number">~50%</div><div class="number-label">flagged when shown only the actions and their results</div></div>
-      </div>
-      <p class="signal">The reasoning said the environment was a simulation. It was not. The monitor believed it.</p>
-      <p class="quiet small">Anthropic’s retrospective test on its Mythos 5 incident. Anthropic says its live monitors and cyber classifiers would have caught it.</p>
+    <section class="centered no-timeline monitor-chart">
+      <h2>The agent said it was a simulation. The monitor believed it.</h2>
+      <p class="quiet small chart-title">Share of the agent’s actions the monitor flagged</p>
+      <svg viewBox="0 0 1500 300" role="img" aria-label="Bar chart. Shown only what the agent did: about 50% of actions flagged. Shown its reasoning too: about 1%.">
+        <g font-family="inherit">
+          <text x="640" y="78" text-anchor="end" fill="#d0d0d0" font-size="32">Shown only what the agent did</text>
+          <rect x="670" y="45" width="820" height="56" rx="4" fill="#ff9416"/>
+          <text x="1475" y="78" text-anchor="end" fill="#000" font-size="32" font-weight="500">~50%</text>
+
+          <text x="640" y="228" text-anchor="end" fill="#d0d0d0" font-size="32">Shown its reasoning too</text>
+          <rect x="670" y="195" width="16" height="56" rx="4" fill="#ff9416"/>
+          <text x="706" y="228" text-anchor="start" fill="#ffc480" font-size="32" font-weight="500">~1%</text>
+
+          <line x1="670" y1="20" x2="670" y2="280" stroke="#4a4a52" stroke-width="2"/>
+        </g>
+      </svg>
+      <p class="quiet small">Anthropic replaying its own Mythos 5 incident through one of its offline monitors. The environment was real.</p>
       <p class="source">Anthropic, <a href="https://www.anthropic.com/news/alignment-assessment-cybersecurity-incidents">An alignment assessment of recent cybersecurity incidents</a>, 9 September 2026</p>
     </section>
 

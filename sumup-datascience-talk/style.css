@@ -69,3 +69,5 @@
   .reveal .two-col { gap: 45px; }
   .reveal .metric-row { gap: 30px; }
 }
+.reveal .monitor-chart svg { display: block; width: 1500px; max-width: 100%; height: auto; margin: 30px auto 10px; }
+.reveal .monitor-chart .chart-title { margin-top: 40px; margin-bottom: 0; }

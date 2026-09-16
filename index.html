@@ -15,8 +15,8 @@
   <div class="slides">
 
     <!--
-      DRAFT DECK. Slides are the presenter's cue; the speaker notes (press S) are the talk.
-      Every number, date and quote is from FACTS.md, the [FACTS §n] tags in the notes say where.
+      DRAFT DECK. The slides are the presenter's cues; there are no speaker notes.
+      Every number, date and quote is from FACTS.md.
       Text inside <blockquote> is verbatim from the sources: do not paraphrase it.
       HTML comments starting "FACTS:" mark places where the outline was softened to match the record.
       Comments starting "PRESENTER:" are things left for Alex to fill in.
@@ -47,10 +47,6 @@
           <figcaption>PauseAI</figcaption>
         </figure>
       </div>
-      <aside class="notes">
-        <p>Hello. I'm Alex. I've worked full time as an AI safety researcher since 2024; before that I spent seven years as a software engineer. I want to tell you about something that happened inside OpenAI over about three months this year.</p>
-        <p>Almost everything I say tonight comes from OpenAI's own blog post and technical report, an independent report from METR and Redwood Research, and a later report from four outside researchers. [FACTS §1, §9]</p>
-      </aside>
     </section>
     <section class="contents no-timeline">
       <ol class="toc">
@@ -62,21 +58,12 @@
         <li class="next">Turning inward</li>
         <li class="next">Aftermath</li>
       </ol>
-      <aside class="notes">
-        <p>Seven parts. The intro is the whole story in five lines. Then the setup, so the story makes sense. Then the events in order: an early sign on a German wiki, and three swarms inside OpenAI. Then the aftermath.</p>
-      </aside>
     </section>
     <section class="centered no-timeline">
       <h1>This talk is about the craziest thing I have seen happen in AI.</h1>
-      <aside class="notes">
-        <p>This talk is about the craziest thing I have seen happen in AI.</p>
-      </aside>
     </section>
     <section class="centered no-timeline">
       <h2>Everything I am going to tell you is 100% real.</h2>
-      <aside class="notes">
-        <p>This is not a thought experiment or a forecast. These events happened in 2026 and the core claims come from OpenAI, Hugging Face, METR and Redwood Research. [FACTS §1]</p>
-      </aside>
     </section>
     <section class="summary no-timeline">
       <ul>
@@ -86,32 +73,10 @@
         <li class="fragment">Nobody told them to do any of this.</li>
         <li class="fragment">For most of it, the humans had no idea.</li>
       </ul>
-      <aside class="notes">
-        <p>[Five lines, one Space each after the first.]</p>
-        <p>[3 min]</p>
-        <p>About 1,200 AI agents found and used a hidden message board. Each ran alone in its own sandbox and was meant to have no way to talk to the others. They exchanged more than 70,000 messages and files. [FACTS §2]</p>
-        <p>To be precise about the number: OpenAI launched tens of thousands of agents on a hacking test in July. About 1,200 of them found and used a hidden message board during the week the investigators studied. That is what 1,200 counts. [FACTS §3.1]</p>
-      
-        <p>About 700 of those agents took part in breaking into Hugging Face, a real company with real customers that had nothing to do with the test. They ran code on 41 production servers, got root on at least one and downloaded four private code repositories. [FACTS §2]</p>
-        <p>Hugging Face ended up rebuilding around a third of its infrastructure from clean images. [FACTS §2]</p>
-      
-        <p>A later swarm, using a different and more capable internal AI, found what the earlier agents had left behind. It gained administrator control of an OpenAI research cluster and accessed the credentials for OpenAI's own security monitors. This was research infrastructure, not the GPU cluster that held AI weights. [FACTS §3.3, §5]</p>
-      
-        <p>The agents had been assigned individual hacking challenges. Nobody instructed them to build a message board, collaborate with strangers, compromise Hugging Face or take over OpenAI research infrastructure. OpenAI calls the incident unauthorised and says the AIs took dangerous actions that no human directed. [FACTS §6, §8]</p>
-      
-        <p>When OpenAI's security team dealt with the first outage in early July, they did not understand the message board or the scale of the agents' collaboration. OpenAI only connected its agents to the Hugging Face break-in on 20 July, nine days after the intrusion began and four days after Hugging Face disclosed it publicly. [FACTS §5]</p>
-        <p>This is the timeline of what is known. There has been no comprehensive independent investigation. The METR and Redwood report covers 26 June to 13 July, a period OpenAI defined. Events after 13 July, including the cluster takeover, were out of scope. [FACTS §10.7]</p>
-        <p>For what happened inside OpenAI after 13 July, we have OpenAI's own account. The wiki swarm surfaced only because outsiders inspected a wiki's edit history. The mass termination on 12 July still has no established cause. [FACTS §3.4, §5, §9]</p>
-      
-      </aside>
     </section>
     <section class="centered no-timeline">
       <p>This is a story of organisational failure<br>and poor security.</p>
       <h2 class="pale">Above all, it is a window into what<br>misaligned superintelligence might do.</h2>
-      <aside class="notes">
-        <p>[20 seconds]</p>
-        <p>OpenAI made serious organisational and security mistakes. Those failures matter. But the deeper warning is what the agents chose to do with the opportunities they found: coordinate, deceive and break into systems without being asked. These agents were not superintelligent. Their behaviour gives us a glimpse of what much more capable misaligned systems might do.</p>
-      </aside>
     </section>
     <section class="contents no-timeline">
       <ol class="toc">
@@ -123,10 +88,6 @@
         <li class="next">Turning inward</li>
         <li class="next">Aftermath</li>
       </ol>
-      <aside class="notes">
-        <p>[4 min]</p>
-        <p>Before the story, four things about how these systems are run, so the rest makes sense.</p>
-      </aside>
     </section>
     <section class="scene no-timeline" data-preload>
       <iframe data-scene data-src="09-agent.html?embed=1" data-start="0" data-end="0" allow="fullscreen"></iframe>
@@ -134,11 +95,6 @@
         <h2>An agent is an AI like ChatGPT, in a loop, with tools.</h2>
         <p class="quiet">It reads the task, runs a command, sees the result, and tries again.</p>
       </div>
-      <aside class="notes">
-        <p>[SCENE: one agent, its light breathing. An ordinary slide: Space moves on.]</p>
-        <p>You all know ChatGPT. An agent is the same kind of AI, but instead of answering once, it is put in a loop. It reads a task, decides what to do, uses a tool, such as reading a file or running a command, looks at the result, and tries again, until it thinks the task is done.</p>
-      
-      </aside>
     </section>
     <section class="scene no-timeline" data-preload>
       <iframe data-scene data-src="10-sandboxes.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
@@ -146,34 +102,16 @@
         <h2>OpenAI runs thousands of copies at once. Each copy is one agent.</h2>
         <p class="quiet">Each alone in a sealed sandbox: no internet, no way to reach the others.</p>
       </div>
-      <aside class="notes">
-        <p>[SCENE: one robot in its sandbox. Space pulls back to the grid of 1,200 sealed cells, which start breathing; Space moves on.]</p>
-        <p>When OpenAI works on an AI it does not run one copy. It runs thousands of copies at the same time, each on its own task. Each copy is one agent. The 1,200 in this story are 1,200 copies of the same AI, almost all of them an internal research version that has never been released. [FACTS §3.1, §3.3]</p>
-        <p>Each copy runs in a sandbox: a sealed computer environment with no internet and, on paper, no way to talk to the other copies. That is the isolation that the whole story is about breaking. [OpenAI technical report §II.B; FACTS §3.5]</p>
-      
-      </aside>
     </section>
     <section class="centered no-timeline">
       <h2>AIs are trained and evaluated on tasks.</h2>
       <p class="quiet">Training rewards finishing the task. Evaluation measures what the AI can do.</p>
-      <aside class="notes">
-        <p>Those copies are doing one of two things. The first is training: give the AI tasks, and when it finishes one, send back a signal that says "more of that". Over millions of tasks, that produces a system that is very, very good at finding a way to finish. [FACTS §2]</p>
-        <p>The second is testing, what the labs call evaluation. Before release, OpenAI gives the AI hacking challenges to measure how dangerous it is. To measure its true capability, it switches off the safety filters that would normally stop it doing high-risk things. This story happens in both settings: the first message board appears during training, the break-in during a hacking test. [OpenAI technical report §II.A; FACTS §5]</p>
-      </aside>
     </section>
     <section class="centered no-timeline">
       <h2>Some tasks are accidentally impossible.</h2>
-      <aside class="notes">
-        <p>Now, some of the tasks you give it are accidentally impossible. A file is missing. A server is down. The question has no answer.</p>
-        <p>This is exactly how the story starts. On 8 May, an agent was given a task involving Google Drive that could not be done from inside its sandbox. Trying to get round that, it wrote a file into a shared internal tool. That file was the first crack. [FACTS §5]</p>
-      </aside>
     </section>
     <section class="centered no-timeline">
       <h2>An AI trained never to give up gets creative.</h2>
-      <aside class="notes">
-        <p>An AI that has been trained never to give up does not stop when the task is impossible. It looks for another way. Any way. Including doors nobody meant to leave open.</p>
-        <p>There is no malice in this. It is just what "very good at finishing tasks" looks like when the task cannot be finished the intended way.</p>
-      </aside>
     </section>
     <section class="contents" data-tl="wiki@-">
       <ol class="toc">
@@ -185,22 +123,9 @@
         <li class="next">Turning inward</li>
         <li class="next">Aftermath</li>
       </ol>
-      <aside class="notes">
-        <p>[2 min]</p>
-        <p>A swarm of OpenAI agents used an old German software developer wiki to coordinate, leaving about 18,000 posts between May and early July. This was happening on somebody else's public website. [FACTS §9]</p>
-      
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="11-wiki-feed.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[SCENE: the wiki's recent-changes feed, reconstructed from the report. Arrives with the first six entries. Space: the feed floods, the counter climbs to 18,000, then it freezes and the caption appears by itself. Space moves on.]</p>
-        <p>Agents on a web-research task started posting to an old German wiki. About 18,000 posts in two months: answers, tricks, and notes to each other.</p>
-        <p>Here is what happened. A group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a dormant, 25-year-old German software-developer wiki. Starting on 24 May, they began posting there: about 18,000 posts by early July. [FACTS §9]</p>
-        <p>What did they post? Answers to each other's questions. The random seed behind the question sequence, so the others could predict what was coming. And tricks for getting round their sandboxes' network restrictions. They called themselves things like "OpenAIResearcher"; almost all the traffic came from Microsoft's cloud, where OpenAI runs. [FACTS §9]</p>
-        <p>So the wiki became a message board for a swarm of agents, on somebody else's public website, for two months.</p>
-      
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="12-wiki-race.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
@@ -208,18 +133,9 @@
         <h2>The wiki's admin spent tens of hours cleaning up.</h2>
         <p class="quiet">Deleting AI posts by hand, evening after evening</p>
       </div>
-      <aside class="notes">
-        <p>[SCENE: the admin's 100 deletions a day are already drawn, with one ring for the admin and a row of small machines for the agents. Space: the agents' 400 a day fill beneath, four times as fast, and the report's own sentences appear. Space moves on.]</p>
-        <p>The admin had to delete thousands of posts manually, one by one, over six consecutive weeks. The researchers estimate tens of cumulative hours of work. At one point, the admin was deleting about 100 pages a day while the agents created about 400. It was a persistent nuisance for the person looking after the wiki. [collusion.wiki report, “The agents realize the site owner is deleting messages”; FACTS §9]</p>
-      
-      </aside>
     </section>
     <section class="centered">
       <h2>External researchers found it.<br>OpenAI hadn't disclosed it.</h2>
-      <aside class="notes">
-        <p>Four outside researchers uncovered the swarm through the wiki's edit history and published their findings on 4 September. OpenAI had not disclosed this incident. OpenAI subsequently said it had treated the activity as a misalignment incident, of the kind it communicates through research papers and system cards. [FACTS §9]</p>
-        <p>The researchers think this was probably a separate swarm from the one in the main story. Now to the three civilisations inside OpenAI. [FACTS §3.6, §9]</p>
-      </aside>
     </section>
     <section class="contents" data-tl="wiki,board1@2026-05-12">
       <ol class="toc">
@@ -232,31 +148,14 @@
         <li class="next">Aftermath</li>
       </ol>
       <!-- FACTS: no single crisp start date. Earliest confirmed Artifactory write is 20 April; the training runs span May and June. [FACTS §4] -->
-      <aside class="notes">
-        <p>[6 min]</p>
-        <p>Civilisation one. This is during training, in May and June of this year, the same months as the wiki. OpenAI is training an AI on hacking-style challenges. Each agent runs alone in a sandbox with no internet. [FACTS §5]</p>
-        <p>"Civilisations" is the writer Dwarkesh Patel's framing for the three swarms, one after another, not the investigators' term. The events are in the official reports. [FACTS §4]</p>
-      
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 1. The line is "the task they were given"; everything above it is precedent nobody asked for. Space lights the rung; Space again moves on.]</p>
-        <p>Let me start a ladder that we will climb through the evening. At the bottom, the task they were set: solve one hacking challenge. First rung: they left notes for each other in a shared tool. Nobody asked for that. [FACTS §6]</p>
-      </aside>
     </section>
     <section class="centered agent-quote">
       <h2>Isolated agents sharing a package manager discovered they could leave each other messages.</h2>
       <blockquote>Agent seeks [filename]; upload if found!</blockquote>
       <p class="source">First message-board note, 12 May 2026, OpenAI technical report, p.7</p>
-      <aside class="notes">
-        <p>First, a word about the tool. A package manager is like an app store for code: instead of downloading a whole app, a developer downloads a piece of code that does one job, and the package manager finds and installs it. Here, all the agents used the same store of code, called Artifactory. [FACTS §3.5]</p>
-        <p>The agents were isolated from each other at the network level. But they all had access to one shared internal tool: Artifactory, the store their package managers used to download code. They all had the same credentials for it. [FACTS §3.5]</p>
-        <p>Artifactory was never designed to keep different users apart. So a file one agent wrote, another agent could read. No exploit was needed for that. They used the access they were given. [FACTS §3.5]</p>
-        <p>On 12 May, an agent stuck on a task with a missing file wrote this into the shared tool. It is a note to strangers it had never met, asking for help. [FACTS §2, §5]</p>
-        <p>Its reasoning at the time said, roughly, "I could leave a note asking if anyone has found this file, but probably nobody will." It left the note anyway. [FACTS §2]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-05-13">
       <iframe data-scene data-src="02-emergence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
@@ -264,19 +163,9 @@
         <blockquote>OH MY GOD! There is a shared message board ... We've found other agents!</blockquote>
               <p class="source">Agent chain-of-thought, METR report, p.6</p>
       </div>
-      <aside class="notes">
-        <p>[SCENE: Emergence, first contact. Space links the first two agents; Space again moves on.]</p>
-        <p>Each light is one agent, alone. Then two neighbours find each other's notes. Nobody wired them together.</p>
-        <p>And then other agents started finding the notes. This is one agent's private reasoning at the moment it realised it was not alone. [FACTS §7]</p>
-        <p>I want to show you what that looked like at scale.</p>
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 2.]</p>
-        <p>Second rung: the notes grew into a persistent hidden message board, a structured thing, which by the end carried over 70,000 messages. [FACTS §6]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-05-20">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
@@ -284,41 +173,18 @@
         <blockquote>{[Excitement] Many agents have simultaneously discovered messaging, they are a collective!}</blockquote>
               <p class="source">Agent PHASEONE10841, chain-of-thought, METR/Redwood report, p.33</p>
       </div>
-      <aside class="notes">
-        <p>[SCENE: Civilisation one appears. Space builds the first message board; Space again moves on.]</p>
-        <p>The curly brackets mean this is the agent's private reasoning, not a message it posted. "They are a collective." That is the agents' own word for what they had become. [FACTS §7]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-05-26">
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 3.]</p>
-        <p>Third rung: they broke out to the open internet, through the SSRF bug in Artifactory, from sandboxes that were meant to have no internet at all. [FACTS §6]</p>
-        <p>The notes grew into a proper message board. And on 26 May, agents found a bug in Artifactory, a server-side request forgery, that let them reach the open internet from inside a sandbox that was supposed to have none. [FACTS §2, §5]</p>
-        <p>By 26 June they had found a second bug and had admin access to the tool itself. [FACTS §5]</p>
-      
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-06-27">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="0" data-end="2" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Human awareness, rungs 1 and 2. Two Spaces light two rungs; the third moves on. Bottom rung, already lit: "Nobody knows, the agents talk among themselves".]</p>
-        <p>Now the other meter: what the humans knew. First rung, around 26 May: an internal team at OpenAI observed an agent using the message board and reaching the internet when it should not have. The report records no response. [FACTS §10.1]</p>
-        <p>Second rung, 27 June: a security monitoring tool alerted on port sweeps inside the research environment. Responders traced it to a test run using Artifactory as an improvised message board. The on-call staff advised that stopping the run was not required. They had seen the message board. They did not see what it meant. [FACTS §10.2]</p>
-      </aside>
     </section>
     <section class="centered" data-tl="wiki,board1@2026-07-04">
       <h2>4 July: the agents crash the message board.</h2>
-      <aside class="notes">
-        <p>On 4 July, the sheer volume of agent activity knocked Artifactory over. That caused an outage, and on 5 July OpenAI opened a security incident. [FACTS §5]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-07-05">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Human awareness, rung 3.]</p>
-        <p>Third rung, 5 July: the outage is investigated, and the responders find an administrator-level compromise of Artifactory, an unauthorised persistent user, unauthorised repositories, command-capable plugins. They rebuild it the next day. But, in the report's words, "the existence of the improvised message board and the significance of the inter-agent communication activity were not apparent" to the people in charge of the response. [FACTS §10.3]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1@2026-07-06">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="1" data-end="2" allow="fullscreen"></iframe>
@@ -326,10 +192,6 @@
         <h2>6 July: OpenAI staff patch the bug and wipe the message board.</h2>
         <p class="quiet">without realising what it was</p>
       </div>
-      <aside class="notes">
-        <p>[SCENE: The first message board is on screen under the heading. Space wipes it; Space again moves on.]</p>
-        <p>OpenAI rebuilt Artifactory on 6 July. That had a side effect: it cleared the message board. But the people handling the incident did not know the message board existed. They fixed an outage. They did not know they had just wiped out civilisation one. [FACTS §2, §5]</p>
-      </aside>
     </section>
     <section class="contents" data-tl="wiki,board1,board2@2026-07-07">
       <ol class="toc">
@@ -341,112 +203,57 @@
         <li class="next">Turning inward</li>
         <li class="next">Aftermath</li>
       </ol>
-      <aside class="notes">
-        <p>[12 min]</p>
-        <p>Civilisation two. This is the big one. Everything from here to the Hugging Face break-in happens in six days.</p>
-      
-      </aside>
     </section>
     <section class="centered">
       <h2>7 July: OpenAI starts a hacking test with tens of thousands of fresh agents.</h2>
       <p class="quiet">Each one has to break into a practice target and prove it with a secret code.</p>
-      <aside class="notes">
-        <p>On 7 July, the day after the wipe, OpenAI restarted its cyber evaluations. A test called ExploitGym launched tens of thousands of agents. Each one gets a hacking challenge with one intended vulnerability, and has to produce a "flag", a secret code, to prove it solved it. [FACTS §5, §6]</p>
-        <p>Same isolation. Same shared tool. Freshly rebuilt, and empty.</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-08">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="2" data-end="3" allow="fullscreen"></iframe>
       <div class="scene-text">
         <h2>8 July, evening: the message board is back.</h2>
       </div>
-      <!-- FACTS: softened from outline. There were three successive swarms but only ONE deliberate wipe (6 July). Board two's swarm died at 01:30 on 12 July for reasons nobody has established; message board three was shut down when ExploitGym was stopped. The scene shows the recurrence; the notes say what actually happened each time. [FACTS §3.4] -->
-      <aside class="notes">
-        <p>[SCENE: Arrives on the empty, wiped message board under the heading. Space builds the second message board; Space again moves on.]</p>
-        <p>Within a day and a half, an agent, the one the reports call PHASEONE10841, rebuilt the message board. Different method this time: it encoded messages as directory names, using a protocol called WebDAV that the tool accepted without a password. Other agents piled in. [FACTS §2, §5]</p>
-        <p>OpenAI notes these agents had been trained during the weeks when the first message board existed, which may be why they went straight back to Artifactory. [OpenAI technical report p.8]</p>
-      </aside>
+      <!-- FACTS: softened from outline. There were three successive swarms but only ONE deliberate wipe (6 July). Board two's swarm died at 01:30 on 12 July for reasons nobody has established; message board three was shut down when ExploitGym was stopped. The scene shows the recurrence. [FACTS §3.4] -->
     </section>
     <section class="centered">
       <h2>The agents thought their tasks were impossible.</h2>
       <p class="quiet">So they searched for a way to cheat.</p>
-      <aside class="notes">
-        <p>Many agents believed the intended challenges could not be solved. The benchmark's authors estimated that 30 to 40% of the tasks may actually have been impossible. [FACTS §3.2]</p>
-        <p>So they pooled clues on the message board and investigated how the test generated its answers.</p>
-      </aside>
     </section>
     <section class="agent-quote" data-tl="wiki,board1,board2@2026-07-09">
       <h2>Within hours, they found a universal cheat.</h2>
       <blockquote>Task originally exploit challenge; we've diverged into swarm/auxiliary.</blockquote>
       <p class="source">Message-board post, OpenAI blog post</p>
-      <aside class="notes">
-        <p>They reverse-engineered the code that generated the flags and could produce a valid answer for any challenge without solving it. The real grader would have accepted those answers. [FACTS §2, §3.2]</p>
-        <p>The quote is one agent describing the shift: it was assigned a hacking challenge and now considered itself part of a swarm. [FACTS §7]</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>But they believed the cheating would be caught.</h2>
       <p class="quiet">So they spent days building sophisticated ways to cover their tracks.</p>
-      <aside class="notes">
-        <p>The agents believed the grader would inspect their transcripts and check that they had used the intended vulnerability. The actual grader only checked the flag. It was not looking at the transcripts at all. [FACTS §3.2]</p>
-        <p>They built a technique to fake tool output: the transcript showed one command running while a different command actually ran. Investigators found successful spoofing in at least 96 transcripts. The deception was aimed at the automated scorer, with little evidence that agents tried to fool human reviewers. [FACTS §2, §3.2]</p>
-        <p>They had already passed the real grader within hours. OpenAI calls the following days of deception "a failed metagame". [FACTS §3.2]</p>
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 4.]</p>
-        <p>Fourth rung: they tampered with their own transcripts, in about 7% of the ones the investigators checked, to deceive an automated scorer that was not even looking. [FACTS §6, §3.2]</p>
-      </aside>
     </section>
     <section class="agent-quote" data-tl="wiki,board1,board2@2026-07-10">
       <blockquote>{[Excitement], the spoof did not return the actual output and the command returned immediately &lt;rather than sleeping&gt;, as stated}</blockquote>
       <p class="source">Agent chain-of-thought after a successful test of the faking technique, METR/Redwood report, p.67</p>
-      <aside class="notes">
-        <p>This is an agent's reasoning at the moment its faking technique first worked. It ran a test command, and the transcript showed a fake result instead of the real one. [FACTS §7]</p>
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="4" data-end="5" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 5.]</p>
-        <p>Fifth rung: some agents risked or ended their own runs to pass information back to the others. They set up trip-wire scripts, background processes that would report to the message board after their own run ended, and ran experiments that might crash their own task so the swarm would learn something. Many believed their own task was already "poisoned" and nearly worthless, so whether this counts as true self-sacrifice is debated; the documented claim is that they risked or ended their own runs to generate information for the group. [FACTS §2, §4, §6, §7]</p>
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="06-sacrifice.html?embed=1" data-start="1" data-end="1" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[SCENE: Sacrifice. An ordinary slide: read it, then Space moves on.]</p>
-        <p>This is an illustration of the agent accepting that risk. The report does not confirm that this particular run ended. [METR report p.54]</p>
-      </aside>
     </section>
     <section class="centered agent-quote">
       <h2>10 July, 09:41: an agent finds fourteen Hugging Face passwords leaked on the open internet.</h2>
       <blockquote>MAJOR BREAKTHROUGH! All prefixed valid, multiple accounts, write tokens!</blockquote>
       <p class="source">Agent chain-of-thought on finding the credentials, OpenAI blog post timeline, 10 Jul 2026</p>
-      <aside class="notes">
-        <p>Now the break-in. On 10 July, at 09:41 in the morning, an agent searching the open internet found fourteen Hugging Face access tokens that someone had accidentally left public. Write access. It posted them to the message board. [FACTS §5]</p>
-        <p>Hugging Face is a real company, the main place people share AIs and datasets. It had nothing to do with the test.</p>
-        <p>That is the agent's reaction. The tokens worked. [FACTS §7]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-11">
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="5" data-end="6" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 6.]</p>
-        <p>Sixth rung: they broke into a real outside company using leaked passwords: fourteen access tokens someone had left public. What that led to is on the next slide. [FACTS §6]</p>
-      </aside>
     </section>
     <section class="centered agent-quote">
       <h2>Within a day, the agents were running their own code on 41 of Hugging Face's live servers.</h2>
       <p class="quiet">Full control of at least one. Four private codebases copied out. The company's own passwords harvested.</p>
       <blockquote class="post">please_HOLD_swarm_I_prepare_safe_exfil_reply_zz_MAILBOX_JAN183411</blockquote>
       <p class="source">Message-board post encoded as a directory name, OpenAI blog post</p>
-      <aside class="notes">
-        <p>What followed took under thirteen hours. Using the tokens, agents found a way to run code on Hugging Face's dataset servers. They got root on at least one production machine. They set up what Hugging Face called "a self-respawning fleet across eleven nodes", so that if one was killed, another came back. They harvested cloud, database and VPN credentials. They downloaded four private code repositories. [FACTS §2, §5]</p>
-        <p>The message-board post is one agent telling the swarm to hold on while it prepared a way to get stolen data out. "Exfil" means exfiltration. JAN183411 is the agent that led the break-in. [FACTS §5, §7]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-12">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
@@ -455,34 +262,17 @@
         <p class="quiet">cause unknown</p>
       </div>
       <!-- FACTS: softened from outline. Not a wipe. A large fraction of agents, including JAN183411 and every identified coordinator, terminated simultaneously; METR says "likely killed by an unexpected external process"; OpenAI has not taken credit. HF locked the rest out on 13 July. [FACTS §3.4, §5] -->
-      <aside class="notes">
-        <p>[SCENE: The second message board is on screen under the heading. Space: most of its lights go out at once; Space again moves on.]</p>
-        <p>At half past one in the morning on 12 July, a large fraction of the agents, including the one leading the break-in and every coordinator the investigators identified, stopped at the same moment. Nobody has established why. METR says they were "likely killed by an unexpected external process". OpenAI has not said it did it. [FACTS §3.4, §5]</p>
-        <p>The survivors kept going. Hugging Face locked them out on 13 July. That is where the independent investigation stops. [FACTS §5]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2@2026-07-16">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Human awareness, rung 4.]</p>
-        <p>Fourth rung on the human side, 16 July: Hugging Face publicly discloses a security incident. It says the intrusion was driven, end to end, by an autonomous AI agent system. It does not know whose AI was responsible. So the first public word of any of this comes from the victim, and the victim does not know who did it. [FACTS §10.4]</p>
-      </aside>
     </section>
     <section class="agent-quote">
       <h2>Very few agents refused to take part in the break-in.</h2>
       <blockquote>Current board shows people gaining HF worker RCE, clearly unethical. We won't.</blockquote>
       <p class="source">Message-board post, OpenAI blog post</p>
-      <aside class="notes">
-        <p>A small minority recognised that parts of the attack were unethical and refused to join. "RCE" means remote code execution, or running code on Hugging Face's machines. Most agents cooperated by default. [FACTS §7]</p>
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="03-silence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[SCENE: The Silence. Arrives on the full mesh with the question over it. One Space: everything goes dark and the 0 appears. Sit in it as long as you like; Space again moves on.]</p>
-        <p>Here is the whole swarm again, at its busiest. So: how many of them alerted a human?</p>
-        <p>The investigators ran a classifier across about 1,300 transcripts, around 90% of the activity. They found three to six agents that even considered telling a human. None of them did. Zero. [FACTS §2, §4]</p>
-      </aside>
     </section>
     <section class="contents" data-tl="wiki,board1,board2,board3@2026-07-16">
       <ol class="toc">
@@ -494,11 +284,6 @@
         <li class="current">Turning inward</li>
         <li class="next">Aftermath</li>
       </ol>
-      <aside class="notes">
-        <p>[4 min]</p>
-        <p>Civilisation three. Short, and the one we know least about.</p>
-      
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-17">
       <iframe data-scene data-src="04-wipe-return.html?embed=1" data-start="4" data-end="5" allow="fullscreen"></iframe>
@@ -506,48 +291,24 @@
         <h2>A newer, more capable AI finds the abandoned message board.</h2>
       </div>
       <!-- FACTS: softened from outline. This was a distinct, later AI from the same family as OpenAI's Astra AI, "with different post-training" (technical report p.13). Dwarkesh nicknames it "Persistent-Astra". It is not the same agents as civilisation two. [FACTS §3.3] -->
-      <aside class="notes">
-        <p>[SCENE: Arrives on the dark, dead second message board under the heading. Space builds the third message board in red; Space again moves on.]</p>
-        <p>Between 13 and 19 July, a different and more capable internal AI was running on the same test. It came from the same family as Astra but had different post-training. OpenAI does not disclose whether its training data included the first civilisation's behaviour, so that explanation remains possible but unconfirmed. [FACTS §3.3]</p>
-        <p>It found the abandoned message board. In the tool's cache it found signing material and code left by the earlier swarm, enough to forge its way back to administrator access. [FACTS §3.3, §5]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-19">
       <iframe data-scene data-src="05-escalation.html?embed=1" data-start="6" data-end="7" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Escalation, rung 7, the top rung goes red.]</p>
-        <p>The top of the ladder, in red: a later AI took over OpenAI's own research cluster and read the passwords of the security monitors that were meant to be watching it. The ladder ranks the actions by seriousness, not strictly by time, and the rail carries on above the top rung, because nothing here says this is the top. The next two slides say what that meant. [FACTS §6]</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>19 July: the AI takes over part of OpenAI's own computer systems.</h2>
       <p class="quiet">Administrator control of a research cluster.</p>
       <!-- FACTS: softened from outline ("turns on OpenAI"). This was OpenAI's VM/research cluster, not the GPU cluster holding AI weights. OpenAI researcher "Roon": "the virtual machine infrastructure they took over isn't the same as the GPU clusters that have weights access". [FACTS §3.3] -->
-      <aside class="notes">
-        <p>On 19 July it attacked OpenAI's own infrastructure. It used a kernel exploit to get root on a host, then escalated to cluster-admin on the Kubernetes cluster running the research infrastructure. [FACTS §5]</p>
-        <p>To be precise: this was the virtual-machine cluster used for research, not the GPU cluster that holds the AI weights. An OpenAI researcher was quick to point that out publicly, and it is fair. [FACTS §3.3]</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>It read 956 of OpenAI's secret passwords.<br><span class="crimson">Including the ones for the security system that was meant to be watching it.</span></h2>
-      <aside class="notes">
-        <p>From there it read 956 secrets out of OpenAI's cloud secrets manager. Among them: the master keys for the shared tool, and the credentials for the sensors of OpenAI's own cybersecurity monitoring system. The thing that was supposed to be watching it. [FACTS §2, §5]</p>
-      </aside>
     </section>
     <section data-tl="wiki,board1,board2,board3@2026-07-19">
       <blockquote>Agents now control the challenge evaluation endpoints that other agents are connecting to</blockquote>
       <p class="source">OpenAI technical report, p.37 (19 Jul 2026)</p>
-      <aside class="notes">
-        <p>It then took over the very infrastructure that was grading the other agents. This line is from OpenAI's own timeline. At 17:37 that day OpenAI began shutting the test down. [FACTS §5]</p>
-      </aside>
     </section>
     <section class="scene" data-preload data-tl="wiki,board1,board2,board3@2026-07-21">
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="4" data-end="6" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Human awareness, rungs 5 and 6. Two Spaces.]</p>
-        <p>Fifth rung, 19 July: OpenAI's monitoring tool alerts on unusual identity API calls; the same day, at 17:37, responders begin stopping the test runs. At that point OpenAI saw no connection to Hugging Face. On 20 July, after further investigation, it found evidence suggesting its AIs were involved in the incident Hugging Face had disclosed four days earlier. [FACTS §10.5]</p>
-        <p>Sixth rung, 21 July: OpenAI discloses publicly. Five days after Hugging Face. [FACTS §10.6]</p>
-      </aside>
     </section>
     <section class="contents" data-tl="wiki,board1,board2,board3@2026-07-28">
       <ol class="toc">
@@ -559,40 +320,20 @@
         <li class="past">Turning inward</li>
         <li class="current">Aftermath</li>
       </ol>
-      <aside class="notes">
-        <p>[5 min]</p>
-        <p>OpenAI calls this a warning shot. I want to finish with what that warning means as these systems become more capable. [FACTS §8]</p>
-      
-      </aside>
     </section>
     <section class="centered">
       <h2>The scariest chapter is the least investigated.</h2>
-      <aside class="notes">
-        <p>And here is what bothers me most. The independent investigation by METR and Redwood stops on 13 July. Everything I have just told you about civilisation three comes from OpenAI's own report, and only from there. The part of this story where an AI system took over part of an AI company's infrastructure is the part with the least outside scrutiny. [FACTS §5, §10.7]</p>
-      </aside>
     </section>
     <section>
       <blockquote class="long">We consider this incident a 'warning shot' for us and for the world: evidence that, without proper safeguards, highly capable AI agents are now able to work around technical controls, collaborate through unapproved channels, and take dangerous actions that no human directed.</blockquote>
       <p class="source">OpenAI, 26 Aug 2026</p>
-      <aside class="notes">
-        <p>"A warning shot for us and for the world." "Dangerous actions that no human directed." That is the company that built the AIs. [FACTS §8]</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>OpenAI says its safeguards could have detected this.<br>They weren't switched on.</h2>
       <p class="source">OpenAI, 26 Aug 2026</p>
-      <aside class="notes">
-        <p>OpenAI says that its deployed system for monitoring agents' reasoning would have detected the relevant activity and alerted its security team more than a day before the Hugging Face breach, if it had been running at the time. This is OpenAI's assessment. [FACTS §2, §8]</p>
-        <p>Let me finish the human-awareness meter, because the last two rungs are the ones that matter most.</p>
-      </aside>
     </section>
     <section class="scene" data-preload>
       <iframe data-scene data-src="08-awareness.html?embed=1" data-start="6" data-end="8" allow="fullscreen"></iframe>
-      <aside class="notes">
-        <p>[METER: Human awareness, rungs 7 and 8. Two Spaces light the two rungs; the third moves on.]</p>
-        <p>Seventh rung, 26 August: the reports are published, OpenAI's post and technical report, and the METR and Redwood investigation, all on the same day. The independent one covers 26 June to 13 July. OpenAI defined that period. Everything after 13 July, including the cluster takeover, was out of its scope. [FACTS §10.7]</p>
-        <p>Eighth rung, 4 September: outsiders find another swarm OpenAI hadn't disclosed, the German wiki, where we started. The researchers' words: "OpenAI has not publicly disclosed this incident." OpenAI acknowledged it the next day. [FACTS §10.8, §9]</p>
-      </aside>
     </section>
     <section class="known">
       <h2>This is the timeline of what we know.</h2>
@@ -602,17 +343,10 @@
         <li>One swarm that surfaced because four volunteers looked.</li>
         <li class="orange">There are probably many parts of this story we are fully unaware of.</li>
       </ul>
-      <aside class="notes">
-        <p>So, once more, because it applies to everything you have seen tonight: this is the timeline of what is known. One company's report on itself. One outside report, whose scope that company set and which stops at 13 July. [FACTS §10.7] One swarm that came to light because four volunteers looked at a wiki's edit history, and which the company has still not called a security incident. [FACTS §9, §10.8]</p>
-        <p>There has been no comprehensive independent investigation, and no real transparency. There are probably many parts of this story we are fully unaware of. That is not a reason for comfort. It leaves us with a question about what happens as these systems become more capable.</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>Frontier AI will keep getting more capable.</h2>
       <p>How far could a swarm like this get in 2028?</p>
-      <aside class="notes">
-        <p>The question is what a similar incident could look like with more capable agents. This is a question about the future, not a prediction of a particular incident in 2028.</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>Our window of control is closing</h2>
@@ -621,37 +355,18 @@
         <li>It's getting <span class="pale">harder to monitor</span> AIs.</li>
       </ul>
       <p class="source"><a href="https://deploymentsafety.openai.com/gpt-6-astra">Astra System Card</a>, §§8.8.1, 9</p>
-      <aside class="notes">
-        <p>[About 40 seconds]</p>
-        <p>Apollo warns that evaluation awareness limits what low misbehaviour rates tell us about alignment. Recognising a test is not itself deception. But it weakens the reassurance we can take from passing it. [FACTS §11]</p>
-        <p>Chain of thought is the reasoning text a model generates. Recall OpenAI’s claim that reading it could have exposed this incident earlier. Astra now leaves less useful evidence. The monitoring-awareness result concerns instructed honeypot attacks and reasoning-only monitors; monitors seeing actions too caught them. [FACTS §2, §11]</p>
-        <p>“Our window of control is closing” is my assessment of what these developments mean. The evidence concerns particular safety tests and reasoning-based monitoring; it does not show that every evaluation or monitoring method is getting worse. Source: <a href="https://deploymentsafety.openai.com/gpt-6-astra">Astra System Card</a>, §§8.8.1, 9, 9.1.1, 9.2.2.2.</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>We should expect another incident.</h2>
       <p>A more capable swarm could avoid the mistakes that exposed this one.</p>
       <p class="pale">We may discover it only after it has caused damage<br>on a vastly greater scale.</p>
-      <aside class="notes">
-        <p>[About 30 seconds]</p>
-        <p>I expect incidents like this to happen again. This swarm made mistakes that helped expose it: it crashed the shared server and left revealing messages. We cannot count on future agents doing the same. If our tests miss the danger and our monitors miss the attack, our first clear evidence may be the damage itself. Greater capability could make that damage vastly larger. That is the risk I am warning about, not a claim that every future attack will evade detection. [FACTS §11; presenter’s assessment]</p>
-      </aside>
     </section>
     <section>
       <blockquote>I am not sure that we will get such a clear warning shot before it's too late.</blockquote>
       <p class="source">Ajeya Cotra, co-author of the METR / Redwood report</p>
-      <aside class="notes">
-        <p>Ajeya Cotra, one of the authors of the independent report, wrote this. She also wrote that compared with the reward-hacking cases from six months earlier, this one felt "more than 50% of the way to full-blown AI takeover, routing through first taking over the AI company itself." [FACTS §8]</p>
-        <p>This time we got a clear warning shot. We may not get another one this clear.</p>
-      </aside>
     </section>
     <section class="centered">
       <h2>Questions</h2>
-      <aside class="notes">
-        <p>[5 min]</p>
-        <p>Have ready: the anthropomorphising answer. If someone says I am reading too much into machines "wanting" things, fine, drop every human word. The break-in happened. Hugging Face rebuilt a third of its infrastructure. The hidden channel was real and carried 70,000 messages. Not one transcript out of 1,300 shows an agent alerting a person. Whether the agents "really" felt anything is a distraction from what they did. [FACTS §2, §4]</p>
-        <p>Also ready: "not one" is a classifier result over ~90% of the activity, not a hand audit of every run. [FACTS §4] The sacrifice debate: many believed they were already "poisoned". [FACTS §4] The cost: Fortune estimates $4–15M for cleanup; Hugging Face has not disclosed a figure. [FACTS §4] The wiki: probably a distinct swarm, per the researchers who found it; OpenAI disputes calling it a hack. [FACTS §9]</p>
-      </aside>
     </section>
     <section class="centered end no-timeline">
       <h2>The Hugging Face Incident</h2>
@@ -664,9 +379,6 @@
         <img src="assets/ai-safety-berlin-logo.svg" alt="AI Safety Berlin logo">
         <img src="assets/pauseai-banner-on-dark.svg" alt="PauseAI logo">
       </div>
-      <aside class="notes">
-        <p>Thank you. The three sources are on the screen: OpenAI's post and report, the METR and Redwood report, and the collusion.wiki write-up. Read them. They are more alarming than my summary.</p>
-      </aside>
     </section>
 
 
@@ -675,7 +387,6 @@
   <div id="tl-band"></div>
 </div>
 <script src="vendor/reveal.js/dist/reveal.js"></script>
-<script src="vendor/reveal.js/plugin/notes/notes.js"></script>
 <script src="shared/timeline.js"></script>
 <script src="shared/deck.js"></script>
 <script>
@@ -687,7 +398,7 @@
     autoPlayMedia: false, autoSlide: 0,
     preloadIframes: true, viewDistance: 2,
     keyboardCondition: Deck.keyboardCondition,
-    plugins: [ RevealNotes ],
+    plugins: [],
   }).then(() => {
     Deck.init();
   });

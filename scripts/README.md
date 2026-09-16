@@ -3,9 +3,9 @@
 ## export.py — standalone HTML and PDF
 
 ```sh
-uv run scripts/export.py            # dist/hf-incident-talk.html + .pdf + -notes.md
+uv run scripts/export.py            # dist/hf-incident-talk.html + .pdf
 uv run scripts/export.py --html     # just the standalone HTML
-uv run scripts/export.py --pdf      # just the PDF and the notes
+uv run scripts/export.py --pdf      # just the PDF
 uv run scripts/export.py --pdf --scene-beat 03-silence.html=3 --scene-beat 06-sacrifice.html=1
 uv run scripts/export.py --help     # all options (--out, --keep-pngs, --no-verify, --self-test)
 ```
@@ -20,9 +20,8 @@ takes about a minute, most of it the 17 scene screenshots.
 fonts and all scripts inlined. Each scene page is embedded once (with its own
 CSS, JS and fonts inlined) and handed to its iframes as a `blob:` URL when the
 file opens, so reveal's lazy loading of scenes works exactly as it does when
-served. Open it from a USB stick by double-clicking; `#/12` hash links, the
-speaker view (S) and the scene keys all work. The speaker-view popup loads the
-deck from the same file, so keep the file where you opened it while presenting.
+served. Open it from a USB stick by double-clicking; `#/12` hash links and the scene
+keys all work.
 After building, the script opens the file in headless Chrome on the first
 scene slide and checks for console errors, the slide count, and that the scene
 booted and reported its beat to the deck.
@@ -40,10 +39,6 @@ count and page size are checked and printed. (The manual "open
 the script exists because headless Chrome prints before reveal has laid the
 pages out, and it adds a small synchronisation shim to a throwaway print copy
 to get round that.)
-
-**Notes.** `hf-incident-talk-notes.md` has one heading per slide (number, the
-slide's first heading or quote, and its `#/n` link) followed by the slide's
-speaker notes, for a printed script.
 
 `uv run scripts/export.py --self-test` runs the built-in checks (escaping of
 embedded scene documents, CSS resolution, slide parsing, print-copy shims,

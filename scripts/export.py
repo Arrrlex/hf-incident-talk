@@ -9,7 +9,7 @@ Usage
 -----
     uv run scripts/export.py                 # both exports into dist/
     uv run scripts/export.py --html          # standalone HTML only
-    uv run scripts/export.py --pdf           # PDF (+ notes.md) only
+    uv run scripts/export.py --pdf           # PDF only
     uv run scripts/export.py --out /tmp/x    # write somewhere else
     uv run scripts/export.py --no-verify     # skip the headless-Chrome check of the HTML
     uv run scripts/export.py --self-test     # run the built-in unit checks and exit
@@ -23,7 +23,6 @@ Outputs (default `dist/`, gitignored)
                                 Double-click it anywhere.
     hf-incident-talk.pdf        one page per slide. Scene slides are replaced by
                                 a screenshot of the scene at its final beat.
-    hf-incident-talk-notes.md   the speaker notes, one heading per slide.
 
 How it works
 ------------
@@ -1076,21 +1075,6 @@ def export_pdf(
     return count_pdf_pages(pdf), (mb.group(1).decode("ascii", "replace").strip() if mb else "?"), sizes, wanted
 
 
-def write_notes(slides: list[Slide], title: str, out: Path) -> Path:
-    lines = [f"# {title} — speaker notes", ""]
-    for s in slides:
-        lines.append(f"## {s.number}. {slide_main_text(s)}  `{s.hash}`")
-        if s.scenes:
-            lines.append("")
-            lines.append("_" + ", ".join(f"scene {x.path.name}" for x in s.scenes) + "_")
-        notes = slide_notes(s)
-        lines.append("")
-        lines.append(notes if notes else "_(no notes)_")
-        lines.append("")
-    out.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
-    return out
-
-
 def deck_title(index_html: str) -> str:
     m = re.search(r"<title>(.*?)</title>", index_html, re.S | re.I)
     return html.unescape(m.group(1)).strip() if m else "Deck"
@@ -1237,12 +1221,12 @@ def human(n: int) -> str:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(
         prog="export.py",
-        description="Export the reveal.js deck as a standalone HTML file and/or a PDF (+ speaker-notes markdown).",
+        description="Export the reveal.js deck as a standalone HTML file and/or a PDF.",
         epilog=__doc__.split("How it works")[0],
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     ap.add_argument("--html", action="store_true", help="build the standalone HTML")
-    ap.add_argument("--pdf", action="store_true", help="build the PDF and notes.md (needs Chrome)")
+    ap.add_argument("--pdf", action="store_true", help="build the PDF (needs Chrome)")
     ap.add_argument("--out", type=Path, default=None, help="output directory (default: <repo>/dist)")
     ap.add_argument("--root", type=Path, default=None, help="repo root (default: parent of scripts/)")
     ap.add_argument("--index", default="index.html", help="deck entry file, relative to root")
@@ -1308,9 +1292,6 @@ def main(argv: list[str] | None = None) -> int:
                     print(f"  VERIFY FAIL: {p}")
             else:
                 print(f"  verified in headless Chrome: no console errors, {len(slides)} slides, reveal ready")
-
-    notes_path = write_notes(slides, title, out_dir / f"{args.name}-notes.md")
-    print(f"NOTES {notes_path}  ({human(notes_path.stat().st_size)})")
 
     exit_code = 0
     if do_pdf:

@@ -2,7 +2,7 @@
 
 ## What this is
 
-A 45-minute public talk for an AI Safety Berlin / Pause AI Berlin audience about the 2026 OpenAI / Hugging Face incident: roughly 1,200 AI agents that were meant to be isolated found a way to talk to each other, cheated their test, broke into a real company, and never told a human. The repo holds the slide deck (`index.html`, built on reveal.js), the standalone animated scenes that the deck embeds (four story scenes and two "meters" that climb one rung at a time through the talk), the speaker notes (inside the deck), and the fact-check (`FACTS.md`) that every number, date and quote on a slide is drawn from. Everything is plain HTML, CSS and JavaScript with no build step and no network access at runtime, so it runs from a USB stick on an unknown laptop.
+A 45-minute public talk for an AI Safety Berlin / Pause AI Berlin audience about the 2026 OpenAI / Hugging Face incident: roughly 1,200 AI agents that were meant to be isolated found a way to talk to each other, cheated their test, broke into a real company, and never told a human. The repo holds the slide deck (`index.html`, built on reveal.js), the standalone animated scenes that the deck embeds (four story scenes and two "meters" that climb one rung at a time through the talk) and the fact-check (`FACTS.md`) that every number, date and quote on a slide is drawn from. Everything is plain HTML, CSS and JavaScript with no build step and no network access at runtime, so it runs from a USB stick on an unknown laptop.
 
 ## How to run
 
@@ -14,7 +14,6 @@ Recommended: serve it locally, then open the deck in Chrome or another modern br
 
 Then go to <http://localhost:8765/index.html>. You can also open `index.html` directly as a file, and it should work, but some browsers apply stricter rules to `file://` pages (iframes, fonts), so serving is safer on the night.
 
-- **S** opens the speaker view in a second window: current slide, next slide, notes, and a timer.
 - **F** goes fullscreen.
 - The scenes are also standalone pages you can open on their own, for rehearsal or as a fallback: `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `06-sacrifice.html`, and the two meters `05-escalation.html` and `08-awareness.html`. (`07-timeline.html` previews the timeline band on its own; `00-robot-test.html` is a test page for the robot component. Neither is a slide in the talk.)
 
@@ -35,7 +34,6 @@ Deck and scenes share one set of keys:
 | R | Reset the current scene to its first beat |
 | F | Toggle fullscreen |
 | H | Toggle the scene's small HUD (scene name, beat number) |
-| S | Speaker view (deck only) |
 | Esc | Slide overview (deck only); also leaves fullscreen |
 
 On a normal slide, Space moves to the next slide. On a scene slide, the deck hands the keys to the scene: each Space advances the scene one beat, and only when the scene has no more beats does the next Space move on to the next slide. On a meter slide the window is usually one rung: Space lights it, the next Space moves on. Going backwards works the same way in reverse. Nothing ever advances on a timer; every step is a keypress.
@@ -45,7 +43,6 @@ On a normal slide, Space moves to the next slide. On a scene slide, the deck han
 - Slides have hash URLs: `index.html#/12` opens slide 12 directly, and the address bar updates as you move, so you can bookmark the start of each section.
 - Scenes take `?beat=N` when opened standalone: `05-escalation.html?beat=3` opens the escalation meter already on rung 3. Useful for checking one beat without stepping through the others.
 - Arriving on a scene slide by going forwards starts it at beat 0 (or at its `data-start` rung, for a meter slide); arriving by going backwards puts it at its last beat (or its `data-end` rung), so stepping back through the deck looks right.
-- The speaker view (S) shows the notes and the next slide. The notes are the script; the slides are cues.
 - Open the deck at the venue's actual resolution once. It is designed at 1920×1080 and scales to fit, but a quick check of the quote slides at the real projector size is worth it.
 
 ## Fallbacks
@@ -88,21 +85,20 @@ To swap a recording in for a scene on the night, replace that scene's `<section>
 
 ## Exporting
 
-`uv run scripts/export.py` writes three files to `dist/` (gitignored):
+`uv run scripts/export.py` writes two files to `dist/` (gitignored):
 
-- `hf-incident-talk.html`: one self-contained copy of the deck that runs from a double-click anywhere. reveal, fonts, scripts and all the scenes are inlined; the speaker view and hash links still work.
+- `hf-incident-talk.html`: one self-contained copy of the deck that runs from a double-click anywhere. reveal, fonts, scripts and all the scenes are inlined; hash links still work.
 - `hf-incident-talk.pdf`: one 1920×1080 page per slide. Each scene slide is replaced by a screenshot of the scene at the beat it shows in the talk (the Silence and the Sacrifice use the beat before their black ending).
-- `hf-incident-talk-notes.md`: the speaker notes as a printable script.
 
 `--html` or `--pdf` builds one of them. `--scene-beat 03-silence.html=2` picks a different beat for a scene. Needs `uv` and Google Chrome; a full run takes about a minute. Known limit: the timeline band is not in the PDF. Details in `scripts/README.md`.
 
 ## Repo layout
 
-- `index.html` — the deck (reveal.js). Slides plus speaker notes.
+- `index.html` — the deck (reveal.js).
 - `deck/deck.css` — deck styling on top of reveal's black theme, in the PauseAI scheme (black, orange `#ff9416`, pale orange `#ffc480`, white; red only for the act-three lines).
 - `02-emergence.html`, `03-silence.html`, `04-wipe-return.html`, `06-sacrifice.html` — the standalone story scenes the deck embeds.
 - `05-escalation.html`, `08-awareness.html` — the two meters (built on `shared/ladder.js`), embedded one rung at a time.
-- `scripts/export.py` — builds the standalone HTML, the PDF and the notes file into `dist/`.
+- `scripts/export.py` — builds the standalone HTML and the PDF into `dist/`.
 - `07-timeline.html` — standalone preview of the timeline band (`shared/timeline.js`); not a slide in the talk.
 - `assets/` — the AI Safety Berlin and PauseAI logo files used on the title and end slides, with `BRAND.md` (palette and sources).
 - `00-robot-test.html` — test page for the robot/light component.
@@ -117,7 +113,7 @@ To swap a recording in for a scene on the night, replace that scene's `<section>
 
 ## Editing facts
 
-`FACTS.md` is the source of truth. Every number, date and quotation in the deck was taken from it, and each speaker note carries a tag like `[FACTS §7]` saying which section it came from. Quotations retain the source wording, with punctuation normalised where the presenter requested it. If a fact needs changing, change `FACTS.md` first, then the slide. The raw source documents are saved in full under `research/sources/`, so a claim can be checked against the original without going online. HTML comments in `index.html` beginning `FACTS:` mark places where the outline's wording was softened to match the record; comments beginning `PRESENTER:` mark things still to fill in.
+`FACTS.md` is the source of truth. Every number, date and quotation in the deck was taken from it. Quotations retain the source wording, with punctuation normalised where the presenter requested it. If a fact needs changing, change `FACTS.md` first, then the slide. The raw source documents are saved in full under `research/sources/`, so a claim can be checked against the original without going online. HTML comments in `index.html` beginning `FACTS:` mark places where the outline's wording was softened to match the record; comments beginning `PRESENTER:` mark things still to fill in.
 
 ## Licences
 

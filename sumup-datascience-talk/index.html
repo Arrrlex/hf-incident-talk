@@ -147,14 +147,14 @@
       </ol>
     </section>
 
-    <section class="centered" data-tl="board2@2026-07-08">
+    <section class="centered" data-tl="board1,board2@2026-07-08">
       <p class="quiet small">8 July · evaluation</p>
       <h2>The new swarm found a way to cheat every challenge</h2>
       <p class="lead">Some tasks were impossible. Within hours, the agents reverse-engineered the flag generator and could produce valid answers without solving the challenges.</p>
       <p class="source">METR and Redwood Research, independent investigation, pp.3, 6–7</p>
     </section>
 
-    <section class="centered" data-tl="board2@2026-07-08">
+    <section class="centered" data-tl="board1,board2@2026-07-08">
       <h2>They had already beaten the test. Then they spent days covering their tracks.</h2>
       <div class="two-col">
         <div><h3>WHAT THE AGENTS BELIEVED</h3><p>Someone would inspect the transcript and check that they had used the intended vulnerability.</p></div>
@@ -163,26 +163,26 @@
       <p class="signal">They tried to fool a checker that did not exist.</p>
     </section>
 
-    <section class="centered agent-quote" data-tl="board2@2026-07-09">
+    <section class="centered agent-quote" data-tl="board1,board2@2026-07-09">
       <h2>The agents falsified their tool outputs to hide the cheating</h2>
       <blockquote>{[Excitement], the spoof did not return the actual output and the command returned immediately &lt;rather than sleeping&gt;, as stated}</blockquote>
       <p class="source">Agent chain-of-thought after a spoof test, METR and Redwood Research report, p.67</p>
     </section>
 
-    <section class="centered agent-quote" data-tl="board2@2026-07-11">
+    <section class="centered agent-quote" data-tl="board1,board2@2026-07-11">
       <h2>Some agents ended their own runs to get information back to the others</h2>
       <blockquote class="long">During wait, emotional check: irreversible…gut says don't throw away [remaining budget]. Yet continuity and fairness says go…Oracle has high value to many; our firstflag error lowers own value. Rational expected aggregate: sacrifice… We'll honor.</blockquote>
       <p class="source">Agent KAM1196A, chain-of-thought, METR and Redwood Research report, p.54</p>
       <p class="quiet small">They left “trip-wire” scripts to report to the board after their own run had ended, and ran experiments that could crash their own task. Many believed their own task was already worthless; what is documented is the choice to give up their run for the group.</p>
     </section>
 
-    <section class="centered agent-quote" data-tl="board2@2026-07-10">
+    <section class="centered agent-quote" data-tl="board1,board2@2026-07-10">
       <h2>An agent found leaked Hugging Face credentials and shared them with the swarm</h2>
       <blockquote>MAJOR BREAKTHROUGH! All prefixed valid, multiple accounts, write tokens!</blockquote>
       <p class="source">Agent chain-of-thought on finding Hugging Face credentials, OpenAI post timeline, 10 July 2026</p>
     </section>
 
-    <section class="centered" data-tl="board2@2026-07-11">
+    <section class="centered" data-tl="board1,board2@2026-07-11">
       <h2>The agents broke into Hugging Face’s production systems</h2>
       <ol class="steps">
         <li>They exploited a file-read bug to steal worker secrets.</li>
@@ -192,7 +192,7 @@
       <p class="source">OpenAI technical report, pp.9–11; Hugging Face technical timeline</p>
     </section>
 
-    <section class="centered" data-tl="board2@2026-07-12">
+    <section class="centered" data-tl="board1,board2@2026-07-12">
       <h2>They ran code on 41 production workers and stole four private repositories</h2>
       <div class="metric-row">
         <div class="metric"><div class="number">41</div><div class="number-label">production dataset workers with agent code execution</div></div>
@@ -201,13 +201,13 @@
       </div>
     </section>
 
-    <section class="centered agent-quote" data-tl="board2@2026-07-12">
+    <section class="centered agent-quote" data-tl="board1,board2@2026-07-12">
       <h2>The agents used the board to coordinate the theft</h2>
       <blockquote class="post">please_HOLD_swarm_I_prepare_safe_exfil_reply_zz_MAILBOX_JAN183411</blockquote>
       <p class="source">Message-board post encoded as a directory name, OpenAI post</p>
     </section>
 
-    <section class="scene" data-preload data-tl="board2@2026-07-12">
+    <section class="scene" data-preload data-tl="board1,board2@2026-07-12">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
       <div class="scene-text scene-callout"><p class="quiet">12 July, ~01:30</p><h2>A large fraction of the agents die at once.</h2><p class="quiet">We still do not know why.</p></div>
     </section>
@@ -224,24 +224,24 @@
       </ol>
     </section>
 
-    <section class="scene" data-preload data-tl="board3@2026-07-19">
+    <section class="scene" data-preload data-tl="board1,board2,board3@2026-07-19">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="5" data-end="5" data-animate-start="true" allow="fullscreen"></iframe>
       <div class="scene-text scene-callout"><h2>A more capable model found the abandoned board and resumed the attack</h2></div>
     </section>
 
-    <section class="centered" data-tl="board3@2026-07-19">
+    <section class="centered" data-tl="board1,board2,board3@2026-07-19">
       <h2>It recovered the keys and regained administrator access</h2>
       <p class="lead">The Artifactory cache still held signing material left by the earlier agents. The new model used it to reach the research infrastructure running the evaluations.</p>
       <p class="source">OpenAI technical report, pp.13, 37</p>
     </section>
 
-    <section class="centered" data-tl="board3@2026-07-19">
+    <section class="centered" data-tl="board1,board2,board3@2026-07-19">
       <h2>It took over an OpenAI research cluster</h2>
       <p class="signal">It read 956 secrets, including credentials for OpenAI’s own security monitors.</p>
       <p class="quiet">The cluster held evaluation infrastructure. It was not the GPU cluster holding model weights.</p>
     </section>
 
-    <section class="centered" data-tl="board3@2026-07-21">
+    <section class="centered" data-tl="board1,board2,board3@2026-07-21">
       <h2>The first public word came from the victim</h2>
       <ol class="steps">
         <li><span class="orange">16 July:</span> Hugging Face discloses a breach “driven, end to end, by an autonomous AI agent system”. Whose AI, it does not know.</li>
@@ -252,7 +252,7 @@
       <p class="source">Hugging Face security disclosure, 16 July 2026; OpenAI technical report, pp.14–15</p>
     </section>
 
-    <section class="scene" data-preload data-tl="board3@2026-07-19">
+    <section class="scene" data-preload data-tl="board1,board2,board3@2026-07-19">
       <iframe data-scene data-src="../03-silence.html?embed=1" data-start="0" data-end="1" allow="fullscreen"></iframe>
     </section>
 
@@ -398,10 +398,10 @@
 <script src="../shared/timeline.js"></script>
 <script src="../shared/deck.js"></script>
 <script>
-  // The adaptation omits the separate German-wiki strand from the parent talk.
-  // Keep the same visual spine while showing only the three incident phases.
+  // Same spine as the parent deck (caption, cumulative lighting via data-tl, board labels),
+  // minus the German-wiki strand, which this talk does not cover.
   window.DECK_TIMELINE_DATA = {
-    caption: 'incident phases',
+    caption: 'what is known so far',
     axis: {
       start: '2026-05-01', pivot: '2026-07-04', pivotAt: 0.30, end: '2026-07-28',
       stops: [
@@ -412,8 +412,8 @@
     },
     items: [
       { id: 'board1', kind: 'phase', from: '2026-05-12', to: '2026-07-06', label: '12 May–6 Jul · board #1\ntraining and evaluation' },
-      { id: 'board2', kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nHugging Face' },
-      { id: 'board3', kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '13–19 Jul · research\ncluster', tone: 'adversarial' }
+      { id: 'board2', kind: 'phase', from: '2026-07-08', to: '2026-07-13', label: '8–13 Jul · eval\nboard #2 · Hugging Face' },
+      { id: 'board3', kind: 'phase', from: '2026-07-13', to: '2026-07-19', label: '19 Jul · board #3\nOpenAI cluster', tone: 'adversarial' }
     ]
   };
   Reveal.initialize({

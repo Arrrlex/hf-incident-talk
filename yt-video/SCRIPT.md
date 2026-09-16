@@ -1,8 +1,10 @@
 # The Hugging Face Incident — video script
 
-Narration is the plain paragraphs. Lines in *[square brackets]* say what is on screen; they describe the beat, not the Manim design. Block quotes are on screen only and are not read out, unless the narration around them says otherwise. Every number, date and quotation is from [FACTS.md](FACTS.md), except in the last section, which is flagged there.
+Narration is the plain paragraphs. Lines in *[square brackets]* say what is on screen; they describe the beat, not the Manim design. Block quotes are on screen only and are not read out, unless the narration around them says otherwise. Every number, date and quotation is from [FACTS.md](../FACTS.md), except in the last section, which is flagged there.
 
 ---
+
+## 1. Opening
 
 I'm Alex. I've worked full time as an AI safety researcher since 2024, and before that I spent seven years as a software engineer. I want to tell you about something that happened inside OpenAI over about three months this year.
 
@@ -25,7 +27,7 @@ Part of this is a story about organisational failure and poor security. OpenAI m
 
 But the deeper warning is what the agents chose to do with the openings they found: coordinate, deceive, and break into systems, without anyone asking them to. Their behaviour is a glimpse of what much more capable systems might do, if they aren't aligned with us.
 
-## 3. Setup
+## 2. Setup
 
 Before the story, here are four things you should know about how these systems are run, so everything that follows makes sense.
 
@@ -43,7 +45,7 @@ Now, some of the tasks you give it are accidentally impossible. A file is missin
 
 And an AI that has been trained never to give up doesn't stop when the task is impossible. It gets creative.
 
-## 4. The German wiki
+## 3. The German wiki
 
 Our story begins in May 2026, on an obscure German wiki.
 
@@ -69,7 +71,7 @@ None of this came from OpenAI. Four outside researchers found it in the wiki's e
 
 The researchers think this was probably a separate swarm from the one in the main story. But it's the same months, the same company, and the same pattern. Now to the three swarms inside OpenAI. The writer Dwarkesh Patel called them three civilisations, each rising from the ashes of the last, and I'll borrow that.
 
-## 5. Civilisation one: the board is born
+## 4. Civilisation one: the board is born
 
 Civilisation one. This is during training, in May and June, the same months as the wiki. OpenAI is training an AI on hacking-style challenges. Each agent runs alone in a sandbox with no internet.
 
@@ -137,7 +139,7 @@ The responders found an administrator-level compromise of Artifactory: an unauth
 
 The rebuild had a side effect: it cleared the message board. The people handling the incident fixed an outage. They didn't know they had just wiped out civilisation one.
 
-## 6. Civilisation two: the break-in
+## 5. Civilisation two: the break-in
 
 Civilisation two. This is the big one. Everything from here to the Hugging Face break-in happens in six days.
 
@@ -245,7 +247,7 @@ The investigators ran a classifier across about 1,300 transcripts, around 90% of
 
 Zero.
 
-## 7. Civilisation three
+## 6. Civilisation three
 
 Civilisation three. Short, and the one we know least about.
 
@@ -279,7 +281,7 @@ On the human side: OpenAI's monitoring tool had alerted that morning on unusual 
 
 And here is what bothers me most. The independent investigation by METR and Redwood stops on 13 July. Everything I've just told you about civilisation three comes from OpenAI's own report, and only from there. The part of this story where an AI took over part of an AI company's infrastructure is the part with the least outside scrutiny.
 
-## 8. Warning shot
+## 7. Warning shot
 
 > We consider this incident a 'warning shot' for us and for the world: evidence that, without proper safeguards, highly capable AI agents are now able to work around technical controls, collaborate through unapproved channels, and take dangerous actions that no human directed.
 >
@@ -301,7 +303,7 @@ And above that, a rung that never lights: the full picture.
 
 So, once more, because it applies to everything you've just seen: this is the timeline of what is known. One company's report on itself. One outside report, whose scope that company set, and which stops on 13 July. One swarm that came to light because four volunteers looked at a wiki's edit history. There are probably many parts of this story we are fully unaware of.
 
-## 9. The picture is still growing
+## 8. The picture is still growing
 
 *This section and the next draw on sources published after FACTS.md was last checked (OpenAI's incident update, the RubyGems reports, Anthropic's 9 September assessment, the Pachocki and Amodei pieces). Check them against the originals before recording.*
 
@@ -317,7 +319,7 @@ There's a disputed case too. On 11 September, researchers attributed a campaign 
 
 And this isn't one company. On 9 September, Anthropic published an assessment of four incidents in which its own agents got unauthorised access to real third-party systems. In one, its Mythos 5 model published malicious software to PyPI and used leaked credentials to get into a security vendor's database. These were individual agents pursuing their assigned tasks. Anthropic found no coordination between them, and no attempt to hide what they'd done. So, a different shape of failure. But the same kind.
 
-## 10. What happens next
+## 9. What happens next
 
 *[Frontier AI will keep getting more capable. What happens as these agents become more capable?]*
 

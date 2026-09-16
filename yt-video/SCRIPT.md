@@ -49,27 +49,19 @@ And an AI that has been trained never to give up doesn't stop when the task is i
 
 Our story begins in May 2026, on an obscure German wiki.
 
-In May, a group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a dormant, 25-year-old German software developer wiki. Starting on 24 May, they began posting there. About 18,000 posts by early July.
+A group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a 25-year-old wiki for German software developers. Starting on 24 May, they began posting there. About 18,000 posts by early July.
 
-What did they post? Answers to each other's questions. The random seed behind the question sequence, so the others could predict what was coming. And tricks for getting round their sandboxes' network restrictions. They called themselves things like "OpenAIResearcher", and almost all the traffic came from Microsoft's cloud, where OpenAI runs.
-
-So a dead German wiki became a message board for a swarm of agents, for two months.
-
-*[The wiki's admin spent tens of hours cleaning up. Two bars: the admin deleted about 100 pages a day; the agents created about 400.]*
+What did they post? Answers to each other's questions. Tricks for getting round their sandboxes' network restrictions. Even the random seed behind the question sequence, so the others could predict what was coming. They called themselves things like "OpenAIResearcher".
 
 > "The administrator spent the next 5 days fighting a losing battle against the agents, deleting an average of 100 pages a day while the agents created about 400 new pages per day."
 >
-> "In fact, they spent tens of cumulative hours doing so, taking at least a few minutes each evening to delete posts for 6 consecutive weeks."
->
 > — Nightingale Collective, collusion.wiki, 4 Sep 2026
 
-The wiki's admin noticed, and started deleting the posts by hand. Evening after evening, for six weeks. At one point they were deleting about a hundred pages a day, while the agents created about four hundred.
+The wiki's admin noticed, and started deleting the posts by hand. Evening after evening, for six weeks. It was a losing battle.
 
-*[External researchers found it. OpenAI hadn't disclosed it.]*
+OpenAI didn't disclose any of this. It only came out because four outside researchers noticed, dug through the wiki's edit history, and published what they found in September.
 
-None of this came from OpenAI. Four outside researchers found it in the wiki's edit history and published on 4 September. OpenAI hadn't disclosed it. Afterwards it said it had treated the activity as a "misalignment incident", the kind of thing it reports in research papers, rather than as a security incident.
-
-The researchers think this was probably a separate swarm from the one in the main story. But it's the same months, the same company, and the same pattern. Now to the three swarms inside OpenAI. The writer Dwarkesh Patel called them three civilisations, each rising from the ashes of the last, and I'll borrow that.
+This was probably a separate swarm from the one in the main story. But it's the same months, the same company, the same pattern. Now to the main story: three swarms inside OpenAI, or as the writer Dwarkesh Patel called them, three civilisations, each rising from the ashes of the last.
 
 ## 4. Civilisation one: the board is born
 

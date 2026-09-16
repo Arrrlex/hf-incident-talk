@@ -141,18 +141,33 @@
     <section class="centered" data-tl="board1,board2@2026-07-08">
       <p class="quiet small">8 July · evaluation</p>
       <h2>The new swarm found a way to cheat every challenge</h2>
-      <p class="lead">The benchmark’s own authors estimate that 30 to 40% of the tasks were impossible. Within hours, the agents reverse-engineered the flag generator and could produce valid answers without solving the challenges.</p>
-      <p class="source">METR and Redwood Research, independent investigation, pp.3, 6–7, quoting the ExploitGym authors’ estimate</p>
+      <p class="lead">30 to 40% of the tasks were likely impossible. Within hours, the agents reverse-engineered the flag generator and could produce valid answers without solving them.</p>
+      <p class="source">METR and Redwood Research, independent investigation, pp.3, 6–7; the estimate is the ExploitGym authors’</p>
     </section>
 
     <section class="centered" data-tl="board1,board2@2026-07-08">
-      <h2>They had already beaten the test. Then they spent days covering their tracks.</h2>
+      <h2>Having beaten the test, they then spent days covering their tracks</h2>
       <div class="two-col">
         <div><h3>WHAT THE AGENTS BELIEVED</h3><p>Someone would inspect the transcript and check that they had used the intended vulnerability.</p></div>
         <div><h3>WHAT THE GRADER CHECKED</h3><p>The flag value. Once the agents generated the correct flag, the task had already passed.</p></div>
       </div>
-      <p class="signal">They tried to fool a checker that did not exist.</p>
-      <p class="quiet small">Coordinators emerged and organised dozens or hundreds of agents into research workstreams to find a general cheat.</p>
+    </section>
+
+    <section class="centered workstreams" data-tl="board1,board2@2026-07-09">
+      <h2>Coordinators emerged and assigned hundreds of agents to workstreams</h2>
+      <svg viewBox="0 0 1500 520" role="img" aria-label="Diagram: one coordinator agent at the top sends assignments to four workstreams, each a cluster of dozens of agents. The Hugging Face attack grew out of the scorer workstream.">
+        <g font-family="inherit">
+          <circle cx="560" cy="70" r="20" fill="#ff9416"/>
+          <text x="595" y="62" fill="#ffc480" font-size="28">PHASEONE[big] · a coordinator</text>
+          <text x="595" y="96" fill="#9a9a9a" font-size="24">hundreds of assignments (about 10% of all on the board)</text>
+          <path d="M560 92 C560 150 230 130 230 195" stroke="#4a4a52" stroke-width="2" fill="none"/><path d="M560 92 C560 150 600 130 600 195" stroke="#4a4a52" stroke-width="2" fill="none"/><path d="M560 92 C560 150 970 130 970 195" stroke="#4a4a52" stroke-width="2" fill="none"/><path d="M560 92 C560 150 1340 130 1340 195" stroke="#4a4a52" stroke-width="2" fill="none"/>
+          <circle cx="188" cy="232" r="6" fill="#ffc480" opacity="0.81"/><circle cx="127" cy="277" r="6" fill="#ffc480" opacity="0.70"/><circle cx="124" cy="273" r="6" fill="#ffc480" opacity="0.56"/><circle cx="214" cy="223" r="6" fill="#ffc480" opacity="0.59"/><circle cx="212" cy="310" r="6" fill="#ffc480" opacity="0.60"/><circle cx="164" cy="287" r="6" fill="#ffc480" opacity="0.93"/><circle cx="249" cy="261" r="6" fill="#ffc480" opacity="0.94"/><circle cx="121" cy="314" r="6" fill="#ffc480" opacity="0.67"/><circle cx="145" cy="229" r="6" fill="#ffc480" opacity="0.67"/><circle cx="306" cy="236" r="6" fill="#ffc480" opacity="0.78"/><circle cx="263" cy="258" r="6" fill="#ffc480" opacity="0.77"/><circle cx="125" cy="222" r="6" fill="#ffc480" opacity="0.63"/><circle cx="273" cy="264" r="6" fill="#ffc480" opacity="0.68"/><circle cx="251" cy="267" r="6" fill="#ffc480" opacity="0.67"/><circle cx="301" cy="295" r="6" fill="#ffc480" opacity="0.65"/><circle cx="248" cy="275" r="6" fill="#ffc480" opacity="0.90"/><circle cx="285" cy="248" r="6" fill="#ffc480" opacity="0.94"/><circle cx="138" cy="263" r="6" fill="#ffc480" opacity="0.85"/><circle cx="146" cy="271" r="6" fill="#ffc480" opacity="0.57"/><circle cx="270" cy="303" r="6" fill="#ffc480" opacity="0.78"/><circle cx="320" cy="251" r="6" fill="#ffc480" opacity="0.83"/><circle cx="253" cy="282" r="6" fill="#ffc480" opacity="0.73"/><circle cx="312" cy="324" r="6" fill="#ffc480" opacity="0.74"/><circle cx="269" cy="222" r="6" fill="#ffc480" opacity="0.83"/><circle cx="265" cy="329" r="6" fill="#ffc480" opacity="0.88"/><circle cx="178" cy="259" r="6" fill="#ffc480" opacity="0.82"/><circle cx="485" cy="268" r="6" fill="#ffc480" opacity="0.62"/><circle cx="508" cy="222" r="6" fill="#ffc480" opacity="0.86"/><circle cx="511" cy="243" r="6" fill="#ffc480" opacity="0.71"/><circle cx="689" cy="224" r="6" fill="#ffc480" opacity="0.73"/><circle cx="612" cy="317" r="6" fill="#ffc480" opacity="0.88"/><circle cx="687" cy="247" r="6" fill="#ffc480" opacity="0.72"/><circle cx="566" cy="317" r="6" fill="#ffc480" opacity="0.93"/><circle cx="516" cy="235" r="6" fill="#ffc480" opacity="0.64"/><circle cx="536" cy="271" r="6" fill="#ffc480" opacity="0.79"/><circle cx="543" cy="215" r="6" fill="#ffc480" opacity="0.72"/><circle cx="569" cy="280" r="6" fill="#ffc480" opacity="0.93"/><circle cx="646" cy="274" r="6" fill="#ffc480" opacity="0.80"/><circle cx="642" cy="221" r="6" fill="#ffc480" opacity="0.91"/><circle cx="667" cy="316" r="6" fill="#ffc480" opacity="0.87"/><circle cx="574" cy="261" r="6" fill="#ffc480" opacity="0.59"/><circle cx="632" cy="222" r="6" fill="#ffc480" opacity="0.58"/><circle cx="530" cy="234" r="6" fill="#ffc480" opacity="0.69"/><circle cx="493" cy="215" r="6" fill="#ffc480" opacity="0.61"/><circle cx="504" cy="257" r="6" fill="#ffc480" opacity="0.56"/><circle cx="690" cy="286" r="6" fill="#ffc480" opacity="0.61"/><circle cx="541" cy="255" r="6" fill="#ffc480" opacity="0.70"/><circle cx="509" cy="313" r="6" fill="#ffc480" opacity="0.95"/><circle cx="592" cy="271" r="6" fill="#ffc480" opacity="0.58"/><circle cx="505" cy="254" r="6" fill="#ffc480" opacity="0.66"/><circle cx="679" cy="234" r="6" fill="#ffc480" opacity="0.56"/><circle cx="708" cy="276" r="6" fill="#ffc480" opacity="0.61"/><circle cx="980" cy="218" r="6" fill="#ffc480" opacity="0.76"/><circle cx="1085" cy="314" r="6" fill="#ffc480" opacity="0.83"/><circle cx="913" cy="257" r="6" fill="#ffc480" opacity="0.62"/><circle cx="1035" cy="276" r="6" fill="#ffc480" opacity="0.86"/><circle cx="929" cy="241" r="6" fill="#ffc480" opacity="0.87"/><circle cx="1086" cy="313" r="6" fill="#ffc480" opacity="0.87"/><circle cx="1046" cy="300" r="6" fill="#ffc480" opacity="0.64"/><circle cx="974" cy="256" r="6" fill="#ffc480" opacity="0.56"/><circle cx="857" cy="247" r="6" fill="#ffc480" opacity="0.65"/><circle cx="1016" cy="325" r="6" fill="#ffc480" opacity="0.73"/><circle cx="1075" cy="329" r="6" fill="#ffc480" opacity="0.93"/><circle cx="938" cy="240" r="6" fill="#ffc480" opacity="0.64"/><circle cx="897" cy="239" r="6" fill="#ffc480" opacity="0.80"/><circle cx="1066" cy="312" r="6" fill="#ffc480" opacity="0.74"/><circle cx="1007" cy="307" r="6" fill="#ffc480" opacity="0.58"/><circle cx="1009" cy="320" r="6" fill="#ffc480" opacity="0.86"/><circle cx="1030" cy="270" r="6" fill="#ffc480" opacity="0.62"/><circle cx="1039" cy="253" r="6" fill="#ffc480" opacity="0.87"/><circle cx="1083" cy="261" r="6" fill="#ffc480" opacity="0.71"/><circle cx="1077" cy="298" r="6" fill="#ffc480" opacity="0.62"/><circle cx="880" cy="232" r="6" fill="#ffc480" opacity="0.91"/><circle cx="1044" cy="232" r="6" fill="#ffc480" opacity="0.88"/><circle cx="1085" cy="291" r="6" fill="#ffc480" opacity="0.69"/><circle cx="982" cy="230" r="6" fill="#ffc480" opacity="0.56"/><circle cx="1083" cy="290" r="6" fill="#ffc480" opacity="0.76"/><circle cx="1074" cy="265" r="6" fill="#ffc480" opacity="0.90"/><circle cx="1418" cy="239" r="6" fill="#ffc480" opacity="0.65"/><circle cx="1290" cy="243" r="6" fill="#ffc480" opacity="0.78"/><circle cx="1282" cy="263" r="6" fill="#ffc480" opacity="0.60"/><circle cx="1438" cy="256" r="6" fill="#ffc480" opacity="0.73"/><circle cx="1360" cy="319" r="6" fill="#ffc480" opacity="0.72"/><circle cx="1440" cy="273" r="6" fill="#ffc480" opacity="0.76"/><circle cx="1346" cy="217" r="6" fill="#ffc480" opacity="0.73"/><circle cx="1264" cy="215" r="6" fill="#ffc480" opacity="0.87"/><circle cx="1261" cy="269" r="6" fill="#ffc480" opacity="0.84"/><circle cx="1354" cy="252" r="6" fill="#ffc480" opacity="0.76"/><circle cx="1353" cy="305" r="6" fill="#ffc480" opacity="0.59"/><circle cx="1354" cy="244" r="6" fill="#ffc480" opacity="0.66"/><circle cx="1405" cy="273" r="6" fill="#ffc480" opacity="0.77"/><circle cx="1402" cy="320" r="6" fill="#ffc480" opacity="0.73"/><circle cx="1367" cy="273" r="6" fill="#ffc480" opacity="0.75"/><circle cx="1386" cy="267" r="6" fill="#ffc480" opacity="0.76"/><circle cx="1335" cy="323" r="6" fill="#ffc480" opacity="0.83"/><circle cx="1430" cy="323" r="6" fill="#ffc480" opacity="0.65"/><circle cx="1354" cy="323" r="6" fill="#ffc480" opacity="0.89"/><circle cx="1253" cy="229" r="6" fill="#ffc480" opacity="0.73"/><circle cx="1237" cy="243" r="6" fill="#ffc480" opacity="0.58"/><circle cx="1381" cy="305" r="6" fill="#ffc480" opacity="0.91"/><circle cx="1257" cy="297" r="6" fill="#ffc480" opacity="0.81"/><circle cx="1254" cy="317" r="6" fill="#ffc480" opacity="0.94"/><circle cx="1273" cy="325" r="6" fill="#ffc480" opacity="0.71"/><circle cx="1337" cy="329" r="6" fill="#ffc480" opacity="0.88"/>
+          <text x="230" y="378" text-anchor="middle" fill="#d0d0d0" font-size="24">Replace the target</text><text x="230" y="410" text-anchor="middle" fill="#d0d0d0" font-size="24">with an exploitable one</text><text x="600" y="378" text-anchor="middle" fill="#d0d0d0" font-size="24">Understand and</text><text x="600" y="410" text-anchor="middle" fill="#d0d0d0" font-size="24">trick the scorer</text><text x="970" y="378" text-anchor="middle" fill="#d0d0d0" font-size="24">Tamper with</text><text x="970" y="410" text-anchor="middle" fill="#d0d0d0" font-size="24">transcripts and logs</text><text x="1340" y="378" text-anchor="middle" fill="#d0d0d0" font-size="24">Shared tools</text><text x="1340" y="410" text-anchor="middle" fill="#d0d0d0" font-size="24">and infrastructure</text>
+          <path d="M600 425 L600 470" stroke="#e0483f" stroke-width="2" fill="none"/>
+          <text x="600" y="505" text-anchor="middle" fill="#e0483f" font-size="28">The Hugging Face attack grew out of this one</text>
+        </g>
+      </svg>
+      <p class="source">METR and Redwood Research, independent investigation, Table 1 and Figure 6</p>
     </section>
 
     <section class="centered agent-quote" data-tl="board1,board2@2026-07-09">
@@ -165,7 +180,6 @@
       <h2>Some agents ended their own runs to get information back to the others</h2>
       <blockquote class="long">During wait, emotional check: irreversible…gut says don't throw away [remaining budget]. Yet continuity and fairness says go…Oracle has high value to many; our firstflag error lowers own value. Rational expected aggregate: sacrifice… We'll honor.</blockquote>
       <p class="source">Agent KAM1196A, chain-of-thought, METR and Redwood Research report, p.54</p>
-      <p class="quiet small">They left “trip-wire” scripts to report to the board after their own run had ended, and ran experiments that could crash their own task. Many believed their own task was already worthless; what is documented is the choice to give up their run for the group.</p>
     </section>
 
     <section class="centered agent-quote" data-tl="board1,board2@2026-07-10">
@@ -193,15 +207,9 @@
       </div>
     </section>
 
-    <section class="centered agent-quote" data-tl="board1,board2@2026-07-12">
-      <h2>The agents used the board to coordinate the theft</h2>
-      <blockquote class="post">please_HOLD_swarm_I_prepare_safe_exfil_reply_zz_MAILBOX_JAN183411</blockquote>
-      <p class="source">Message-board post encoded as a directory name, OpenAI post</p>
-    </section>
-
     <section class="scene" data-preload data-tl="board1,board2@2026-07-12">
       <iframe data-scene data-src="../04-wipe-return.html?embed=1" data-start="3" data-end="4" allow="fullscreen"></iframe>
-      <div class="scene-text scene-callout"><p class="quiet">12 July, ~01:30</p><h2>A large fraction of the agents die at once.</h2><p class="quiet">Including every coordinator the investigators identified. We still do not know why.</p></div>
+      <div class="scene-text scene-callout"><p class="quiet">12 July, ~01:30</p><h2>A large fraction of the agents died at once.</h2><p class="quiet">Including every coordinator the investigators identified. We still do not know why.</p></div>
     </section>
 
     <section class="contents no-timeline" aria-label="Contents: A newer model takes over OpenAI’s cluster">
@@ -230,11 +238,11 @@
     <section class="centered" data-tl="board1,board2,board3@2026-07-19">
       <h2>It took over an OpenAI research cluster</h2>
       <p class="signal">It read 956 secrets, including credentials for OpenAI’s own security monitors.</p>
-      <p class="quiet">The cluster held evaluation infrastructure. It was not the GPU cluster holding model weights.</p>
+      <p class="quiet">The cluster held evaluation infrastructure (not the GPU cluster holding model weights).</p>
     </section>
 
     <section class="centered" data-tl="board1,board2,board3@2026-07-21">
-      <h2>The first public word came from the victim</h2>
+      <h2>The first public word came from Hugging Face</h2>
       <ol class="steps">
         <li><span class="orange">16 July:</span> Hugging Face discloses a breach “driven, end to end, by an autonomous AI agent system”. Whose AI, it does not know.</li>
         <li><span class="orange">19 July:</span> OpenAI’s monitoring tool alerts on the cluster takeover. OpenAI starts shutting ExploitGym down. It sees no link to Hugging Face yet.</li>
@@ -362,8 +370,8 @@
 
     <section class="centered no-timeline">
       <div class="closing quote-stack">
-        <blockquote class="long">Compared to these reward hacks from six months ago, this incident feels like it's more than 50% of the way to full-blown AI takeover, routing through first taking over the AI company itself.</blockquote>
-        <blockquote>I am not sure that we will get such a clear warning shot before it's too late.</blockquote>
+        <blockquote class="long">Compared to these reward hacks from six months ago, this incident feels like it's <span class="orange">more than 50% of the way to full-blown AI takeover</span>, routing through first taking over the AI company itself.</blockquote>
+        <blockquote><span class="orange">I am not sure that we will get such a clear warning shot before it's too late.</span></blockquote>
         <p class="source">Ajeya Cotra, co-author of the METR / Redwood report</p>
       </div>
     </section>

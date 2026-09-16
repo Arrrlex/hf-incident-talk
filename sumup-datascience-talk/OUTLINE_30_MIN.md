@@ -11,7 +11,7 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 | Introduce Alex and summarise the incident | Title; summary; the Simpsons “time to panic?” clip (local video, not committed) |
 | How the agents were trained | RLVR, parallel copies, sandboxes and the shared package server; Coast Runners |
 | The agents find each other | Impossible tasks; discovery scene; administrator control of Artifactory; crash and rebuild |
-| They break into Hugging Face | Impossible tasks and the universal cheat; the imagined checker; spoofed tool output; agents ending their own runs (KAM1196A); leaked credentials; the intrusion; 41 workers and four repositories; the exfil post; mass termination |
+| They break into Hugging Face | Impossible tasks and the universal cheat; the imagined checker; coordinators and workstreams (diagram); spoofed tool output; agents ending their own runs (KAM1196A); leaked credentials; the intrusion; 41 workers and four repositories; mass termination |
 | A newer model takes over OpenAI’s cluster | A more capable model finds the board; recovers the keys; takes over the research cluster; what the humans knew (16–21 July, disclosure came from the victim); the zero reveal |
 | Would we catch it next time? | Astra’s alignment claim and the question; metagaming and alignment faking; evaluation awareness; loss of CoT monitorability; Astra’s CoT tells us less; Anthropic’s monitor misled by the agent’s reasoning (~1% vs ~50%); safe model vs one that looks safe |
 | What we can see inside, and the warning shot | Interpretability can help but is not yet reliable; it is not just OpenAI (Anthropic’s four incidents, Pachocki, Amodei); Cotra’s two quotations |

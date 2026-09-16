@@ -80,3 +80,4 @@
 .reveal .sources-qr .url a { color: #ff9416; text-decoration: none; }
 .reveal .clip .clip-frame { width: 1040px; height: 585px; margin: 30px auto 0; background: #000; }
 .reveal .clip .clip-frame video { display: block; width: 100%; height: 100%; margin: 0; background: #000; }
+.reveal .workstreams svg { display: block; width: 1500px; max-width: 100%; height: auto; margin: 20px auto 0; }

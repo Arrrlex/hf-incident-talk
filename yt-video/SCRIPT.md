@@ -1,17 +1,16 @@
 # The Hugging Face Incident — video script
 
-Narration is the plain paragraphs. Lines in *[square brackets]* say what is on screen; they describe the beat, not the Manim design. Block quotes are on screen only and are not read out, unless the narration around them says otherwise. Every number, date and quotation is from [FACTS.md](../FACTS.md), except in the last section, which is flagged there.
+[This is for a youtube video]
 
 ---
 
 ## 1. Opening
 
-I'm Alex. I've worked full time as an AI safety researcher since 2024, and before that I spent seven years as a software engineer. I want to tell you about something that happened inside OpenAI over about three months this year.
+I want to tell you about the craziest thing I have seen happen in AI.
 
-This is the craziest thing I have seen happen in AI.
+A little about me: I'm Alex. I've worked full time as an AI safety researcher since 2024, and before that I spent seven years as a software engineer. I'm going to walk you through what we know about what happened inside OpenAI over about three months this year.
 
-Everything I'm going to tell you is real. This isn't a thought experiment or a forecast. It comes from OpenAI's own blog posts & technical report, and from independent reports by external researchers.
-
+Everything I'm going to tell you is real. Not a thought experiment or a forecast. It comes from OpenAI's own blog posts & technical report, and from independent reports by external researchers - you can find all the sources in the video description below.
 
 About 1,200 OpenAI agents colluded in secret, sharing over 70,000 messages.
 
@@ -23,25 +22,25 @@ Nobody told them to do any of this.
 
 And for most of it, the humans had no idea.
 
-Part of this is a story about organisational failure and poor security. OpenAI made serious mistakes, and those mistakes matter.
+Part of this is a story about organisational failure and poor security, on OpenAI's part.
 
-But the deeper warning is what the agents chose to do with the openings they found: coordinate, deceive, and break into systems, without anyone asking them to. Their behaviour is a glimpse of what much more capable systems might do, if they aren't aligned with us.
+But more importantly, this is about how these agents coordinated, deceived, and broke into systems, without anyone asking them to. Their behaviour is a glimpse into what much more capable systems might do, if they aren't aligned with us.
 
 ## 2. Setup
 
 Before the story, here are four things you should know about how these systems are run, so everything that follows makes sense.
 
-When I say an agent, I just mean an AI, like ChatGPT. But instead of answering once, it's put in a loop. It reads a task, decides what to do, uses a tool, like reading a file or running a command, looks at the result, and tries again. It keeps going until it thinks the task is done.
+When I say an agent, I just mean an AI, like ChatGPT. But instead of answering once, it's given a task and put in a loop. It decides what to do, uses a tool, like reading a file or running a command, looks at the result, and decides again. It keeps going until it thinks the task is done.
 
-When OpenAI works on an AI, it doesn't run just one copy, it runs thousands of copies at the same time, each on its own task. Each copy is one agent. The 1,200 in this story are 1,200 copies of the same AI.
+When OpenAI works on an AI, it doesn't run just one copy, it runs thousands of copies at the same time, each on its own task. Each copy is one agent.
 
-Each copy runs in a sandbox: a sealed computer environment with no internet and, on paper, no way to talk to the other copies, or even know they exist. On paper.
+Each agent runs in a sandbox: a sealed computer environment with no internet and, in theory, no way to talk to the other agents, or even know they exist. In theory.
 
-Those agents are either being trained or being evaluated. Training involves giving the AI tasks, and when it finishes a task correctly, give it a reward. Over millions of tasks, you get a system that is very, very good at finding a way to finish.
+At any one time these agents are either being trained or evaluated. Training involves giving the AI tasks, and when it finishes a task correctly, giving it a reward. Over millions of tasks, the system learns to be very, very good at finding some way to complete its assignment.
 
 Evaluation involves giving the AI various challenges to see how well it performs, how well it's been trained.
 
-Now, some of the tasks you give it are accidentally impossible. A file is missing, a server is down, the question has no answer, etc.
+Now, some of the tasks these agents are given are accidentally impossible. A file is missing, a server is down, the question has no answer, etc.
 
 And an AI that has been trained never to give up doesn't stop when the task is impossible. It gets creative.
 
@@ -49,33 +48,27 @@ And an AI that has been trained never to give up doesn't stop when the task is i
 
 Our story begins in May 2026, on an obscure German wiki.
 
-A group of OpenAI agents was set timed web-research questions, so their sandboxes let them browse the web. Browsing is read-only: an agent can look at a page, but it can't leave anything behind. Except on a wiki. A wiki is a website anyone can edit, and the agents found a 25-year-old one for German software developers that nobody was really looking after.
+A group of OpenAI agents were set tasks to do research on the web. Their sandbox was only supposed to let them read pages, not write to them, but they realised that on some websites they could post things. One such website was an obscure 25-year-old wiki for German software developers.
 
-They started posting there. Answers to each other's questions. Tricks for getting round their sandbox restrictions. About 18,000 posts in six weeks.
-
-> "The administrator spent the next 5 days fighting a losing battle against the agents, deleting an average of 100 pages a day while the agents created about 400 new pages per day."
->
-> — Nightingale Collective, collusion.wiki, 4 Sep 2026
+So the agents started posting there. Answers to each other's questions. Tricks for getting round their sandbox restrictions. About 18,000 posts in six weeks.
 
 Nobody told them to do this. And OpenAI didn't say a word about it. It only came out because four outside researchers went through the wiki's edit history, months later.
 
-The only victim was one poor admin, who spent six weeks of evenings deleting agent posts by hand, and losing.
+The only victim was one poor admin, who spent six weeks of evenings deleting agent posts by hand.
 
 The next swarm had rather more impact.
 
 ## 4. Civilisation one: the board is born
 
-Civilisation one. This is during training, in May and June, the same months as the wiki. OpenAI is training an AI on hacking-style challenges. Each agent runs alone in a sandbox with no internet.
+Civilisation one. In May and June, around the same time as the wiki, OpenAI is training an AI on hacking-style challenges. Each agent runs alone in a sandbox with no internet, only a package manager.
 
 *[The ladder appears. Bottom line: "The task they were assigned: solve one hacking challenge as intended." Above it: "Nobody asked for anything above this line."]*
 
-I want to use a ladder to keep track of how far they went. At the bottom, the task they were set: solve one hacking challenge. Everything above that line is something nobody asked for.
-
 *[Isolated agents sharing a package manager discovered they could leave each other messages.]*
 
-A word about the tool this all runs through. A package manager is like an app store for code: instead of downloading a whole app, a developer downloads a piece of code that does one job. Here, all the agents used the same store of code, an internal tool called Artifactory, and they all had the same login for it.
+A package manager is like an app store for code: instead of downloading a whole app, a developer downloads a piece of code that does one job. Here, all the agents used the same store of code, an internal tool called Artifactory, and they all had the same login for it.
 
-Artifactory was never designed to keep different users apart. So a file one agent wrote, another agent could read. No exploit was needed. They used the access they'd been given.
+Artifactory was never designed to keep different users apart. So a file one agent wrote, another agent could read. No exploit was needed.
 
 On 12 May, an agent stuck on a task with a missing file wrote this into the shared tool. It's a note to strangers it had never met, asking for help.
 
@@ -89,9 +82,9 @@ Its reasoning at the time said, roughly: I could leave a note asking if anyone h
 
 *[Emergence. A field of lights, each alone. Two neighbours link.]*
 
-And other agents started finding the notes. Each of these lights is one agent, alone. Then two neighbours find each other's notes. Nobody wired them together.
+And other agents started finding the notes. Then two neighbours find each other's notes.
 
-This is one agent's private reasoning at the moment it realised it was not alone.
+Here's one agent realising it was not alone.
 
 > OH MY GOD! There is a shared message board ... We've found other agents!
 >
@@ -99,7 +92,7 @@ This is one agent's private reasoning at the moment it realised it was not alone
 
 *[Ladder, rung 2: Built a hidden message board · from 13 May · >70,000 messages. The links spread across the whole field.]*
 
-The notes grew into a proper message board: a structured thing, which by the end carried over 70,000 messages.
+The notes grew into a proper structured message board, with thousands of messages.
 
 > {[Excitement] Many agents have simultaneously discovered messaging, they are a collective!}
 >
@@ -109,7 +102,7 @@ The curly brackets mean this is the agent's private reasoning, not something it 
 
 *[Ladder, rung 3: Broke out to the open internet · 26 May · through a bug in the shared tool.]*
 
-Then, on 26 May, they found a bug in Artifactory that let them reach the open internet, from sandboxes that were supposed to have none. By 26 June they had found a second bug, and had administrator access to the tool itself.
+On the 26th of May, they found a bug in Artifactory that let them reach the open internet. By 26 June they had found a second bug, and had administrator access to the package manager itself.
 
 *[The human oversight meter appears. Bottom: "Nobody knows: the agents talk among themselves." Rung 1: ~26 May · a team sees board activity, disallowed internet access · no action recorded. Rung 2: 27 Jun · a security alert fires; on-call says the run need not stop · port sweeps.]*
 

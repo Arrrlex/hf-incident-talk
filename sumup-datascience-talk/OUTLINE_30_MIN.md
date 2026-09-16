@@ -8,7 +8,7 @@ Keep the original talk’s urgency: this was an extraordinary failure of control
 
 | Section | Slides |
 |---|---|
-| Introduce Alex and summarise the incident | Title; summary; the Simpsons “time to panic?” clip (YouTube embed, needs internet) |
+| Introduce Alex and summarise the incident | Title; summary; the Simpsons “time to panic?” clip (local video, not committed) |
 | Setup and reward hacking | RLVR, parallel copies, sandboxes and the shared package server; Coast Runners |
 | The agents find each other | Impossible tasks; discovery scene; administrator control of Artifactory; crash and rebuild; what the humans knew (26 May, 27 June, 5–6 July) |
 | The Hugging Face break-in | Impossible tasks and the universal cheat; the imagined checker; spoofed tool output; agents ending their own runs (KAM1196A); leaked credentials; the intrusion; 41 workers and four repositories; the exfil post; mass termination |

@@ -3,3 +3,5 @@ node_modules/
 recordings/*.mov
 recordings/*.mp4
 dist/
+# Full download of the Simpsons clip for the SumUp deck; only the 4-second cut (panic-clip.mp4) is committed
+sumup-datascience-talk/assets/panic-clip-full.mp4

@@ -4,6 +4,19 @@ This subdirectory contains a focused 30-minute adaptation of the root deck for a
 
 ## Run locally
 
+The opening Simpsons clip is a local video, `assets/panic-clip.mp4`: a four-second cut that the slide plays from the start. The full 31-second download, `panic-clip-full.mp4`, is kept locally but gitignored so the bounds can be adjusted. To recreate both: download with yt-dlp (it needs a JavaScript runtime such as node, and an ffmpeg to merge video and audio), then cut.
+
+```sh
+uvx yt-dlp --js-runtimes node --ffmpeg-location "$(dirname "$(which ffmpeg)")" \
+  -f "bv*[vcodec^=avc1][height<=720]+ba[ext=m4a]" --merge-output-format mp4 \
+  -o "sumup-datascience-talk/assets/panic-clip-full.%(ext)s" "https://www.youtube.com/watch?v=KojYatpLPSE"
+ffmpeg -ss 10 -to 14 -i sumup-datascience-talk/assets/panic-clip-full.mp4 \
+  -c:v libx264 -crf 20 -pix_fmt yuv420p -c:a aac -movflags +faststart sumup-datascience-talk/assets/panic-clip.mp4
+```
+
+Without a system ffmpeg, `uv run --with imageio-ffmpeg python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"` prints the path of a bundled one.
+
+
 From the repository root, serve the whole repository so the iframe paths to the shared scenes and assets resolve:
 
 ```sh

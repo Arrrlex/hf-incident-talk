@@ -33,11 +33,11 @@
     </section>
 
     <section class="centered no-timeline clip">
-      <h2>How AI safety people are thinking about it, in five seconds</h2>
+      <h2>AI Safety researcher response to HF Incident, 2026 colourized</h2>
       <div class="clip-frame">
-        <iframe data-src="https://www.youtube.com/embed/KojYatpLPSE?start=10&amp;rel=0&amp;modestbranding=1&amp;enablejsapi=1" data-autoplay allow="autoplay; fullscreen; encrypted-media" allowfullscreen title="The Simpsons: would you say it's time for everyone to panic?"></iframe>
+        <video data-src="assets/panic-clip.mp4" data-start="0" controls playsinline preload="auto"></video>
       </div>
-      <p class="source">The Simpsons, via YouTube. Needs internet at the venue.</p>
+      <p class="source">The Simpsons</p>
     </section>
 
     <section class="contents no-timeline" aria-label="Contents: Setup and reward hacking">
@@ -422,7 +422,18 @@
     preloadIframes: true, viewDistance: 2,
     keyboardCondition: Deck.keyboardCondition,
     plugins: [],
-  }).then(() => { Deck.init(); });
+  }).then(() => {
+    Deck.init();
+    // Local video clips: start from data-start seconds when the slide arrives, pause when it leaves.
+    Reveal.on('slidechanged', (e) => {
+      const prev = e.previousSlide && e.previousSlide.querySelector('video[data-start]');
+      if (prev) prev.pause();
+      const v = e.currentSlide.querySelector('video[data-start]');
+      if (!v) return;
+      const start = () => { v.currentTime = Number(v.dataset.start) || 0; v.play().catch(() => {}); };
+      if (v.readyState >= 1) start(); else v.addEventListener('loadedmetadata', start, { once: true });
+    });
+  });
 </script>
 </body>
 </html>

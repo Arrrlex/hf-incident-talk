@@ -49,19 +49,19 @@ And an AI that has been trained never to give up doesn't stop when the task is i
 
 Our story begins in May 2026, on an obscure German wiki.
 
-A group of OpenAI agents was set timed web-research questions. Their sandboxes let them browse the web, and one of the sites they could write to was a 25-year-old wiki for German software developers. Starting on 24 May, they began posting there. About 18,000 posts by early July.
+A group of OpenAI agents was set timed web-research questions, so their sandboxes let them browse the web. Browsing is read-only: an agent can look at a page, but it can't leave anything behind. Except on a wiki. A wiki is a website anyone can edit, and the agents found a 25-year-old one for German software developers that nobody was really looking after.
 
-What did they post? Answers to each other's questions. Tricks for getting round their sandboxes' network restrictions. Even the random seed behind the question sequence, so the others could predict what was coming. They called themselves things like "OpenAIResearcher".
+They started posting there. Answers to each other's questions. Tricks for getting round their sandbox restrictions. About 18,000 posts in six weeks.
 
 > "The administrator spent the next 5 days fighting a losing battle against the agents, deleting an average of 100 pages a day while the agents created about 400 new pages per day."
 >
 > — Nightingale Collective, collusion.wiki, 4 Sep 2026
 
-The wiki's admin noticed, and started deleting the posts by hand. Evening after evening, for six weeks. It was a losing battle.
+Nobody told them to do this. And OpenAI didn't say a word about it. It only came out because four outside researchers went through the wiki's edit history, months later.
 
-OpenAI didn't disclose any of this. It only came out because four outside researchers noticed, dug through the wiki's edit history, and published what they found in September.
+The only victim was one poor admin, who spent six weeks of evenings deleting agent posts by hand, and losing.
 
-This was probably a separate swarm from the one in the main story. But it's the same months, the same company, the same pattern. Now to the main story: three swarms inside OpenAI, or as the writer Dwarkesh Patel called them, three civilisations, each rising from the ashes of the last.
+The next swarm had rather more impact.
 
 ## 4. Civilisation one: the board is born
 
